@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LettersPDFOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>הנדון:</Title>
+  <Dates>אנו מתחייבים לממן</Dates>
+  <Phone>מס' טלפון</Phone>
+  <Email>כתובת מייל</Email>
+  <SocialWorker>פקיד/ת שיקום</SocialWorker>
+  <Branch>סניף:</Branch>
+  <Subjects>
+    <Subject>
+      <BTLName>תמלול</BTLName>
+      <Name>תמלול</Name>
+    </Subject>
+    <Subject>
+      <BTLName>הקניית אסטרטגיות למידה</BTLName>
+      <Name>הקניית אסטרטגיות למידה</Name>
+    </Subject>
+<Subject>
+      <BTLName>שעורי עזר</BTLName>
+      <Name>שעורי עזר</Name>
+    </Subject>
+    <Subject>
+      <BTLName>הקניית אסטרטגיות למידה</BTLName>
+      <Name>הקניית אסטרטגיות למידה</Name>
+    </Subject>
+    <Subject>
+      <BTLName>ליווי בהכשרה מקצועית</BTLName>
+      <Name>ליווי בהכשרה מקצועית</Name>
+    </Subject>
+    <Subject>
+      <BTLName>תרגום הרצאה לשפת סימנים</BTLName>
+      <Name>תרגום הרצאה לשפת סימנים</Name>
+    </Subject>
+    <Subject>
+      <BTLName>חונכות</BTLName>
+      <Name>חונכות</Name>
+    </Subject>
+  </Subjects>
+</LettersPDFOptions>

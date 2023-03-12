@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DrLogyMergePDF.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SrcFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DestFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ClearDest" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TxtStart" Type="System.String" Scope="User">
+      <Value Profile="(Default)">מורה</Value>
+    </Setting>
+    <Setting Name="TxtEnd" Type="System.String" Scope="User">
+      <Value Profile="(Default)">חודש</Value>
+    </Setting>
+    <Setting Name="TxtAddToFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">- דרישת תשלום</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

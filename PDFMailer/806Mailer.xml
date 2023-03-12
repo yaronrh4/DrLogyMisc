@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MailerOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <EditOptions>
+    <PDFReplaceOption>
+      <Search />
+      <Replace />
+      <Rec>
+        <Location>
+          <X>50</X>
+          <Y>340</Y>
+        </Location>
+        <Size>
+          <Width>162</Width>
+          <Height>11</Height>
+        </Size>
+        <X>50</X>
+        <Y>340</Y>
+        <Width>162</Width>
+        <Height>11</Height>
+      </Rec>
+      <Color />
+      <BackColor />
+      <FontName>Arial</FontName>
+      <FontSize>14</FontSize>
+      <FontStyle>Regular</FontStyle>
+      <Rotate>true</Rotate>
+    </PDFReplaceOption>
+  </EditOptions>
+  <EmptyRectangle>
+    <Location>
+      <X>0</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <Width>0</Width>
+      <Height>0</Height>
+    </Size>
+    <X>0</X>
+    <Y>0</Y>
+    <Width>0</Width>
+    <Height>0</Height>
+  </EmptyRectangle>
+  <EmptyKeyType>Number</EmptyKeyType>
+  <KeyRectangle>
+    <Location>
+      <X>448</X>
+      <Y>314</Y>
+    </Location>
+    <Size>
+      <Width>100</Width>
+      <Height>15</Height>
+    </Size>
+    <X>448</X>
+    <Y>314</Y>
+    <Width>100</Width>
+    <Height>15</Height>
+  </KeyRectangle>
+  <KeyFieldName>TEC_ZEHUT</KeyFieldName>
+  <KeyType>PDFNumber</KeyType>
+  <TableName>TBL_TEACHERS</TableName>
+  <EmailFieldName>TEC_MESSAGE_EMAIL</EmailFieldName>
+  <NameFieldName>TEC_FNAME + ' ' + TEC_LNAME</NameFieldName>
+</MailerOptions>

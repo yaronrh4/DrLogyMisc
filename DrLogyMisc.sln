@@ -1,0 +1,73 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommitmentLetters", "CommitmentLetters\CommitmentLetters.csproj", "{497CBFB2-FC0F-495C-AD41-231080C6D4FD}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CommitmentLettersSetup", "CommitmentLettersSetup\CommitmentLettersSetup.vdproj", "{2FCDA3F8-A8AE-40C5-85E8-B09F6759DF08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrLogyMergePDF", "DrLogyMergePDF\DrLogyMergePDF.csproj", "{F0CA59DC-7AC1-4318-BCAE-EA09069A26FB}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DrLogyMergePDFSetup", "DrLogyMergePDFSetup\DrLogyMergePDFSetup.vdproj", "{D4A310DB-15BC-4085-B004-19A9ECC5CDE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFMailer", "PDFMailer\PDFMailer.csproj", "{21163770-233E-4E74-9131-B35D011C8B91}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PDFMailerSetup", "PDFMailerSetup\PDFMailerSetup.vdproj", "{D41196AF-0A01-4036-8B7F-EAE0245F3B53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrLogyPDFMailerUtils", "DrLogyPDFMailerUtils\DrLogyPDFMailerUtils.csproj", "{8E59BC8F-09EB-4CD8-810D-F3E86D59C281}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrLogyPDFUtils", "DrLogyPDFUtils\DrLogyPDFUtils.csproj", "{F07FE9A7-9DA9-48C1-B395-E68343C1322E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPdf", "TestPdf\TestPdf.csproj", "{CDA515EF-CEA6-4C37-B009-43096955C7C8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{497CBFB2-FC0F-495C-AD41-231080C6D4FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{497CBFB2-FC0F-495C-AD41-231080C6D4FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{497CBFB2-FC0F-495C-AD41-231080C6D4FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{497CBFB2-FC0F-495C-AD41-231080C6D4FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FCDA3F8-A8AE-40C5-85E8-B09F6759DF08}.Debug|Any CPU.ActiveCfg = Debug
+		{2FCDA3F8-A8AE-40C5-85E8-B09F6759DF08}.Debug|Any CPU.Build.0 = Debug
+		{2FCDA3F8-A8AE-40C5-85E8-B09F6759DF08}.Release|Any CPU.ActiveCfg = Release
+		{2FCDA3F8-A8AE-40C5-85E8-B09F6759DF08}.Release|Any CPU.Build.0 = Release
+		{F0CA59DC-7AC1-4318-BCAE-EA09069A26FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0CA59DC-7AC1-4318-BCAE-EA09069A26FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0CA59DC-7AC1-4318-BCAE-EA09069A26FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0CA59DC-7AC1-4318-BCAE-EA09069A26FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4A310DB-15BC-4085-B004-19A9ECC5CDE0}.Debug|Any CPU.ActiveCfg = Debug
+		{D4A310DB-15BC-4085-B004-19A9ECC5CDE0}.Debug|Any CPU.Build.0 = Debug
+		{D4A310DB-15BC-4085-B004-19A9ECC5CDE0}.Release|Any CPU.ActiveCfg = Release
+		{D4A310DB-15BC-4085-B004-19A9ECC5CDE0}.Release|Any CPU.Build.0 = Release
+		{21163770-233E-4E74-9131-B35D011C8B91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21163770-233E-4E74-9131-B35D011C8B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21163770-233E-4E74-9131-B35D011C8B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21163770-233E-4E74-9131-B35D011C8B91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D41196AF-0A01-4036-8B7F-EAE0245F3B53}.Debug|Any CPU.ActiveCfg = Debug
+		{D41196AF-0A01-4036-8B7F-EAE0245F3B53}.Debug|Any CPU.Build.0 = Debug
+		{D41196AF-0A01-4036-8B7F-EAE0245F3B53}.Release|Any CPU.ActiveCfg = Release
+		{D41196AF-0A01-4036-8B7F-EAE0245F3B53}.Release|Any CPU.Build.0 = Release
+		{8E59BC8F-09EB-4CD8-810D-F3E86D59C281}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E59BC8F-09EB-4CD8-810D-F3E86D59C281}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E59BC8F-09EB-4CD8-810D-F3E86D59C281}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E59BC8F-09EB-4CD8-810D-F3E86D59C281}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F07FE9A7-9DA9-48C1-B395-E68343C1322E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F07FE9A7-9DA9-48C1-B395-E68343C1322E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F07FE9A7-9DA9-48C1-B395-E68343C1322E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F07FE9A7-9DA9-48C1-B395-E68343C1322E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDA515EF-CEA6-4C37-B009-43096955C7C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDA515EF-CEA6-4C37-B009-43096955C7C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDA515EF-CEA6-4C37-B009-43096955C7C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA515EF-CEA6-4C37-B009-43096955C7C8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {996884E1-28C3-4749-8BA5-AA11CCA97886}
+	EndGlobalSection
+EndGlobal
