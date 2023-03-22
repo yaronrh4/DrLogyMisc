@@ -650,6 +650,7 @@
       <Rotate>true</Rotate>
     </PDFReplaceOption>
   </EditOptions>
+  <IDFieldName>TEC_ID</IDFieldName>
   <EmptyKeyValue>0</EmptyKeyValue>
   <EmptyRectangle>
     <Location>

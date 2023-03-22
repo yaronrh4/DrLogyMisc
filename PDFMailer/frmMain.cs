@@ -185,7 +185,7 @@ namespace PDFMailer
                 mailerOptions.KeyRectangle = new RectangleF(256, 137, 78, 15);
 
                 Utils.SerializeObjectUTF(DATA_FILENAME[(int)pdfType.PdfPerut], mailerOptions);
-            }
+                }
 
             catch (Exception ex)
             {
@@ -246,12 +246,12 @@ namespace PDFMailer
                 MailerOptions mailerOptions = null;
                 if (cmbPDFType.SelectedIndex == (int)pdfType.PdfPerut)
                 {
-                    CreateObjectsPerut();
+                    //CreateObjectsPerut();
                     mailerOptions = (MailerOptions)Utils.DeSerializeObjectUTF(DATA_FILENAME[(int)(pdfType.PdfPerut)], typeof(MailerOptions));
                 }
                 else if (cmbPDFType.SelectedIndex == (int)pdfType.Pdf806)
                 {
-                    CreateObjects806();
+                    //CreateObjects806();
                     mailerOptions = (MailerOptions)Utils.DeSerializeObjectUTF(DATA_FILENAME[(int)pdfType.Pdf806], typeof(MailerOptions));
                 }
                 else

@@ -26,6 +26,7 @@
       <Rotate>true</Rotate>
     </PDFReplaceOption>
   </EditOptions>
+  <IDFieldName>TEC_ID</IDFieldName>
   <EmptyRectangle>
     <Location>
       <X>0</X>
