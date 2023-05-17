@@ -190,12 +190,17 @@ namespace DrLogy.DrLogyPDFMailerUtils
         }
         private DataTable GetInfoFromDB(MailerOptions options, string connectionString, string keyValue)
         {
-            string sql = $"SELECT {options.IDFieldName} , {options.EmailFieldName} , {options.NameFieldName} FROM " + options.TableName;
+            string sql = $"SELECT {options.IDFieldName} , {options.EmailFieldName} , {options.NameFieldName} FROM " + options.TableName ;
             string where = "";
             if (options.KeyType == PDFKeyType.Number || options.KeyType == PDFKeyType.PDFNumber)
                 where = $"TRY_CAST ( {options.KeyFieldName} as float) = {keyValue} ";
             else
                 where = $"{options.KeyFieldName} ='{keyValue}'";
+
+            if (!string.IsNullOrWhiteSpace(options.Filter))
+            {
+                where += $" AND {options.Filter}";
+            }
 
             DrLogy.DrLogyUtils.DbUtils.ConStr = connectionString;
             sql += " WHERE " + where;

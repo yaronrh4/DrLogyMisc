@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LettersPDFOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>הנדון:</Title>
+  <Dates>אנו מתחייבים לממן</Dates>
+  <Phone>מס' טלפון:</Phone>
+  <Email>כתובת מייל</Email>
+  <SocialWorker>פקיד/ת שיקום</SocialWorker>
+  <Branch>סניף:</Branch>
+  <Subjects>
+    <Subject>
+      <BTLName>תמלול</BTLName>
+      <Name>תמלול</Name>
+      <Hours>0</Hours>
+      <Grouped>true</Grouped>
+    </Subject>
+    <Subject>
+      <BTLName>הקניית אסטרטגיות למידה</BTLName>
+      <Name>אסטרטגיות למידה</Name>
+      <Hours>0</Hours>
+      <Grouped>false</Grouped>
+    </Subject>
+    <Subject>
+      <BTLName>שעורי עזר</BTLName>
+      <Name>שיעורי עזר</Name>
+      <Hours>0</Hours>
+      <Grouped>false</Grouped>
+    </Subject>
+    <Subject>
+      <BTLName>ליווי בהכשרה מקצועית</BTLName>
+      <Name>ליווי בהכשרה מקצועית</Name>
+      <Hours>10</Hours>
+      <Grouped>false</Grouped>
+    </Subject>
+    <Subject>
+      <BTLName>תרגום הרצאה לשפת סימנים</BTLName>
+      <Name>תרגום לשפת הסימנים</Name>
+      <Hours>0</Hours>
+      <Grouped>true</Grouped>
+    </Subject>
+    <Subject>
+      <BTLName>חונכות</BTLName>
+      <Name>חונכות</Name>
+      <Hours>0</Hours>
+      <Grouped>false</Grouped>
+    </Subject>
+  </Subjects>
+  <Coordinators>
+    <Coordinator>
+      <Name>מיכאל</Name>
+      <Phone>0545422211</Phone>
+    </Coordinator>
+    <Coordinator>
+      <Name>דשה</Name>
+      <Phone>0546953420</Phone>
+    </Coordinator>
+    <Coordinator>
+      <Name>טובי</Name>
+      <Phone>0542331013</Phone>
+    </Coordinator>
+    <Coordinator>
+      <Name>גל</Name>
+      <Phone>0525498369</Phone>
+    </Coordinator>
+    <Coordinator>
+      <Name>אינה</Name>
+      <Phone>0587024681</Phone>
+    </Coordinator>
+    <Coordinator>
+      <Name>אוריין</Name>
+      <Phone>0502645970</Phone>
+    </Coordinator>
+    <Coordinator>
+      <Name>מעיין</Name>
+      <Phone>0523460209</Phone>
+    </Coordinator>
+  </Coordinators>
+</LettersPDFOptions>

@@ -1,7 +1,24 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CommitmentLetters.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Connection1Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">טסט</Value>
+    </Setting>
+    <Setting Name="Connection1Value" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data Source=mssql2.websitelive.net;Initial Catalog=8156_drlogy_test;Persist Security Info=True;User ID=8156_drlogy_test;Password=MaccabiZona!123test</Value>
+    </Setting>
+    <Setting Name="Connection2Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">פרודקשן</Value>
+    </Setting>
+    <Setting Name="Connection2Value" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data Source=mssql2.websitelive.net;Initial Catalog=8156_drlogy_prod;Persist Security Info=True;User ID=8156_drlogy_prod;Password=q1W@xse311!!!</Value>
+    </Setting>
+    <Setting Name="Connection3Name" Type="System.String" Scope="User">
+	    <Value Profile="(Default)">פיתוח</Value>
+    </Setting>
+    <Setting Name="Connection3Value" Type="System.String" Scope="User">
+	    <Value Profile="(Default)">Data Source=mssql2.websitelive.net;Initial Catalog=8156_drlogy_dev;Persist Security Info=True;User ID=8156_drlogy_dev;Password=MaccabiZona!123dev</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DrLogy.DrLogyPDFMailerUtils
 {
+    [Serializable]
     public class BasePDFProperties
     {
 

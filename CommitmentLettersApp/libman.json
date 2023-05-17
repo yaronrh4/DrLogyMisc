@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap-datepicker@1.10.0",
+      "destination": "lib/bootstrap-datepicker/",
+      "files": [
+        "js/bootstrap-datepicker.min.js",
+        "locales/bootstrap-datepicker.he.min.js",
+        "css/bootstrap-datepicker.standalone.min.css",
+        "css/bootstrap-datepicker.standalone.css.map"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "tinymce@6.4.2",
+      "destination": "lib/tinymce/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery@3.7.0",
+      "destination": "lib/jquery/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jqueryui@1.13.2",
+      "destination": "lib/jqueryui/"
+    }
+  ]
+}

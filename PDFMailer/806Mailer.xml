@@ -59,6 +59,7 @@
   <KeyFieldName>TEC_ZEHUT</KeyFieldName>
   <KeyType>PDFNumber</KeyType>
   <TableName>TBL_TEACHERS</TableName>
+  <Filter>tec_status = 1</Filter>
   <EmailFieldName>TEC_MESSAGE_EMAIL</EmailFieldName>
   <NameFieldName>TEC_FNAME + ' ' + TEC_LNAME</NameFieldName>
 </MailerOptions>

@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommitmentLetters", "CommitmentLetters\CommitmentLetters.csproj", "{497CBFB2-FC0F-495C-AD41-231080C6D4FD}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CommitmentLettersSetup", "CommitmentLettersSetup\CommitmentLettersSetup.vdproj", "{2FCDA3F8-A8AE-40C5-85E8-B09F6759DF08}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrLogyMergePDF", "DrLogyMergePDF\DrLogyMergePDF.csproj", "{F0CA59DC-7AC1-4318-BCAE-EA09069A26FB}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DrLogyMergePDFSetup", "DrLogyMergePDFSetup\DrLogyMergePDFSetup.vdproj", "{D4A310DB-15BC-4085-B004-19A9ECC5CDE0}"
@@ -21,20 +17,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrLogyPDFUtils", "DrLogyPDF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPdf", "TestPdf\TestPdf.csproj", "{CDA515EF-CEA6-4C37-B009-43096955C7C8}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CommitmentLettersSetup", "CommitmentLettersSetup\CommitmentLettersSetup.vdproj", "{664A7368-D6F5-4E50-93EE-84E16DE575F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommitmentLettersApp", "CommitmentLettersApp\CommitmentLettersApp.csproj", "{B40A1DE8-7B24-460B-8303-41C422C7F8AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommitmentLettersUtils", "CommitmentLettersUtils\CommitmentLettersUtils.csproj", "{76B274F5-53D5-49BB-9851-5CC5D767DCEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{497CBFB2-FC0F-495C-AD41-231080C6D4FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{497CBFB2-FC0F-495C-AD41-231080C6D4FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{497CBFB2-FC0F-495C-AD41-231080C6D4FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{497CBFB2-FC0F-495C-AD41-231080C6D4FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2FCDA3F8-A8AE-40C5-85E8-B09F6759DF08}.Debug|Any CPU.ActiveCfg = Debug
-		{2FCDA3F8-A8AE-40C5-85E8-B09F6759DF08}.Debug|Any CPU.Build.0 = Debug
-		{2FCDA3F8-A8AE-40C5-85E8-B09F6759DF08}.Release|Any CPU.ActiveCfg = Release
-		{2FCDA3F8-A8AE-40C5-85E8-B09F6759DF08}.Release|Any CPU.Build.0 = Release
 		{F0CA59DC-7AC1-4318-BCAE-EA09069A26FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F0CA59DC-7AC1-4318-BCAE-EA09069A26FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0CA59DC-7AC1-4318-BCAE-EA09069A26FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +57,16 @@ Global
 		{CDA515EF-CEA6-4C37-B009-43096955C7C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDA515EF-CEA6-4C37-B009-43096955C7C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDA515EF-CEA6-4C37-B009-43096955C7C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{664A7368-D6F5-4E50-93EE-84E16DE575F0}.Debug|Any CPU.ActiveCfg = Debug
+		{664A7368-D6F5-4E50-93EE-84E16DE575F0}.Release|Any CPU.ActiveCfg = Release
+		{B40A1DE8-7B24-460B-8303-41C422C7F8AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B40A1DE8-7B24-460B-8303-41C422C7F8AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B40A1DE8-7B24-460B-8303-41C422C7F8AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B40A1DE8-7B24-460B-8303-41C422C7F8AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76B274F5-53D5-49BB-9851-5CC5D767DCEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76B274F5-53D5-49BB-9851-5CC5D767DCEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76B274F5-53D5-49BB-9851-5CC5D767DCEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76B274F5-53D5-49BB-9851-5CC5D767DCEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

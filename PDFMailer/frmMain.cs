@@ -19,6 +19,9 @@ using System.IO;
 using System.Runtime.ConstrainedExecution;
 //using DocumentFormat.OpenXml.Spreadsheet;
 using DrLogy.DrLogyPDFMailerUtils;
+using PDFMailer.Properties;
+using System.Configuration;
+using System.Reflection.Emit;
 
 namespace PDFMailer
 {
@@ -178,6 +181,7 @@ namespace PDFMailer
                 mailerOptions.KeyFieldName = "TEC_ZEHUT";
                 mailerOptions.KeyType = PDFKeyType.Number;
                 mailerOptions.TableName = "TBL_TEACHERS";
+                mailerOptions.Filter = "tec_status = 1 ";
                 mailerOptions.EmptyRectangle = new RectangleF(25, 625, 60, 13);
                 mailerOptions.EmptyKeyValue = "0";
                 mailerOptions.EmptyKeyType = PDFKeyType.Number;
@@ -207,6 +211,7 @@ namespace PDFMailer
                 mailerOptions.NameFieldName = "TEC_FNAME + ' ' + TEC_LNAME";
                 mailerOptions.KeyFieldName = "TEC_ZEHUT";
                 mailerOptions.TableName = "TBL_TEACHERS";
+                mailerOptions.Filter = "tec_status = 1 ";
                 //mailerOptions.EmptyRectangle = new RectangleF(25, 625, 60, 13);
                 //mailerOptions.EmptyKeyValue = "0";
                 //mailerOptions.EmptyKeyType = PDFKeyType.PDFNumber;
@@ -260,10 +265,17 @@ namespace PDFMailer
                     return;
                 }
                 _processor.LogMessageSent += Processor_LogMessageSent;
-                _processor.PagesCountChanged += _processor_PagesCountChanged;
-                _processor.ProcessPDF(mailerOptions, txtSource.Text, txtDestFolder.Text, txtConnection.Text, txtYear.Text, fromPage, toPage);
+                _processor.PagesCountChanged += Processor_PagesCountChanged;
+
+                if (cbFixIdNum.Checked)
+                    mailerOptions.KeyType = PDFKeyType.PDFNumber;
+                else
+                    mailerOptions.KeyType = PDFKeyType.Number;
+
+                _processor.ProcessPDF(mailerOptions, txtSource.Text, txtDestFolder.Text, GetConnectionString(), txtYear.Text, fromPage, toPage);
 
                 ShowData();
+
 
                 if (_processor.Cancel)
                     WriteToLog("הפעולה הופסקה");
@@ -279,7 +291,7 @@ namespace PDFMailer
             }
         }
 
-        private void _processor_PagesCountChanged(int pageNumber)
+        private void Processor_PagesCountChanged(int pageNumber)
         {
             try
             {
@@ -288,7 +300,7 @@ namespace PDFMailer
 
             catch (Exception ex)
             {
-                LogError("_processor_PagesCountChanged", ex);
+                LogError("Processor_PagesCountChanged", ex);
             }
         }
 
@@ -422,16 +434,32 @@ namespace PDFMailer
             }
         }
 
+        private string GetConnectionString()
+        {
+            return (string)Settings.Default.Properties[$"Connection{cmbConnection.SelectedIndex + 1}Value"].DefaultValue;
+        }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
             try
             {
                 this.Text += " " + Application.ProductVersion;
-                txtConnection.Text = Utils.GetAppSetting("Connection", txtConnection.Text);
                 txtDestFolder.Text = Utils.GetAppSetting("DestFolder", "");
                 txtSource.Text = Utils.GetAppSetting("Source", "");
                 txtYear.Text = Utils.GetAppSetting("Year", "");
+                cbFixIdNum.Checked= Utils.GetAppSetting("FixIdNum", "1")=="1";
+
+                SettingsProperty prop = null;
+                int i = 1;
+                while ((prop = Settings.Default.Properties[$"Connection{i}Name"]) != null)
+                {
+                    cmbConnection.Items.Add(prop.DefaultValue);
+                    i++;
+                }
+                cmbConnection.SelectedIndex = cmbConnection.FindString(Utils.GetAppSetting("Connection", "0"));
+                if (cmbConnection.SelectedIndex == -1)
+                    cmbConnection.SelectedIndex = 0;
+
             }
 
             catch (Exception ex)
@@ -445,10 +473,11 @@ namespace PDFMailer
         {
             try
             {
-                Utils.SetAppSetting("Connection", txtConnection.Text);
+                Utils.SetAppSetting("Connection", cmbConnection.Text);
                 Utils.SetAppSetting("DestFolder", txtDestFolder.Text);
                 Utils.SetAppSetting("Source", txtSource.Text);
                 Utils.SetAppSetting("Year", txtYear.Text);
+                Utils.SetAppSetting("FixIdNum", cbFixIdNum.Checked ? "1" : "0");
 
                 SaveMailMessages();
             }
@@ -523,10 +552,15 @@ namespace PDFMailer
                 string strFrom = Utils.GetAppSetting("MailFrom", "");
                 EmailSender e = new EmailSender();
                 
-                e.SendEmail(toAddress, strFrom, message, subject, new string[] { filename });
+                var z = e.SendEmail_aux(toAddress, strFrom, message, subject, new string[] { filename });
+
+                if (z.Code != 0)
+                {
+                    WriteToLog(z.Message);
+                    return false;
+                }
                 /*if (rc.Code != 0)
                 {
-                    WriteToLog($"שגיאה בשליחת מייל {rc.Message}");
                     return false;
                 }*/
 
@@ -597,6 +631,7 @@ namespace PDFMailer
         {
             try
             {
+                bool errors = false;
                 blnCancel = false;
                 btnProcess.Enabled = false;
                 btnSendMail.Enabled = false;
@@ -621,6 +656,7 @@ namespace PDFMailer
 
                                 if (!b)
                                 {
+                                    errors = true;
                                     _processor.Results[i].MailError = true;
                                 }
                             }
@@ -628,6 +664,7 @@ namespace PDFMailer
                     }
                     catch (Exception ex)
                     {
+                        errors = true;
                         WriteToLog($"שגיאה בשליחת מייל {ex.Message}");
                         try
                         {
@@ -643,7 +680,11 @@ namespace PDFMailer
                 {
                     WriteToLog("הפעולה בוטלה");
                 }
-                WriteToLog("הפעולה בוצעה בהצלחה");
+
+                if (!errors)
+                    WriteToLog("הפעולה בוצעה בהצלחה");
+                else
+                    WriteToLog("הפעולה הסתיימה עם שגיאות");
 
                 btnProcess.Enabled = true;
                 btnSendMail.Enabled = true;

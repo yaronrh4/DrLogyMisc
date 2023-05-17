@@ -7,32 +7,33 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DrLogy.DrLogyPDFMailerUtils
-{ 
-
-public enum PDFKeyType
 {
-    Number = 1,
-    String = 2,
-    PDFNumber = 3
-}
-public class MailerOptions
-{
-    public MailerOptions() { }
 
-    public List<PDFReplaceOption> EditOptions = new List<PDFReplaceOption>();
+    public enum PDFKeyType
+    {
+        Number = 1,
+        String = 2,
+        PDFNumber = 3
+    }
+    public class MailerOptions
+    {
+        public MailerOptions() { }
 
-    public string IDFieldName;
+        public List<PDFReplaceOption> EditOptions = new List<PDFReplaceOption>();
 
-    public string EmptyKeyValue;
-    public RectangleF EmptyRectangle;
-    public PDFKeyType EmptyKeyType = PDFKeyType.Number;
+        public string IDFieldName;
 
-    public RectangleF KeyRectangle;
-    public string KeyFieldName;
-    public PDFKeyType KeyType = PDFKeyType.Number;
+        public string EmptyKeyValue;
+        public RectangleF EmptyRectangle;
+        public PDFKeyType EmptyKeyType = PDFKeyType.Number;
 
-    public string TableName;
-    public string EmailFieldName;
-    public string NameFieldName;
-}
+        public RectangleF KeyRectangle;
+        public string KeyFieldName;
+        public PDFKeyType KeyType = PDFKeyType.Number;
+
+        public string TableName;
+        public string EmailFieldName;
+        public string NameFieldName;
+        public string Filter;
+    }
 }
