@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LettersPDFOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<LettersPDFOptions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Title>הנדון:</Title>
   <Dates>אנו מתחייבים לממן</Dates>
   <Phone>מס' טלפון:</Phone>
-  <Email>כתובת מייל</Email>
+  <Email>כתובת מייל:</Email>
   <SocialWorker>פקיד/ת שיקום</SocialWorker>
   <Branch>סניף:</Branch>
+  <DefaultCoordinatorName>אוריין</DefaultCoordinatorName>
   <Subjects>
     <Subject>
       <BTLName>תמלול</BTLName>
@@ -34,6 +35,12 @@
     <Subject>
       <BTLName>תרגום הרצאה לשפת סימנים</BTLName>
       <Name>תרגום לשפת הסימנים</Name>
+      <Hours>0</Hours>
+      <Grouped>true</Grouped>
+    </Subject>
+    <Subject>
+      <BTLName>שקלוט הרצאה</BTLName>
+      <Name>שקלוט</Name>
       <Hours>0</Hours>
       <Grouped>true</Grouped>
     </Subject>

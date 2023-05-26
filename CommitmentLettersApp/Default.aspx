@@ -20,6 +20,9 @@
     <script src="lib/bootstrap-datepicker/locales/bootstrap-datepicker.he.min.js"></script>
     <%--https://bootstrap-datepicker.readthedocs.io/en/latest/--%>
     <script src="lib/tinymce/tinymce.min.js"></script>
+    <script src="lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="lib/jquery-validation/dist/additional-methods.js"></script>
+    <script src="lib/jquery-validation/dist/localization/messages_he.min.js"></script>
 
     <style>
         body {
@@ -298,31 +301,42 @@
         var subjectsBTL = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.BTLName).ToArray()) %>'.split(',');
         var subjectsDB = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.Name).ToArray()) %>'.split(',');
 
-        function confirmSaveStudents() {
-            confirmModal(
-                "שמירת תלמידים",
-                "האם אתה בטוח שברצונך לעדכן בבסיס הנתונים את פרטי התלמידים שנערכו?",
-                "savestudents"
-            );
-        }
-
-        function confirmSaveSubjects() {
-            confirmModal(
-                "שמירת הנגשות",
-                "האם אתה בטוח שברצונך לעדכן בבסיס הנתונים את השינויים בהנגשות?",
-                "savesubjects"
-            );
-        }
-
         function confirmModal(title, msg, action) {
             $("#confirmModal").find("#confirmtitle").html(title);
             $("#confirmModal").find("#confirmmessage").html(msg);
             $("#confirmaction").val(action);
         }
 
+        function addStudent(e) {
+            $("#editStudentModal").find(".modal-title").html("הוספת תלמיד");
+            $("#stid").val("-1");
+            $("#stidx").val("-1");
+            $("#editStudentModal").find("#firstname").val("");
+            $("#editStudentModal").find("#lastname").val("");
+            $("#editStudentModal").find("#idnum").val("");
+            $("#editStudentModal").find("#phone").val("");
+            $("#editStudentModal").find("#email").val("");
+            $("#editStudentModal").find("#branch").val("");
+            $("#editStudentModal").find("#coordinatorname").val($("#defcoordinator").val());
+            $("#editStudentModal").find("#socialworker").val("");
+        }
+
+        function copyStudentDataFromPdf() { 
+            $("#editStudentModal").find("#firstname").val($("#currfirstname").text());
+            $("#editStudentModal").find("#lastname").val($("#currlastname").text());
+            $("#editStudentModal").find("#phone").val($("#currphone").text());
+            $("#editStudentModal").find("#email").val($("#curremail").text());
+            $("#editStudentModal").find("#branch").val($("#currbranch").text());
+            $("#editStudentModal").find("#coordinatorname").val($("#currcoordinatorname").text());
+            $("#editStudentModal").find("#socialworker").val($("#currsocialworker").text());
+        }
+
         function editStudent(e) {
-            $("#editStudentModal").find("#stid").val($(e).parent().parent().attr("stid"));
-            $("#editStudentModal").find("#stidx").val($(e).parent().parent().attr("stidx"));
+            var stid = $(e).parent().parent().attr("stid");
+            $("#editStudentModal").find(".modal-title").html("עריכת תלמיד");
+
+            $("#editStudentModal").find("#stid").val(stid);
+            $("#stidx").val($(e).parent().parent().attr("stidx"));
             $("#editStudentModal").find("#firstname").val($(e).parent().parent().attr("firstname"));
             $("#editStudentModal").find("#lastname").val($(e).parent().parent().attr("lastname"));
             $("#editStudentModal").find("#idnum").val($(e).parent().parent().attr("idnum"));
@@ -332,39 +346,58 @@
             $("#editStudentModal").find("#coordinatorname").val($(e).parent().parent().attr("coordinatorname"));
             $("#editStudentModal").find("#socialworker").val($(e).parent().parent().attr("socialworker"));
 
+            $("#currfirstname").text($(e).parent().parent().attr("currfirstname"));
+            $("#currlastname").text($(e).parent().parent().attr("currlastname"));
+            $("#currphone").text($(e).parent().parent().attr("currphone"));
+            $("#curremail").text($(e).parent().parent().attr("curremail"));
+            $("#currbranch").text($(e).parent().parent().attr("currbranch"));
+            $("#currcoordinatorname").text($(e).parent().parent().attr("currcoordinatorname"));
+            $("#currsocialworker").text($(e).parent().parent().attr("currsocialworker"));
+
+            if (stid <=0) {
+                copyStudentDataFromPdf();
+            }
         }
 
-        function editSubject(e) {
+        function addSubject(e) {
             var subjectSelect = $("#editSubjectModal").find("#subjectbtl");
-            var curSub = ($(e).parent().parent().attr("subjectbtl"));
-            var currSubjecs = [];
+            var currSub = "";// ($(e).parent().parent().attr("subjectbtl"));
+            var currSubjects = [];
+            var stidx = $(e).parent().parent().attr("stidx");
 
-            $(e).parent().parent().parent().children().each(function () {
+            $(e).parent().parent().parent().children("[stsubidx='" +stidx +"']").each(function () {
                 var sub = $(this).attr("subjectbtl");
-                if (sub != null && sub != curSub)
-                    currSubjecs.push(sub);
+                if (sub != null && sub != currSub)
+                    currSubjects.push(sub);
             });
 
             //clear options
             subjectSelect.children().remove().end();
             for (var i = 0; i < subjectsBTL.length; i++) {
                 //add the subject if it doesn't exist in the letter
-                if (currSubjecs.indexOf(subjectsBTL[i]) < 0)
+                if (currSubjects.indexOf(subjectsBTL[i]) < 0)
                     subjectSelect.append($('<option>', {
                         value: subjectsBTL[i],
                         text: subjectsDB[i]
                     }));
             }
 
-            $("#editSubjectModal").find("#stsubidx").val($(e).parent().parent().attr("stsubidx"));
-            $("#editSubjectModal").find("#subjectidx").val($(e).parent().parent().attr("subjectidx"));
-            $("#editSubjectModal").find("#subjectbtl").val($(e).parent().parent().attr("subjectbtl"));
-            $("#editSubjectModal").find("#hours").val($(e).parent().parent().attr("hours"));
+            $("#editSubjectModal").find("#subjectbtl").on("change" , function () {
+                $("#subjectname").val($(this).val());
+            });
+
+            $("#stsubidx").val(stidx);
+            $("#subjectidx").val("-1"); //new
+            $("#editSubjectModal").find("#subjectbtl").val("");
+            $("#editSubjectModal").find("#subjectbtl").prop("disabled", false);
+
+            $("#editSubjectModal").find("#hours").val("");
             $("#editSubjectModal").find("#startdate").val($(e).parent().parent().attr("startdate"));
             $("#editSubjectModal").find("#enddate").val($(e).parent().parent().attr("enddate"));
 
-            $("#editSubjectModal").find("#coordinatorname").val($(e).parent().parent().attr("coordinatorname"));
-            $("#editSubjectModal").find("#socialworker").val($(e).parent().parent().attr("socialworker"));
+            $("#currhours").text("");
+            $("#currstartdate").text("");
+            $("#currenddate").text("");
 
             $(".datepicker").each(function () {
                 $(this).datepicker('setDate', $(this).val());
@@ -372,67 +405,166 @@
 
         }
 
-        function showAlert(msg) {
-            $('#alertokmessage').html (msg);
-            $('#alertok').removeClass("d-none");;
+
+        function editSubject(e) {
+            var subjectSelect = $("#editSubjectModal").find("#subjectbtl");
+            var currSub = ($(e).parent().parent().attr("subjectbtl"));
+            var i = subjectsBTL.indexOf(currSub);
+
+            subjectSelect.append($('<option>', {
+                value: subjectsBTL[i],
+                text: subjectsDB[i]
+            }));
+
+            $("#stsubidx").val($(e).parent().parent().attr("stsubidx"));
+
+            $("#subjectidx").val($(e).parent().parent().attr("subjectidx"));
+            $("#editSubjectModal").find("#subjectbtl").val($(e).parent().parent().attr("subjectbtl"));
+            $("#editSubjectModal").find("#subjectbtl").prop("disabled", "disabled");
+            $("#editSubjectModal").find("#hours").val($(e).parent().parent().attr("hours"));
+            $("#editSubjectModal").find("#startdate").val($(e).parent().parent().attr("startdate"));
+            $("#editSubjectModal").find("#enddate").val($(e).parent().parent().attr("enddate"));
+
+            $("#currhours").text($(e).parent().parent().attr("currhours"));
+            $("#currstartdate").text($(e).parent().parent().attr("currstartdate"));
+            $("#currenddate").text($(e).parent().parent().attr("currenddate"));
+
+
+            $(".datepicker").each(function () {
+                $(this).datepicker('setDate', $(this).val());
+            });
+
         }
-        $(document).ready(function () {
+
+        function showAlert(msg, cssClass) {
+            $('#alertmessage').parent().removeClass();
+            $('#alertmessage').parent().addClass(cssClass);
+            $('#alertmessage').html (msg);
+            $('#alert').removeClass("d-none");;
+        }
+
+        $(function () {
+            $("#frm1").validate({
+                rules: {
+                    fuPdfs: {
+                        required : true
+                    },
+                    firstname: {
+                        required: true,
+                        minlength: 2,
+                        maxlenth: 50
+                    },
+                    lastname: {
+                        required: true,
+                        minlength: 2,
+                        maxlenth: 50
+                    },
+                    idnum: {
+                        required: true,
+                        digits: true,
+                        minlength: 2,
+                        maxlength: 9 
+                    },
+                    phone: {
+                        required: true,
+                        pattern: "^\\+?(972|0)(\\-)?0?(([23489]{1}[\\-]?\\d{7})\\-?|([71,72,73,74,75,76,77]{2}\\-?\\d{7})|[5]{1}?\\d{1}\\-?\\d{7})$"
+                    },
+                    email: {
+                        required: true,
+                        email:true
+                    },
+                    socialworker: {
+                        required: true,
+                        minlength: 2,
+                        maxlenth: 50
+                    },
+                    branch: {
+                        required: true,
+                        minlength: 2,
+                        maxlenth: 50
+                    },
+                    coordinatorname: {
+                        required: true
+                    },
+                    hours: {
+                        number : true,
+                        required: true
+                    },
+                    startdate: {
+                        required: true
+                    },
+                    enddate: {
+                        required: true
+                    }
+                },
+                messages: {
+                    phone: "הפורמט של מספר הטלפון שגוי"
+                }
+            });
+
+            var q = $("#datachanged").val();
+            $("#btnSave").prop('disabled', (q !="1") );
+
+            $("#btnSave").on("click", function () {
+                confirmModal(
+                    "שמירה",
+                    "האם אתה בטוח שברצונך לעדכן בבסיס הנתונים את פרטי התלמידים וההנגשות ששונו?",
+                    "save"
+                );
+                return true;
+            });
 
             if ($("#successhidden").val() != "") {
-                showAlert($("#successhidden").val());
+                showAlert($("#successhidden").val() , "alert-success");
                 $("#successhidden").val("");
             }
-            else {
+
+            if ($("#errorhidden").val() != "") {
+                showAlert($("#errorhidden").val(), "alert-danger");
+                $("#errorhidden").val("");
             }
-    
-            //
+
             $('.datepicker').datepicker({
                 //language: "he",
-                format: "dd/mm/yyyy"
+                format: "dd/mm/yyyy",
+                autoclose: true
                 //    orientation : "left"
             });
 
             // Activate tooltip
             $('[data-toggle="tooltip"]').tooltip();
-
-            // Select/Deselect checkboxes
-            //var checkbox = $('table tbody input[type="checkbox"]');
-            //$("#selectAll").click(function () {
-            //    if (this.checked) {
-            //        checkbox.each(function () {
-            //            this.checked = true;
-            //        });
-            //    } else {
-            //        checkbox.each(function () {
-            //            this.checked = false;
-            //        });
-            //    }
-            //});
-            //checkbox.click(function () {
-            ////    if (!this.checked) {
-            ////        $("#selectAll").prop("checked", false);
-            ////    }
-            //});
         });
+        
+            
     </script>
 </head>
 <body>
     <form runat="server" id="frm1">
-        <input type="hidden" id="successhidden" value="" runat="server" />
-        <input type="hidden" id="confirmaction" value="" runat="server" />
-        
+        <input runat="server" type="hidden" id="successhidden" value=""  />
+        <input runat="server" type="hidden" id="errorhidden" value=""  />
+        <input runat="server" type="hidden" id="confirmaction" value=""  />
+        <input runat="server" type="hidden" id="datachanged" value=""  />
+        <input runat="server" type="hidden" id="defcoordinator" value=""  />
+
+        <input runat="server" id="stid" type="hidden" />
+        <input runat="server" id="stidx" type="hidden" />
+        <input runat="server" id="stsubidx" type="hidden" />
+        <input runat="server" id="subjectidx" type="hidden" />
+        <input runat="server" id="subjectname" type="hidden" />
+
         <div class="container-xl">
             <div class="table-responsive">
                 <div class="table-wrapper">
                     <div class="table-title">
                         <div class="row">
                             <div class="col-lg-12 text-right">
-                                <div class="alert alert-success d-none" id="alertok">
-                                    <span id="alertokmessage">גיא פניני מת</span>
+                                <div class="alert d-none" id="alert">
+                                    <div>
+                                    <span id="alertmessage">גיא פניני מת</span>
                                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
-
+                                 </div>
                                 </div>
                              </div>
 
@@ -441,8 +573,11 @@
                                 <h2>עדכון התחייבויות</h2>
                             </div>
                             <div class="col-lg-6">
-                                <a href="#addPdfsModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>טען קבצי PDF</span></a>
-                                <a href="#addStudentModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE7FE;</i> <span>הוספת תלמיד/ה</span></a>
+
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addPdfsModal"><i class="material-icons">&#xE147;</i> <span>טען קבצי PDF</span></button>
+                                <button onclick="addStudent(this)" type="button" class="btn btn-success" data-toggle="modal" data-target="#editStudentModal"><i class="material-icons" data-toggle="tooltip" title="הוספת תלמיד">&#xE7FE;</i> <span>הוספת תלמיד</span></button>
+
+                                <asp:LinkButton runat="server" OnClick="btnClear_Click" id="btnClear" CssClass="btn btn-success"><i class="material-icons">&#xE14C;</i> <span>ניקוי</span></asp:LinkButton>
 <%--                                <a href="#confirmModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>--%>
                             </div>
                         </div>
@@ -452,7 +587,7 @@
                             <tr>
                                 <th>
                                     <span class="custom-checkbox">
-                                        <input type="checkbox" id="selectAll" disabled="0" onclick="alert (1)">
+                                        <input type="checkbox" id="selectAll" disabled="disabled" />
                                         <label for="selectAll"></label>
                                     </span>
                                 </th>
@@ -476,7 +611,7 @@
                                 <HeaderTemplate>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <tr class="datarow" stidx="<%# Container.ItemIndex %>"  stid="<%#Eval("Id")%>" firstname="<%#Eval("CurrFirstName")%>" lastname="<%#Eval("CurrLastName")%>" idnum="<%#Eval("IdNum")%>" phone="<%#Eval("CurrPhone")%>" email="<%#Eval("CurrEmail")%>" socialworker="<%#Eval("SocialWorker")%>" branch="<%#Eval("Branch")%>" coordinatorname="<%#Eval("CoordinatorName")%>">
+                                    <tr class="datarow" stidx="<%# Container.ItemIndex %>"  stid="<%#Eval("Id")%>" firstname="<%#AttrEval("CurrFirstName")%>" lastname="<%#AttrEval("CurrLastName")%>" idnum="<%#AttrEval("IdNum")%>" phone="<%#AttrEval("CurrPhone")%>" email="<%#AttrEval("CurrEmail")%>" socialworker="<%#AttrEval("CurrSocialWorker")%>" branch="<%#AttrEval("CurrBranch")%>" coordinatorname="<%#AttrEval("CoordinatorName")%>" startdate="<%#Eval("StartDate" , "{0:dd/MM/yyyy}")%>" enddate="<%#Eval("EndDate", "{0:dd/MM/yyyy}") %>" currfirstname="<%#AttrEval("FirstName")%>" currlastname="<%#AttrEval("LastName")%>" currphone="<%#AttrEval("Phone")%>" curremail="<%#AttrEval("Email")%>" currbranch="<%#AttrEval("Branch")%>" currcoordinatorname="<%#AttrEval("CoordinatorName")%>" currsocialworker="<%#AttrEval("SocialWorker")%>"> 
                                         <td></td>
                                         <td></td>
                                         <td><%#Eval("Id") %></td>
@@ -490,18 +625,19 @@
                                         <td><%#Eval("Email")%><br />
                                             <span class="small text-info">(<%#Eval("CurrEmail")%>)</span>
                                         </td>
-                                        <td><%#Eval("StartDate", "{0: dd/MM/yyyy}")%></td>
-                                        <td><%#Eval("EndDate", "{0: dd/MM/yyyy}")%></td>
+                                        <td><%#Eval("StartDate", "{0:dd/MM/yyyy}")%></td>
+                                        <td><%#Eval("EndDate", "{0:dd/MM/yyyy}")%></td>
                                         <td></td>
                                         <td></td>
                                         <td id=" ">
-                                            <a onclick="editStudent(this)" href="#editStudentModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="ערוך מורה">&#xE254;</i></a>
+                                            <a onclick="editStudent(this)" href="#editStudentModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="עריכת תלמיד">&#xE254;</i></a>
+                                                <a onclick="addSubject(this)" href="#editSubjectModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="הוסף הנגשה">&#xE145;</i></a>
 <%--                                            <a href="#confirmModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>--%>
                                         </td>
                                     </tr>
                                     <asp:Repeater runat="server" DataSource='<%# Eval("Subjects") %>'>
                                         <ItemTemplate>
-                                            <tr class="datarow" stsubidx="<%#((RepeaterItem)(Container.Parent.Parent)).ItemIndex %>" subjectidx="<%# Container.ItemIndex %>" subjectbtl="<%#Eval("SubjectBTL")%>" hours="<%#Eval("Hours")%>" startdate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.StartDate" , "{0: dd/MM/yyyy}") %>" enddate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.EndDate" , "{0: dd/MM/yyyy}") %>" />
+                                            <tr class="datarow" stsubidx="<%#((RepeaterItem)(Container.Parent.Parent)).ItemIndex %>" subjectidx="<%# Container.ItemIndex %>" subjectbtl="<%#Eval("SubjectBTL")%>" hours="<%#Eval("Hours")%>" startdate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.StartDate" , "{0:dd/MM/yyyy}") %>" enddate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.EndDate" , "{0:dd/MM/yyyy}") %>" currhours="<%#Eval("CurrHours")%>" currstartdate="<%#Eval("CurrStartDate", "{0:dd/MM/yyyy}") %>" currenddate="<%#Eval("CurrEndDate", "{0:dd/MM/yyyy}") %>"  />
                                             <td>
                                                 <%--                                    <span class="custom-checkbox">--%>
                                                 <input type="checkbox" />
@@ -514,12 +650,14 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><span class="small text-info">(<%#Eval("CurrStartDate", "{0:dd/MM/yyyy}")%>)</span></td>
+                                            <td><span class="small text-info">(<%#Eval("CurrEndDate", "{0:dd/MM/yyyy}")%>)</span></td>
                                             <td><%#Eval("SubjectBTL")%></td>
-                                            <td><%#Eval("Hours")%></td>
+                                            <td><%#Eval("Hours")%>
+                                            <span class="small text-info">(<%#Eval("CurrHours")%>)</span>
+                                            </td>
                                             <td>
-                                                <a onclick="editSubject(this)" href="#editSubjectModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="ערוך הנגשה">&#xE254;</i></a>
+                                                <a onclick="editSubject(this)" href="#editSubjectModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="עריכת הנגשה">&#xE254;</i></a>
 <%--                                                <a href="#confirmModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>--%>
                                             </td>
                                             </tr>
@@ -537,15 +675,17 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-lg-6">
-                                <a onclick="confirmSaveStudents()" href="#confirmModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xF233;</i> <span>עדכן תלמידים</span></a>
-                                <a onclick="confirmSaveSubjects()" href="#confirmModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE923;</i> <span>עדכן הנגשות</span></a>
-                                <a href="SendMail.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שלח מיילים</span></a>
+                                <button id="btnSave" disabled="disabled" type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmModal" ><i class="material-icons">&#xF233;</i> <span>שמירה</span></></button>
+                                <button id="btnSendMails" disabled="disabled" type="button" class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שלח מיילים</span></button>
                             </div>
-                        </div>
+                            <div class="col-lg-6">
+                                <a href="EditMail.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE3C9;</i> <span>עריכת תבניות מייל</span></a>
+                            </div>
                     </div>
 
                 </div>
             </div>
+        </div>
         </div>
         <!-- Add PDF HTML -->
         <div id="addPdfsModal" dir="rtl" class="modal fade">
@@ -561,7 +701,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>בחר קבצים</label>
-                            <asp:FileUpload ID="fuPdfs" runat="server" accept=".pdf" CssClass="form-control" required2="required2" AllowMultiple="true" />
+                            <asp:FileUpload ID="fuPdfs" runat="server" accept="application/pdf" CssClass="form-control" AllowMultiple="true" />
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -569,42 +709,6 @@
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
                     </div>
 
-                    <%--                </form>--%>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit Modal HTML -->
-        <div id="addStudentModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <%--                <form id="frm2">--%>
-                    <div class="modal-header">
-                        <h4 class="modal-title">Add Student</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" required2="required2" />
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" class="form-control" required2="required2" />
-                        </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <textarea class="form-control" required2="required2" /></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone</label>
-                            <input type="text" class="form-control" required2="required2" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול">
-                        <input type="submit" class="btn btn-success" value="Add2">
-                    </div>
                     <%--                </form>--%>
                 </div>
             </div>
@@ -625,7 +729,7 @@
                     </div>
                     <div class="modal-footer">
                         <asp:Button runat="server" id="btnConfirm" CssClass="btn btn-danger" Text="אישור" OnClick="btnConfirm_Click" />
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
                     </div>
                     <%--                </form>--%>
                 </div>
@@ -636,132 +740,106 @@
         <div id="editStudentModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <%--                <form>--%>
-                    <input runat="server" id="stid" type="hidden" />
-                    <input runat="server" id="stidx" type="hidden" />
                     <div class="modal-header">
-                        <h4 class="modal-title">עריכת מורה</h4>
+                        <h4 class="modal-title">עריכת תלמיד</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-lg-2">
-                                <label>שם פרטי</label>
+                                <label>שם פרטי</label>zzz
                             </div>
                             <div class="col-lg-10">
-                                <input runat="server" id="firstname" type="text" class="form-control" required2="required2" />
+                                <input runat="server" id="firstname" type="text" class="form-control" />
+                                <span class="small text-info" id="currfirstname"></span>
+
                             </div>
                             <div class="col-lg-2">
                                 <label>שם משפחה</label>
                             </div>
                             <div class="col-lg-10">
-                                <input runat="server" id="lastname" type="text" class="form-control" required2="required2" />
+                                <input runat="server" id="lastname" type="text" class="form-control" />
+                                <span class="small text-info" id="currlastname"></span>
                             </div>
                             <div class="col-lg-2">
-                                <label>ת.ז
+                                <label>
+                                    ת.ז
                                     <br />
                                     <br />
                                 </label>
                             </div>
                             <div class="col-lg-10">
-                                <input runat="server" id="idnum" type="text" class="form-control" required2="required2" />
+                                <input runat="server" id="idnum" type="text" class="form-control" />
+                                <span class="small text-info" id="curridnum"></span>
                             </div>
                             <div class="col-lg-2">
-                                <label>טלפון<br />
+                                <label>
+                                    טלפון<br />
                                     <br />
                                 </label>
                             </div>
                             <div class="col-lg-10">
-                                <input runat="server" id="phone" type="text" class="form-control" required2="required2" />
+                                <input runat="server" id="phone" type="text" class="form-control" />
+                                <span class="small text-info" id="currphone"></span>
                             </div>
                             <div class="col-md-2">
-                                <label>מייל<br />
+                                <label>
+                                    מייל<br />
                                     <br />
                                 </label>
                             </div>
                             <div class="col-md-10">
-                                <input runat="server" id="email" type="text" class="form-control" required2="required2" />
+                                <input runat="server" id="email" type="text" class="form-control"  />
+                                <span class="small text-info" id="curremail"></span>
                             </div>
                             <div class="col-md-2">
-                                <label>עו"ס<br />
+                                <label>
+                                    עו"ס<br />
                                     <br />
                                 </label>
                             </div>
                             <div class="col-md-10">
-                                <input runat="server" id="socialworker" type="text" class="form-control" required2="required2" />
+                                <input runat="server" id="socialworker" type="text" class="form-control" />
+                                <span class="small text-info" id="currsocialworker"></span>
                             </div>
                             <div class="col-md-2">
-                                <label>סניף<br />
+                                <label>
+                                    סניף<br />
                                     <br />
                                 </label>
                             </div>
                             <div class="col-md-10">
-                                <input runat="server" id="branch" type="text" class="form-control" required2="required2" />
+                                <input runat="server" id="branch" type="text" class="form-control" />
+                                <span class="small text-info" id="currbranch"></span>
                             </div>
                             <div class="col-md-2">
-                                <label>רכז<br />
+                                <label>
+                                    רכז<br />
                                     <br />
                                 </label>
                             </div>
                             <div class="col-md-10">
-                                <input runat="server" id="coordinatorname" type="text" class="form-control" required2="required2" />
+                                <asp:DropDownList runat="server" ID="coordinatorname" CssClass="form-control" />
+                                <span class="small text-info" id="currcoordinatorname"></span>
                             </div>
 
                         </div>
+
                     </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                        <asp:button runat="server"  ID="btnSaveStudent" CssClass="btn btn-info" Text="שמירה" OnClick="btnSaveStudent_Click"/>
-                    </div>
-                    <%--                </form>--%>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
+                    <asp:Button runat="server" ID="btnSaveStudent" OnClick="btnSaveStudent_Click" CssClass="btn btn-info" Text="שמירה" />
+                </div>
+                
                 </div>
             </div>
         </div>
-
-        <!-- Edit Subject Modal HTML -->
-        <div id="sendMailModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <%--                <form id="Form1" runat="server">--%>
-                    <div class="modal-header">
-                        <h4 class="modal-title">שליחת מיילים</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <label>מייל בדיקה<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="TestMailAddress" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-lg-2">
-                                <label>תצוגה מקדימה</label>
-                            </div>
-                            <div class="col-lg-10">
-                                <asp:CheckBox runat="server" ID="chkPreviewMail" Checked="true" css="form-control" required2="required2" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                        <asp:Button runat="server" ID="btnSendMails" OnClick="btnSendMails_Click" CssClass="btn btn-info" Text="שלח הודעות" />
-                    </div>
-                    <%--                </form>--%>
-                </div>
-            </div>
-        </div>
-
 
         <!-- Edit Subject Modal HTML -->
         <div id="editSubjectModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <%--                <form id="Form1" runat="server">--%>
-                    <input runat="server" id="stsubidx" type="hidden" />
-                    <input runat="server" id="subjectidx" type="hidden" />
                     <div class="modal-header">
                         <h4 class="modal-title">עריכת הנגשה</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -772,7 +850,7 @@
                                 <label>הנגשה<br /><br /></label>
                             </div>
                             <div class="col-lg-10">
-                                <select runat="server" id="subjectbtl" class="form-control">
+                                <select id="subjectbtl" class="form-control">
                                 </select>
                             </div>
                             <div class="col-lg-2">
@@ -781,13 +859,16 @@
                                 </label>
                             </div>
                             <div class="col-lg-10">
-                                <input runat="server" id="hours" type="text" class="form-control" required2="required2" />
+                                <input runat="server" id="hours" type="text" class="form-control" />
+                                <span class="small text-info" id="currhours"></span>
+
                             </div>
                             <div class="col-lg-2">
                                 <label>תאריך התחלה</label>
                             </div>
                             <div class="col-lg-10">
-                                <input runat="server" id="startdate" class="form-control datepicker" required2="required2" />
+                                <input runat="server" id="startdate" class="form-control datepicker" />
+                                <span class="small text-info" id="currstartdate"></span>
                             </div>
                             <div class="col-md-2">
                                 <label>תאריך סיום<br />
@@ -795,7 +876,8 @@
                                 </label>
                             </div>
                             <div class="col-md-10">
-                                <input runat="server" id="enddate" class="form-control datepicker" required2="required2" />
+                                <input runat="server" id="enddate" class="form-control datepicker" />
+                                <span class="small text-info" id="currenddate"></span>
                             </div>
                         </div>
                     </div>

@@ -397,7 +397,6 @@
             $('[data-toggle="tooltip"]').tooltip();
 
             $("#selectAll").click(function () {
-                alert("dd");
                 var ck = this.checked;
                 //alert($("").length);
                 $("input[name$='chk1']").each(function () { this.checked = ck; })
@@ -584,7 +583,7 @@
                     <input runat="server" id="stid" type="hidden" />
                     <input runat="server" id="stidx" type="hidden" />
                     <div class="modal-header">
-                        <h4 class="modal-title">עריכת מורה</h4>
+                        <h4 class="modal-title">עריכת תלמיד</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">

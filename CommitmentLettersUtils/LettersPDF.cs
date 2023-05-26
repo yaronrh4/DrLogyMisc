@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace DrLogy.CommitmentLettersUtils
 {
@@ -37,7 +38,10 @@ namespace DrLogy.CommitmentLettersUtils
             data.PageNumber = 1;
             data.FileName = filename;
             data.Project = project;
-            data.CoordinatorName = _options.Coordinators[0].Name;
+            data.CoordinatorName = _options.DefaultCoordinatorName;
+            if (data.CoordinatorName == "")
+                data.CoordinatorName = _options.Coordinators[0].Name;
+
             utils.OpenPdf(filename);
 
             List<RectangleF> rec = utils.SearchPage(_options.Title);
@@ -74,15 +78,20 @@ namespace DrLogy.CommitmentLettersUtils
             s = utils.ExtractText(newRec, 1).Trim();
             data.SocialWorker = Utils.FixRTLString(s);
 
-            rec = utils.SearchPage(_options.Branch);
+            var allRec = utils.SearchAllPages(_options.Branch);
+            rec = allRec[allRec.Count - 1].res;
             newRec = new RectangleF(0, rec[rec.Count() - 1].Y, rec[rec.Count() - 1].X, rec[rec.Count() - 1].Height);
-            s = utils.ExtractText(newRec, 1).Trim();
+            s = utils.ExtractText(newRec, allRec[allRec.Count - 1].pageNumber).Trim();
             data.Branch = Utils.FixRTLString(s);
 
             rec = utils.SearchPage(_options.Phone);
             newRec = new RectangleF(0, rec[0].Y, rec[0].X, rec[0].Height);
             s = utils.ExtractText(newRec, 1).Trim();
             data.Phone = s;
+            rec = utils.SearchPage(_options.Email);
+            newRec = new RectangleF(0, rec[0].Y, rec[0].X, rec[0].Height);
+            s = utils.ExtractText(newRec, 1).Trim();
+            data.Email = s;
 
             _results.Add(data);
             GetSubjectsFromPDF(_options.Subjects, utils);
@@ -176,6 +185,8 @@ namespace DrLogy.CommitmentLettersUtils
                     r.CurrLastName = (string)row["ST_LNAME"];
                     r.CurrEmail = row["ST_EMAIL"].ToString();
                     r.CurrPhone = row["ST_PHONE1"].ToString();
+                    r.CurrBranch = row["ST_CITY"].ToString();
+                    r.CurrSocialWorker = row["ST_PARENTNAME"].ToString();
                     string rName = row["RAKAZ_NAME"].ToString();
                     if (rName != "")
                     {
@@ -205,23 +216,15 @@ namespace DrLogy.CommitmentLettersUtils
             RectangleF newRec;
             string s;
             int i;
-            int groupedCount = 0;
+            List<SubjectData> groupedSubjects = new List<SubjectData>();
+            decimal groupedHours = 0;
+
             decimal hours;
             SubjectData newSubject = null;
 
             LetterData data = _results[_results.Count - 1];
             data.Subjects = new List<SubjectData>();
 
-            //count grouped subjects
-            foreach (var subject in subjects)
-            {
-                rec = utils.SearchPage(subject.BTLName);
-                if (rec.Count() > 0)
-                {
-                    if (subject.Grouped)
-                        groupedCount++;
-                }
-            }
             foreach (var subject in subjects)
             {
                 rec = utils.SearchPage(subject.BTLName);
@@ -258,11 +261,25 @@ namespace DrLogy.CommitmentLettersUtils
                     newSubject = new SubjectData();
                     newSubject.SubjectBTL = subject.BTLName;
                     newSubject.SubjectInDB = subject.Name;
-                    newSubject.Hours = subject.Grouped && groupedCount > 1 ? hours / 2 : hours;
+                    newSubject.Hours = hours;
+
+                    if (subject.Grouped)
+                    {
+                        groupedSubjects.Add(newSubject);
+                        groupedHours += hours;
+                    }
 
                     data.Subjects.Add(newSubject);
                 }
             }
+
+            if (groupedSubjects.Count > 1)
+            {
+                //set the average of the hours for the grouped subject
+                foreach (var sub in groupedSubjects)
+                    sub.Hours = groupedHours / Convert.ToDecimal(groupedSubjects.Count) / Convert.ToDecimal(groupedSubjects.Count);
+            }
+
         }
 
         public void RemoveOld(string fileName)
@@ -282,7 +299,7 @@ namespace DrLogy.CommitmentLettersUtils
             if (r.Id > 0)
             {
 
-                if (subject != null && !string.IsNullOrEmpty(subject.SubjectBTL) /*&& subject == r.CurrSubjectBTL*/)
+                if (!subject.IsNew)
                 {
                     if (subject.Hours == subject.CurrHours && r.StartDate == subject.CurrStartDate && r.EndDate == subject.CurrEndDate)
                         subject.Status = StudentStatus.Updated;
@@ -298,34 +315,32 @@ namespace DrLogy.CommitmentLettersUtils
                 subject.Status = StudentStatus.NoStudent;
         }
 
-        public int UpdateStudent(int rowIndex, string connectionString)
+        public string UpdateStudent(int rowIndex, string connectionString)
         {
-            int rc = 0;
+            string rc = "";
             DrLogy.DrLogyUtils.DbUtils.ConStr = connectionString;
 
             LetterData r = _results[rowIndex];
+            if (r.IdNum != null)
+                r.IdNum = r.IdNum.Trim();
+
+            if (r.CurrFirstName == null)
             {
-                if (r.IdNum != null)
-                    r.IdNum = r.IdNum.Trim();
+                r.CurrFirstName = r.FirstName;
+                r.CurrLastName = r.LastName;
+                r.CurrPhone = r.Phone;
+                r.CurrEmail = r.Email;
+                r.CurrBranch = r.Branch;
+                r.CurrSocialWorker = r.SocialWorker;
+            }
 
-                if (r.FirstName != null)
-                    r.FirstName = r.FirstName.Trim();
-                if (r.LastName != null)
-                    r.LastName = r.LastName.Trim();
-                if (r.Phone != null)
-                    r.Phone = r.Phone.Trim();
-                if (r.Branch != null)
-                    r.Branch = r.Branch.Trim();
-                if (r.SocialWorker != null)
-                    r.SocialWorker = r.SocialWorker.Trim();
-                if (r.Phone != null)
-                    r.Phone = r.Phone.Trim();
-
-                float idnum = 0;
-                if (float.TryParse(r.IdNum, out idnum) && idnum > 0)
+            float idnum = 0;
+            if (float.TryParse(r.IdNum, out idnum) && idnum > 0)
+            {
+                try
                 {
-                    DbUtils.ExecSP("SPMISC_UPDATE_STUDENT", new string[] { "st_id", "zehut", "fname", "lname", "project", "phone", "city", "parentname" }, new object[] { r.Id, r.IdNum, r.CurrFirstName, r.CurrLastName, r.Project, r.CurrPhone, r.Branch, r.SocialWorker });
-
+                    var z = DbUtils.ExecSP("SPMISC_UPDATE_STUDENT", new string[] { "st_id", "zehut", "fname", "lname", "project", "phone", "city", "parentname", "email" }, new object[] { r.Id, r.IdNum.Trim(), r.CurrFirstName.Trim(), r.CurrLastName.Trim(), r.Project.Trim(), r.CurrPhone.Trim(), r.CurrBranch.Trim(), r.CurrSocialWorker.Trim() , r.CurrEmail }, true);
+                    r.Id = (int)z;
                     //yaron to check
                     //for (int i = 0; i < _results.Count; i++)
                     //{
@@ -338,34 +353,54 @@ namespace DrLogy.CommitmentLettersUtils
                     //}
                     //rc = 1; 
                 }
+                catch (Exception ex)
+                {
+                    rc = "שגיאה בשמירה בבסיס הנתונים, הנתונים לא נשמרו";
+                }
             }
+            else
+                rc = "תעודת הזהות אינה תקינה, הנתונים לא נשמרו";
 
             return rc;
         }
-        public int UpdateRowToDb(int rowIndex, int subjectIndex)
+        public string UpdateSubject(int rowIndex, int subjectIndex)
         {
             LetterData r = _results[rowIndex];
             SubjectData subject = r.Subjects[subjectIndex];
-            int rc = 0;
+            string rc = "";
 
             if (!subject.Updated && subject.Status != StudentStatus.Updated)
             {
-                subject.Updated = true;
-                rc = 1;
-
-                if (subject.Status == StudentStatus.NotUpdated)
+                subject.Updated = false;
+                try
                 {
-                    DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, r.StartDate, r.EndDate, subject.Hours });
+                    if (subject.Status == StudentStatus.NotUpdated)
+                    {
+                        DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, r.StartDate, r.EndDate, subject.Hours });
+                        subject.Updated = true;
+                    }
+                    else if (subject.Status == StudentStatus.NoSubject || subject.Status == StudentStatus.NoStudent)
+                    {
+                        DbUtils.ExecSP("SPMISC_INSERT_SUBJECT", new string[] { "st_id", "project", "subject", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, r.Project, subject.SubjectInDB, r.StartDate, r.EndDate, subject.Hours });
+                        subject.Updated = true;
+                    }
+                    else
+                    {
+                        rc = "סטטוס לא תקין, השורה לא עודכנה";
+                    }
                 }
-                else if (subject.Status == StudentStatus.NoSubject)
+                catch (Exception ex)
                 {
-                    DbUtils.ExecSP("SPMISC_INSERT_SUBJECT", new string[] { "st_id", "project", "subject", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, r.Project, subject.SubjectInDB, r.StartDate, r.EndDate, subject.Hours });
-
+                    rc = "שגיאה בבסיס הנתונים, הנתונים לא נשמרו";
                 }
-                else
+
+                if (subject.Updated)
                 {
-                    subject.Updated = false;
-                    rc = 0;
+                    subject.CurrHours = subject.Hours;
+                    subject.CurrStartDate = r.StartDate;
+                    subject.CurrEndDate = r.EndDate;
+                    subject.IsNew = false;
+                    RefreshStatus(rowIndex, subjectIndex);
                 }
             }
             return rc;

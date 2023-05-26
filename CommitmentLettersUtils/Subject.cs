@@ -28,8 +28,7 @@ namespace DrLogy.CommitmentLettersUtils
         {
             get; set;
         }
-
-        public int Hours
+        public decimal Hours
         {
             get; set;
         }

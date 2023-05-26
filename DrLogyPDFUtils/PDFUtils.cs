@@ -5,6 +5,7 @@ using Spire.Pdf.Graphics;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DrLogy.DrLogyPDFUtils
 {
@@ -176,6 +177,41 @@ namespace DrLogy.DrLogyPDFUtils
 
 
             _modified = true;
+        }
+
+        public class SearchResults
+        {
+            public int pageNumber;
+            public List<RectangleF> res;
+        }
+
+        public int GetPagesCount()
+        {
+
+            if (!_isSplitMode)
+                return _spireDoc.Pages.Count;
+            else
+            {
+                return splitedPages.Count;
+            }
+        }
+
+
+        public List<SearchResults> SearchAllPages(string searchString)
+        {
+            List<SearchResults> rc = new List<SearchResults>();
+            int pCount = GetPagesCount();
+
+            for (int i=1; i <=pCount; i++)
+            {
+                var searchRes = SearchPage(searchString, i);
+                if (searchRes.Count > 0)
+                {
+                    rc.Add(new SearchResults() { pageNumber = i, res = searchRes });
+                }
+            }
+
+            return rc;
         }
 
         public List<RectangleF> SearchPage(string searchString, int pageIndex=1)

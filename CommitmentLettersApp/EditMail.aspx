@@ -457,6 +457,14 @@
                                 </div>
                              </div>
 
+                            
+
+                            <div class="col-lg-2">
+                                <asp:DropDownList runat="server" ID="drpType" OnSelectedIndexChanged="drpType_SelectedIndexChanged" AutoPostBack="true" >
+                                    <asp:ListItem Text="תלמיד חדש" Value="1" ></asp:ListItem>
+                                    <asp:ListItem Text="הארכת זכאות" Value="2" ></asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
 
                             <div class="col-lg-6">
                                 <h2>עריכת תבניות מייל</h2>
@@ -464,21 +472,23 @@
 
                         </div>
                     </div>
-                    <table class="table table-striped table-hover">
+                    <div class="row text-right">
+                        <div class="col-lg-12">
+                            <label>נושא</label>
+                            <asp:TextBox runat="server" id="txtSubject" required2="required2"  CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-lg-12">
+                            <div style="height:500px">
+                                <textarea runat="server" id="editorcontent" style="height:480px;">&lt;div&gt;היי |שם|,&lt;/div&gt;&#xA;&lt;div&gt;ברוכ/ה&amp;nbsp;הבא/ה&amp;nbsp;לד&quot;ר לוגי !&lt;/div&gt;&#xA;&lt;div&gt;בהתאם להודעה שקיבלנו מביטוח לאומי, מעדכנת&amp;nbsp; גם כאן בצורה מסודרת :&lt;/div&gt;&#xA;&lt;div&gt;&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;אושרה לך זכאות להנגשות בין התאריכים&amp;nbsp;&lt;span style=&quot;color: #000000;&quot;&gt;|התחלה| ו&lt;/span&gt;עד ה-|סוף|.&lt;/div&gt;&#xA;&lt;div&gt;&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;|הנגשות|&lt;br&gt;&lt;br&gt;&lt;strong&gt;בסמסטר זה, רכזת בשם |רכז| תהיה אחראית על השיבוץ שלך ותיתן לך מענה.&lt;/strong&gt;&lt;/div&gt;&#xA;&lt;div&gt;&lt;strong&gt;&lt;br&gt;&lt;/strong&gt;&lt;strong&gt;המס שלה&amp;nbsp; הוא -|טלפון רכז|&lt;/strong&gt;&lt;/div&gt;&#xA;&lt;div&gt;&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;אנחנו רוצים להתחיל ולעבוד כדי למצוא לך תלמיד מתאים בהקדם, נשמח שתעביר/י לרכזת המטפלת סילבוסים בקורסים בהם את/ה זקוק/ה לסיוע&amp;nbsp; .&amp;nbsp;&lt;br&gt;|הערות|&lt;br&gt;&lt;br&gt;&lt;/div&gt;&#xA;&lt;div&gt;לתשומת&amp;nbsp;&lt;img class=&quot;an1&quot; src=&quot;https://fonts.gstatic.com/s/e/notoemoji/15.0/2764/32.png&quot; alt=&quot;❤&quot; loading=&quot;lazy&quot; data-emoji=&quot;❤&quot; aria-label=&quot;❤&quot;&gt;:&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;*אין לחרוג מתקופת הזכאות הכוללת וממכסת השעות החודשית.&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;*אין להעביר שעות מחודש לחודש...&lt;/div&gt;&#xA;&lt;div&gt;* אין לבצע מעל 5 שעות של שיעורי עזר ליום .&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;&#xA;&lt;div&gt;&lt;strong&gt;&lt;span style=&quot;color: #20124d;&quot;&gt;מדיניות ביטולים:&lt;/span&gt;&lt;/strong&gt;&lt;br&gt;&lt;img class=&quot;an1&quot; src=&quot;https://fonts.gstatic.com/s/e/notoemoji/15.0/25aa_fe0f/32.png&quot; alt=&quot;▪️&quot; loading=&quot;lazy&quot; data-emoji=&quot;▪️&quot; aria-label=&quot;▪️&quot;&gt;&amp;nbsp;ניתן לבטל שיעור עד 24 שעות לפני תחילת השיעור, במידה והשיעור בוטל פחות מ24 שעות לפני מועד התחלתו יחשבו השעות המבוטלות כשיעור לכל דבר, ועל הסטודנט לחתום לתלמיד כאילו השיעור בוצע.&lt;/div&gt;&#xA;&lt;div&gt;&lt;img class=&quot;an1&quot; src=&quot;https://fonts.gstatic.com/s/e/notoemoji/15.0/25aa_fe0f/32.png&quot; alt=&quot;▪️&quot; loading=&quot;lazy&quot; data-emoji=&quot;▪️&quot; aria-label=&quot;▪️&quot;&gt;&amp;nbsp;נא להקפיד לחתום לתלמיד בסוף כל שיעור על הקישור שישלח אליכם ולא להמתין לסוף החודש.&lt;/div&gt;&#xA;&lt;div&gt;&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;&lt;strong&gt;&lt;span style=&quot;font-family: arial, sans-serif;&quot;&gt;בברכה,&lt;br&gt;אוריין עובדיה&lt;br&gt;ד&quot;ר לוגי השכלה בע&quot;מ&lt;/span&gt;&lt;/strong&gt;&lt;/div&gt;&#xA;&lt;/div&gt;</textarea>
+                            </div>
+                        </div>
+                    </div>
 
-                        <tbody>
-                            <tr class="datarow">
-                                <td width="100%"><textarea id="editorcontent">&lt;div&gt;היי |שם|,&lt;/div&gt;&#xA;&lt;div&gt;ברוכ/ה&amp;nbsp;הבא/ה&amp;nbsp;לד&quot;ר לוגי !&lt;/div&gt;&#xA;&lt;div&gt;בהתאם להודעה שקיבלנו מביטוח לאומי, מעדכנת&amp;nbsp; גם כאן בצורה מסודרת :&lt;/div&gt;&#xA;&lt;div&gt;&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;אושרה לך זכאות להנגשות בין התאריכים&amp;nbsp;&lt;span style=&quot;color: #000000;&quot;&gt;|התחלה| ו&lt;/span&gt;עד ה-|סוף|.&lt;/div&gt;&#xA;&lt;div&gt;&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;|הנגשות|&lt;br&gt;&lt;br&gt;&lt;strong&gt;בסמסטר זה, רכזת בשם |רכז| תהיה אחראית על השיבוץ שלך ותיתן לך מענה.&lt;/strong&gt;&lt;/div&gt;&#xA;&lt;div&gt;&lt;strong&gt;&lt;br&gt;&lt;/strong&gt;&lt;strong&gt;המס שלה&amp;nbsp; הוא -|טלפון רכז|&lt;/strong&gt;&lt;/div&gt;&#xA;&lt;div&gt;&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;אנחנו רוצים להתחיל ולעבוד כדי למצוא לך מורה מתאים בהקדם, נשמח שתעביר/י לרכזת המטפלת סילבוסים בקורסים בהם את/ה זקוק/ה לסיוע&amp;nbsp; .&amp;nbsp;&lt;br&gt;|הערות|&lt;br&gt;&lt;br&gt;&lt;/div&gt;&#xA;&lt;div&gt;לתשומת&amp;nbsp;&lt;img class=&quot;an1&quot; src=&quot;https://fonts.gstatic.com/s/e/notoemoji/15.0/2764/32.png&quot; alt=&quot;❤&quot; loading=&quot;lazy&quot; data-emoji=&quot;❤&quot; aria-label=&quot;❤&quot;&gt;:&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;*אין לחרוג מתקופת הזכאות הכוללת וממכסת השעות החודשית.&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;*אין להעביר שעות מחודש לחודש...&lt;/div&gt;&#xA;&lt;div&gt;* אין לבצע מעל 5 שעות של שיעורי עזר ליום .&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;&#xA;&lt;div&gt;&lt;strong&gt;&lt;span style=&quot;color: #20124d;&quot;&gt;מדיניות ביטולים:&lt;/span&gt;&lt;/strong&gt;&lt;br&gt;&lt;img class=&quot;an1&quot; src=&quot;https://fonts.gstatic.com/s/e/notoemoji/15.0/25aa_fe0f/32.png&quot; alt=&quot;▪️&quot; loading=&quot;lazy&quot; data-emoji=&quot;▪️&quot; aria-label=&quot;▪️&quot;&gt;&amp;nbsp;ניתן לבטל שיעור עד 24 שעות לפני תחילת השיעור, במידה והשיעור בוטל פחות מ24 שעות לפני מועד התחלתו יחשבו השעות המבוטלות כשיעור לכל דבר, ועל הסטודנט לחתום למורה כאילו השיעור בוצע.&lt;/div&gt;&#xA;&lt;div&gt;&lt;img class=&quot;an1&quot; src=&quot;https://fonts.gstatic.com/s/e/notoemoji/15.0/25aa_fe0f/32.png&quot; alt=&quot;▪️&quot; loading=&quot;lazy&quot; data-emoji=&quot;▪️&quot; aria-label=&quot;▪️&quot;&gt;&amp;nbsp;נא להקפיד לחתום למורה בסוף כל שיעור על הקישור שישלח אליכם ולא להמתין לסוף החודש.&lt;/div&gt;&#xA;&lt;div&gt;&amp;nbsp;&lt;/div&gt;&#xA;&lt;div&gt;&lt;strong&gt;&lt;span style=&quot;font-family: arial, sans-serif;&quot;&gt;בברכה,&lt;br&gt;אוריין עובדיה&lt;br&gt;ד&quot;ר לוגי השכלה בע&quot;מ&lt;/span&gt;&lt;/strong&gt;&lt;/div&gt;&#xA;&lt;/div&gt;</textarea>
-</td>
-                                    </tr>
-                        </tbody>
-                    </table>
 
                     <div class="table-title">
                         <div class="row">
                             <div class="col-lg-6">
-                                <asp:LinkButton runat="server" ID="btnSendAllMails" OnClick="btnSendAllMails_Click"> <div class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שלח כל המיילים</span></div></asp:LinkButton>
-                                <asp:LinkButton runat="server" ID="btnSendSelectedMails" OnClick="btnSendSelectedMails_Click"> <div class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שלח מיילים מסומנים</span></div></asp:LinkButton>
+                                <asp:LinkButton runat="server" ID="btnUpdate" OnClick="btnUpdate_Click"> <div class="btn btn-success"><i class="material-icons">&#xE161;</i> <span>שמירה</span></div></asp:LinkButton>
                             </div>
                         </div>
                     </div>
@@ -486,238 +496,6 @@
                 </div>
             </div>
         </div>
-        <!-- Add PDF HTML -->
-        <div id="addPdfsModal" dir="rtl" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <%--                <form id="frm2" runat="server">--%>
-                    <div class="modal-header">
-                        <div>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">טען קבצים</h4>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>בחר קבצים</label>
-                            <asp:FileUpload ID="fuPdfs" runat="server" accept=".pdf" CssClass="form-control" required2="required2" AllowMultiple="true" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <asp:Button runat="server" ID="btnAddPdf" OnClick="btnAddPdf_Click" CssClass="btn btn-success" Text="הוסף" />
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                    </div>
-
-                    <%--                </form>--%>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit Modal HTML -->
-        <div id="addStudentModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <%--                <form id="frm2">--%>
-                    <div class="modal-header">
-                        <h4 class="modal-title">Add Student</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" required2="required2" />
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" class="form-control" required2="required2" />
-                        </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <textarea class="form-control" required2="required2" /></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone</label>
-                            <input type="text" class="form-control" required2="required2" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול">
-                        <input type="submit" class="btn btn-success" value="Add2">
-                    </div>
-                    <%--                </form>--%>
-                </div>
-            </div>
-        </div>
-
-        <!-- Confirm Modal HTML -->
-        <div id="confirmModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <%--                <form id="frm1">--%>
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="confirmtitle"></h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <p id="confirmmessage"></p>
-                        <p class="text-warning"><small>הפעולה אינה הפיכה</small></p>
-                    </div>
-                    <div class="modal-footer">
-                        <asp:Button runat="server" id="btnConfirm" CssClass="btn btn-danger" Text="אישור" OnClick="btnConfirm_Click" />
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול">
-                    </div>
-                    <%--                </form>--%>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit Student Modal HTML -->
-        <div id="editStudentModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <%--                <form>--%>
-                    <input runat="server" id="stid" type="hidden" />
-                    <input runat="server" id="stidx" type="hidden" />
-                    <div class="modal-header">
-                        <h4 class="modal-title">עריכת מורה</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <label>שם פרטי</label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="firstname" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-lg-2">
-                                <label>שם משפחה</label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="lastname" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-lg-2">
-                                <label>ת.ז
-                                    <br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="idnum" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-lg-2">
-                                <label>טלפון<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="phone" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-md-2">
-                                <label>מייל<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-md-10">
-                                <input runat="server" id="email" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-md-2">
-                                <label>עו"ס<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-md-10">
-                                <input runat="server" id="socialworker" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-md-2">
-                                <label>סניף<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-md-10">
-                                <input runat="server" id="branch" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-md-2">
-                                <label>רכז<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-md-10">
-                                <input runat="server" id="coordinatorname" type="text" class="form-control" required2="required2" />
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                        <asp:button runat="server"  ID="btnSaveStudent" CssClass="btn btn-info" Text="3שמירה" OnClick="btnSaveStudent_Click"/>
-                    </div>
-                    <%--                </form>--%>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit Subject Modal HTML -->
-
-        <!-- Edit Subject Modal HTML -->
-        <div id="editSubjectModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <%--                <form id="Form1" runat="server">--%>
-                    <input runat="server" id="stsubidx" type="hidden" />
-                    <input runat="server" id="subjectidx" type="hidden" />
-                    <div class="modal-header">
-                        <h4 class="modal-title">עריכת הנגשה</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <label>הנגשה ב"ל</label>
-                            </div>
-                            <div class="col-lg-10">
-                                <select runat="server" id="subjectbtl" class="form-control">
-                                </select>
-                            </div>
-                            <div class="col-lg-2">
-                                <label>הנגשה</label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="subjectindb" type="text" class="form-control" disabled="disabled" />
-                            </div>
-                            <div class="col-lg-2">
-                                <label>שעות<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="hours" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-lg-2">
-                                <label>תאריך התחלה</label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="startdate" class="form-control datepicker" required2="required2" />
-                            </div>
-                            <div class="col-md-2">
-                                <label>תאריך סיום<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-md-10">
-                                <input runat="server" id="enddate" class="form-control datepicker" required2="required2" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                        <asp:Button runat="server" ID="btnSaveSubject" OnClick="btnSaveSubject_Click" CssClass="btn btn-info" Text="שמירה2" />
-                    </div>
-                    <%--                </form>--%>
-                </div>
-            </div>
-        </div>
-
     </form>
 
 </body>

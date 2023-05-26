@@ -3,7 +3,6 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "provider": "cdnjs",
       "library": "bootstrap-datepicker@1.10.0",
       "destination": "lib/bootstrap-datepicker/",
       "files": [
@@ -14,19 +13,21 @@
       ]
     },
     {
-      "provider": "cdnjs",
       "library": "tinymce@6.4.2",
       "destination": "lib/tinymce/"
     },
     {
-      "provider": "cdnjs",
       "library": "jquery@3.7.0",
       "destination": "lib/jquery/"
     },
     {
-      "provider": "cdnjs",
       "library": "jqueryui@1.13.2",
       "destination": "lib/jqueryui/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "jquery-validation@1.19.5",
+      "destination": "lib/jquery-validation/"
     }
   ]
 }

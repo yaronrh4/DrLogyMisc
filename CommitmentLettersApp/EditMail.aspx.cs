@@ -162,91 +162,41 @@ namespace CommitmentLettersApp
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
-        }
-
-        protected void btnSaveSubject_Click(object sender, EventArgs e)
-        {
-            LetterData r = _lettersPDF.Results[int.Parse(stsubidx.Value)];
-            SubjectData s = r.Subjects[int.Parse(subjectidx.Value)];
-
-            r.StartDate = DateTime.ParseExact(startdate.Value.Trim(), "dd/MM/yyyy" , null);
-            r.EndDate = DateTime.ParseExact(enddate.Value.Trim(), "dd/MM/yyyy" , null);
-
-            s.Hours = int.Parse(hours.Value);
-
-            _lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), int.Parse(subjectidx.Value));
-            RefreshData();
-        }
-        protected void btnAddPdf_Click(object sender, EventArgs e)
-        {
-            string filename = $"c:\\temp\\{fuPdfs.PostedFiles[0].FileName}";
-            fuPdfs.PostedFiles[0].SaveAs(filename);
-            _lettersPDF.Process(filename, _connection, _project);
-            //RefreshData();
-            RefreshData();
-        }
-
-        private void RefreshData()
-        {
-            //rep1.DataSource = _lettersPDF.Results;
-            //rep1.DataBind();
-        }
-
-        protected void btnSaveStudent_Click(object sender, EventArgs e)
-        {
-            LetterData r = _lettersPDF.Results[int.Parse(stidx.Value)];
-
-            r.CurrFirstName = firstname.Value;
-            r.CurrLastName = lastname.Value;
-            r.IdNum = idnum.Value;
-            r.CurrPhone = phone.Value;
-            r.CurrEmail = email.Value;
-            r.CoordinatorName = coordinatorname.Value;
-            r.Branch = branch.Value;
-            r.SocialWorker = socialworker.Value;
-
-            //_lettersPDF.UpdateStudent(int.Parse(stidx.Value) , _connection);
-
-            //_lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), int.Parse(subjectidx.Value));
-            RefreshData();
-        }
-
-        protected void btnConfirm_Click(object sender, EventArgs e)
-        {
-            if (confirmaction.Value == "savestudents")
+            if (!Page.IsPostBack)
             {
-                for (int i = 0; i < _lettersPDF.Results.Count; i++)
-                    _lettersPDF.UpdateStudent(i, _connection);
-                successhidden.Value = "השמירה בוצעה בהצלחה";
+                drpType.SelectedIndex = 0;
+                LoadHtml();
             }
         }
 
-        protected void btnSendMails_Click(object sender, EventArgs e)
+        private void LoadHtml()
         {
-        }
-
-        protected void btnSendAllMail_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void btnSendAllMails_Click(object sender, EventArgs e)
-        {
-            EmailSender eml = new EmailSender();
-            int cnt= 0;
-            foreach (var m in _mails)
+            if (drpType.SelectedIndex >= 0)
             {
-                cnt++;
-                eml.SendEmail(m.MailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc);
+                string html = Utils.GetAppSetting($"MailMessage{drpType.SelectedValue}", "");
+                editorcontent.InnerText = html;
+                txtSubject.Text = Utils.GetAppSetting($"MailSubject{drpType.SelectedValue}", "");
             }
-            successhidden.Value = $"{cnt} מיילים נשלחו בהצלחה";
-
         }
 
-        protected void btnSendSelectedMails_Click(object sender, EventArgs e)
+        private void SaveHTML()
         {
+            if (drpType.SelectedIndex >= 0)
+            {
+                Utils.SetAppSetting($"MailMessage{drpType.SelectedValue}", editorcontent.InnerText);
+                Utils.SetAppSetting($"MailSubject{drpType.SelectedValue}", txtSubject.Text);
+            }
+        }
 
+        protected void drpType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadHtml();
+        }
+
+        protected void btnUpdate_Click(object sender, EventArgs e)
+        {
+            SaveHTML();
+            successhidden.Value = "התבנית נשמרה בהצלחה";
         }
     }
 }

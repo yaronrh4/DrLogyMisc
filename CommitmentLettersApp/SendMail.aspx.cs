@@ -264,12 +264,6 @@ namespace CommitmentLettersApp
 
         protected void btnConfirm_Click(object sender, EventArgs e)
         {
-            if (confirmaction.Value == "savestudents")
-            {
-                for (int i = 0; i < _lettersPDF.Results.Count; i++)
-                    _lettersPDF.UpdateStudent(i, _connection);
-                successhidden.Value = "השמירה בוצעה בהצלחה";
-            }
         }
 
         protected void btnSendMails_Click(object sender, EventArgs e)

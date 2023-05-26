@@ -20,6 +20,7 @@ namespace DrLogy.CommitmentLettersUtils
     }
     [Serializable]
     public class SubjectData     {
+        public bool IsNew { get; set; }
         public bool Updated { get; set; }
 
         public string Project { get; set; }

@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CommitmentLettersUtils")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("DrLogy")]
 [assembly: AssemblyProduct("CommitmentLettersUtils")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2023")]
+[assembly: AssemblyCopyright("Copyright © DrLogy 2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
