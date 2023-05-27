@@ -24,8 +24,8 @@ namespace CommitmentLettersApp
         private LettersPDFOptions _options = null;
         private string _connection = null;
         private string _project = null;
-        private string _bcc = "yaronrh@gmail.com";
         List<mailitem> _mails = null;
+        string _bcc = "";
 
         [Serializable]
         private class mailitem
@@ -38,7 +38,8 @@ namespace CommitmentLettersApp
 
         public LettersPDF lettersPDF
         {
-            get {
+            get
+            {
                 return _lettersPDF;
             }
         }
@@ -140,17 +141,17 @@ namespace CommitmentLettersApp
 
                     //if (email != "")
                     //{
-                        html = html.Replace("|הנגשות|", subjectsText);
-                        html = "<div dir='rtl'>" + html + "</div>";
+                    html = html.Replace("|הנגשות|", subjectsText);
+                    html = "<div dir='rtl'>" + html + "</div>";
 
-                        mailitem m = new mailitem()
-                        {
-                            MailAddress = email,
-                            MailBody = html,
-                            MailSubject = subject
-                        };
+                    mailitem m = new mailitem()
+                    {
+                        MailAddress = email,
+                        MailBody = html,
+                        MailSubject = subject
+                    };
 
-                        mailitems.Add(m);
+                    mailitems.Add(m);
                     //}
 
                 }
@@ -158,56 +159,21 @@ namespace CommitmentLettersApp
 
             return mailitems;
         }
-    
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
-    _lettersPDF = Session["lettersPDF"] as LettersPDF;
+            _lettersPDF = Session["lettersPDF"] as LettersPDF;
 
-    if (!Page.IsPostBack)
+            if (!Page.IsPostBack)
             {
+                _bcc = Utils.GetAppSetting("MailBcc", "");
                 var m = ProcessMails(txtTestEmail.Text);
 
                 rep1.DataSource = m;
 
                 ViewState["src"] = rep1.DataSource;
                 rep1.DataBind();
-
-
-
-                ////SettingsProperty prop = null;
-                ////int i = 1;
-                ////while ((prop = Settings.Default.Properties[$"Connection{i}Name"]) != null)
-                ////{
-                ////    cmbConnection.Items.Add(prop.DefaultValue);
-                ////    i++;
-                ////}
-                ////cmbConnection.SelectedIndex = cmbConnection.FindString(Utils.GetAppSetting("Connection", "0"));
-                ////if (cmbConnection.SelectedIndex == -1)
-                ////    cmbConnection.SelectedIndex = 0;
-                //_connection = Utils.GetAppSetting("Connection", "");
-                //_project = Utils.GetAppSetting("Project", _project);
-
-                //System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                //System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
-                //string version = fvi.FileVersion;
-                //this.Title += " " + version;
-
-                ////txtProject.Text = Utils.GetAppSetting("Project", txtProject.Text);
-                ////txtBCC.Text = Utils.GetAppSetting("BCC", txtBCC.Text);
-                ////txtTestEmail.Text = Utils.GetAppSetting("TestEmail", txtTestEmail.Text);
-
-
-
-                ////options = CreateOptions();
-                ////bin folder
-                //string path = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, System.AppDomain.CurrentDomain.RelativeSearchPath ?? "");
-                //_options = (LettersPDFOptions)Utils.DeSerializeObjectUTF(path + "\\" + OPTIONS_FILENAME, typeof(LettersPDFOptions));
-                //_lettersPDF = new LettersPDF(_options);
-
-                //Session["lettersPDF"] = _lettersPDF;
-                //Session["connection"] = _connection;
-                //Session["project"] = _project;
             }
             else
             {
@@ -220,8 +186,8 @@ namespace CommitmentLettersApp
             LetterData r = _lettersPDF.Results[int.Parse(stsubidx.Value)];
             SubjectData s = r.Subjects[int.Parse(subjectidx.Value)];
 
-            r.StartDate = DateTime.ParseExact(startdate.Value.Trim(), "dd/MM/yyyy" , null);
-            r.EndDate = DateTime.ParseExact(enddate.Value.Trim(), "dd/MM/yyyy" , null);
+            r.StartDate = DateTime.ParseExact(startdate.Value.Trim(), "dd/MM/yyyy", null);
+            r.EndDate = DateTime.ParseExact(enddate.Value.Trim(), "dd/MM/yyyy", null);
 
             s.Hours = int.Parse(hours.Value);
 
@@ -266,23 +232,15 @@ namespace CommitmentLettersApp
         {
         }
 
-        protected void btnSendMails_Click(object sender, EventArgs e)
-        {
-        }
-
-        protected void btnSendAllMail_Click(object sender, EventArgs e)
-        {
-
-        }
-
         protected void btnSendAllMails_Click(object sender, EventArgs e)
         {
             EmailSender eml = new EmailSender();
-            int cnt= 0;
+            int cnt = 0;
             foreach (var m in _mails)
             {
                 cnt++;
-                eml.SendEmail(m.MailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc);
+                string mailAddress = txtTestEmail.Text != "" ? txtTestEmail.Text : m.MailAddress;
+                eml.SendEmail(mailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc);
             }
             successhidden.Value = $"{cnt} מיילים נשלחו בהצלחה";
 
@@ -292,7 +250,7 @@ namespace CommitmentLettersApp
         {
             EmailSender eml = new EmailSender();
             int cnt = 0;
-            for (int i= 0 ; i < _mails.Count; i++)
+            for (int i = 0; i < _mails.Count; i++)
             {
                 if (((CheckBox)rep1.Items[i].FindControl("chk1")).Checked)
                 {

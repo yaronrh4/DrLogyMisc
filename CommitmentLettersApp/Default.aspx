@@ -503,7 +503,8 @@
             });
 
             var q = $("#datachanged").val();
-            $("#btnSave").prop('disabled', (q !="1") );
+            $("#btnSave").prop('disabled', (q != "1"));
+            $("#btnSendMails").prop('disabled', $(".subjectdatarow").length == 0);
 
             $("#btnSave").on("click", function () {
                 confirmModal(
@@ -513,6 +514,12 @@
                 );
                 return true;
             });
+
+            $("#btnSendMails").on("click", function () {
+                var url = "SendMail.aspx";
+                window.open(url, '_blank');
+            });
+
 
             if ($("#successhidden").val() != "") {
                 showAlert($("#successhidden").val() , "alert-success");
@@ -611,7 +618,7 @@
                                 <HeaderTemplate>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <tr class="datarow" stidx="<%# Container.ItemIndex %>"  stid="<%#Eval("Id")%>" firstname="<%#AttrEval("CurrFirstName")%>" lastname="<%#AttrEval("CurrLastName")%>" idnum="<%#AttrEval("IdNum")%>" phone="<%#AttrEval("CurrPhone")%>" email="<%#AttrEval("CurrEmail")%>" socialworker="<%#AttrEval("CurrSocialWorker")%>" branch="<%#AttrEval("CurrBranch")%>" coordinatorname="<%#AttrEval("CoordinatorName")%>" startdate="<%#Eval("StartDate" , "{0:dd/MM/yyyy}")%>" enddate="<%#Eval("EndDate", "{0:dd/MM/yyyy}") %>" currfirstname="<%#AttrEval("FirstName")%>" currlastname="<%#AttrEval("LastName")%>" currphone="<%#AttrEval("Phone")%>" curremail="<%#AttrEval("Email")%>" currbranch="<%#AttrEval("Branch")%>" currcoordinatorname="<%#AttrEval("CoordinatorName")%>" currsocialworker="<%#AttrEval("SocialWorker")%>"> 
+                                    <tr class="studentdatarow" stidx="<%# Container.ItemIndex %>"  stid="<%#Eval("Id")%>" firstname="<%#AttrEval("CurrFirstName")%>" lastname="<%#AttrEval("CurrLastName")%>" idnum="<%#AttrEval("IdNum")%>" phone="<%#AttrEval("CurrPhone")%>" email="<%#AttrEval("CurrEmail")%>" socialworker="<%#AttrEval("CurrSocialWorker")%>" branch="<%#AttrEval("CurrBranch")%>" coordinatorname="<%#AttrEval("CoordinatorName")%>" startdate="<%#Eval("StartDate" , "{0:dd/MM/yyyy}")%>" enddate="<%#Eval("EndDate", "{0:dd/MM/yyyy}") %>" currfirstname="<%#AttrEval("FirstName")%>" currlastname="<%#AttrEval("LastName")%>" currphone="<%#AttrEval("Phone")%>" curremail="<%#AttrEval("Email")%>" currbranch="<%#AttrEval("Branch")%>" currcoordinatorname="<%#AttrEval("CoordinatorName")%>" currsocialworker="<%#AttrEval("SocialWorker")%>"> 
                                         <td></td>
                                         <td></td>
                                         <td><%#Eval("Id") %></td>
@@ -637,7 +644,7 @@
                                     </tr>
                                     <asp:Repeater runat="server" DataSource='<%# Eval("Subjects") %>'>
                                         <ItemTemplate>
-                                            <tr class="datarow" stsubidx="<%#((RepeaterItem)(Container.Parent.Parent)).ItemIndex %>" subjectidx="<%# Container.ItemIndex %>" subjectbtl="<%#Eval("SubjectBTL")%>" hours="<%#Eval("Hours")%>" startdate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.StartDate" , "{0:dd/MM/yyyy}") %>" enddate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.EndDate" , "{0:dd/MM/yyyy}") %>" currhours="<%#Eval("CurrHours")%>" currstartdate="<%#Eval("CurrStartDate", "{0:dd/MM/yyyy}") %>" currenddate="<%#Eval("CurrEndDate", "{0:dd/MM/yyyy}") %>"  />
+                                            <tr class="subjectdatarow" stsubidx="<%#((RepeaterItem)(Container.Parent.Parent)).ItemIndex %>" subjectidx="<%# Container.ItemIndex %>" subjectbtl="<%#Eval("SubjectBTL")%>" hours="<%#Eval("Hours")%>" startdate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.StartDate" , "{0:dd/MM/yyyy}") %>" enddate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.EndDate" , "{0:dd/MM/yyyy}") %>" currhours="<%#Eval("CurrHours")%>" currstartdate="<%#Eval("CurrStartDate", "{0:dd/MM/yyyy}") %>" currenddate="<%#Eval("CurrEndDate", "{0:dd/MM/yyyy}") %>"  />
                                             <td>
                                                 <%--                                    <span class="custom-checkbox">--%>
                                                 <input type="checkbox" />

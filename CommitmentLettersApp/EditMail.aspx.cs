@@ -24,7 +24,6 @@ namespace CommitmentLettersApp
         private LettersPDFOptions _options = null;
         private string _connection = null;
         private string _project = null;
-        private string _bcc = "yaronrh@gmail.com";
         List<mailitem> _mails = null;
 
         [Serializable]

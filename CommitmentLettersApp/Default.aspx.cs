@@ -190,8 +190,9 @@ namespace CommitmentLettersApp
             }
 
             for (int i = 0; i < _lettersPDF.Results.Count && datachanged.Value == ""; i++)
-                if (_lettersPDF.Results[i].Subjects.Count > 0 && _lettersPDF.Results[i].Subjects[0].Status == StudentStatus.NoStudent)
-                    datachanged.Value = "1";
+                foreach (var sub in _lettersPDF.Results[i].Subjects)
+                    if (sub.Status == StudentStatus.NoStudent || sub.Status == StudentStatus.NoStudent || sub.Status ==  StudentStatus.NotUpdated )
+                        datachanged.Value = "1";
 
             RefreshData();
         }
