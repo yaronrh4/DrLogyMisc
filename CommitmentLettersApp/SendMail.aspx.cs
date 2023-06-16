@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime;
+using System.Security.Authentication.ExtendedProtection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -117,8 +119,11 @@ namespace CommitmentLettersApp
                 if (subjects != null && subjects.Count > 0)
                 {
                     //Create email
-                    string html = Utils.GetAppSetting($"MailMessage{mailType}", "");
-                    string subject = Utils.GetAppSetting($"MailSubject{mailType}", "");
+                    string htmlName = MapPath("Templates/" + Utils.GetAppSetting($"MailMessage{mailType}", ""));
+                    string subjectName = MapPath("Templates/" + Utils.GetAppSetting($"MailSubject{mailType}", ""));
+
+                    string html = System.IO.File.ReadAllText(htmlName);
+                    string subject = System.IO.File.ReadAllText(subjectName);
 
                     if (comments != "")
                         comments = "הערות: " + comments;
@@ -254,9 +259,11 @@ namespace CommitmentLettersApp
             {
                 if (((CheckBox)rep1.Items[i].FindControl("chk1")).Checked)
                 {
+                    ((CheckBox)rep1.Items[i].FindControl("chk1")).Checked = false;
                     mailitem m = _mails[i];
                     cnt++;
-                    eml.SendEmail(m.MailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc);
+                    string mailAddress = txtTestEmail.Text != "" ? txtTestEmail.Text : m.MailAddress;
+                    eml.SendEmail(mailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc);
                 }
             }
             successhidden.Value = $"{cnt} מיילים נשלחו בהצלחה";

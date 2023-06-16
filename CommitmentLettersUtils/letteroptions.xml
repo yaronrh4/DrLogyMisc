@@ -6,7 +6,6 @@
   <Email>כתובת מייל:</Email>
   <SocialWorker>פקיד/ת שיקום</SocialWorker>
   <Branch>סניף:</Branch>
-  <DefaultCoordinatorName>אוריין</DefaultCoordinatorName>
   <Subjects>
     <Subject>
       <BTLName>תמלול</BTLName>
@@ -50,6 +49,12 @@
       <Hours>0</Hours>
       <Grouped>false</Grouped>
     </Subject>
+    <Subject>
+      <BTLName>הקראה למקבל השירות</BTLName>
+      <Name>הקראה</Name>
+      <Hours>0</Hours>
+      <Grouped>false</Grouped>
+    </Subject>
   </Subjects>
   <Coordinators>
     <Coordinator>
@@ -81,4 +86,5 @@
       <Phone>0523460209</Phone>
     </Coordinator>
   </Coordinators>
+  <DefaultCoordinatorName>אוריין</DefaultCoordinatorName>
 </LettersPDFOptions>

@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Runtime;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -26,8 +27,9 @@ namespace CommitmentLettersApp
 
         public LettersPDF lettersPDF
         {
-            get { 
-                return _lettersPDF; 
+            get
+            {
+                return _lettersPDF;
             }
         }
 
@@ -67,6 +69,7 @@ namespace CommitmentLettersApp
                 subjects.Add(new Subject("תרגום הרצאה לשפת סימנים", "תרגום לשפת הסימנים", 0, true));
                 subjects.Add(new Subject("שקלוט הרצאה", "שקלוט", 0, true));
                 subjects.Add(new Subject("חונכות", "חונכות"));
+                subjects.Add(new Subject("הקראה למקבל השירות", "הקראה"));
 
                 options.Subjects = subjects;
 
@@ -165,15 +168,15 @@ namespace CommitmentLettersApp
 
             }
 
-            r.StartDate = DateTime.ParseExact(startdate.Value.Trim(), "dd/MM/yyyy" , null);
-            r.EndDate = DateTime.ParseExact(enddate.Value.Trim(), "dd/MM/yyyy" , null);
+            r.StartDate = DateTime.ParseExact(startdate.Value.Trim(), "dd/MM/yyyy", null);
+            r.EndDate = DateTime.ParseExact(enddate.Value.Trim(), "dd/MM/yyyy", null);
 
             s.Hours = decimal.Parse(hours.Value);
 
             if (int.Parse(subjectidx.Value) >= 0)
                 _lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), int.Parse(subjectidx.Value));
             else
-                _lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), r.Subjects.Count-1 );
+                _lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), r.Subjects.Count - 1);
             RefreshData();
             datachanged.Value = "1";
         }
@@ -191,7 +194,7 @@ namespace CommitmentLettersApp
 
             for (int i = 0; i < _lettersPDF.Results.Count && datachanged.Value == ""; i++)
                 foreach (var sub in _lettersPDF.Results[i].Subjects)
-                    if (sub.Status == StudentStatus.NoStudent || sub.Status == StudentStatus.NoStudent || sub.Status ==  StudentStatus.NotUpdated )
+                    if (sub.Status == StudentStatus.NoStudent || sub.Status == StudentStatus.NoSubject || sub.Status == StudentStatus.NotUpdated)
                         datachanged.Value = "1";
 
             RefreshData();
@@ -228,6 +231,7 @@ namespace CommitmentLettersApp
             r.CoordinatorName = coordinatorname.SelectedValue;
             r.CurrBranch = branch.Value;
             r.CurrSocialWorker = socialworker.Value;
+            r.CreateDate = DateTime.ParseExact(createdate.Value.Trim(), "dd/MM/yyyy", null);
 
             //_lettersPDF.UpdateStudent(int.Parse(stidx.Value) , _connection);
 
@@ -243,14 +247,6 @@ namespace CommitmentLettersApp
             {
                 for (int i = 0; i < _lettersPDF.Results.Count && rc == ""; i++)
                 {
-                    //הוספת עו"ס
-                    string socialWorker = _lettersPDF.Results[i].CurrSocialWorker ;
-                    if (socialWorker == null)
-                        socialWorker = _lettersPDF.Results[i].SocialWorker;
-
-                    if (socialWorker.IndexOf("עוס") < 0 && socialWorker.IndexOf("עו\"ס") < 0)
-                        _lettersPDF.Results[i].CurrSocialWorker = _lettersPDF.Results[i].SocialWorker=$"עו\"ס {socialWorker}";
-
                     rc = _lettersPDF.UpdateStudent(i, _connection);
                     if (rc != "")
                         errorhidden.Value = rc;
@@ -279,7 +275,20 @@ namespace CommitmentLettersApp
         {
             object rc = Eval(r);
             if (rc is string)
-                rc = (rc as string).Replace ("\"" , "&quot;");
+                rc = (rc as string).Replace("\"", "&quot;");
+            return rc;
+        }
+
+        public object StudentAttrEval(string r)
+        {
+            object rc = Eval(r);
+            if (rc is null)
+            {
+                rc = AttrEval("Curr" + r);
+            }
+            else
+                rc = AttrEval(r);
+
             return rc;
         }
         protected void btnSendMails_Click(object sender, EventArgs e)
@@ -291,6 +300,30 @@ namespace CommitmentLettersApp
         {
             _lettersPDF.Results.Clear();
             RefreshData();
+        }
+
+
+        private void SaveToExcel(string fileName)
+        {
+            try
+            {
+                _lettersPDF.ExportToExcel(fileName);
+            }
+            catch (Exception ex)
+            {
+                //WriteToLog("שגיאה בשמירת לוג");
+                throw;
+            }
+        }
+
+        protected void btnExportToExcel_Click(object sender, EventArgs e)
+        {
+            if (_lettersPDF.Results.Count > 0)
+            {
+                SaveToExcel($"letters.xlsx");
+                successhidden.Value = "השמירה בוצעה בהצלחה";
+            }
+
         }
     }
 }

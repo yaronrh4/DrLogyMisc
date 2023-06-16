@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +42,8 @@ namespace DrLogy.CommitmentLettersUtils
         public DateTime? EndDate { get; set; }
 
         public List <SubjectData> Subjects { get; set; }
+
+        public DateTime CreateDate { get; set; }
 
     }
 }

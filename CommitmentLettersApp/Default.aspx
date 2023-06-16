@@ -319,6 +319,32 @@
             $("#editStudentModal").find("#branch").val("");
             $("#editStudentModal").find("#coordinatorname").val($("#defcoordinator").val());
             $("#editStudentModal").find("#socialworker").val("");
+
+            $("#currfirstname").text("");
+            $("#currlastname").text("");
+            $("#currphone").text("");
+            $("#curremail").text("");
+            $("#currbranch").text("");
+            $("#currcoordinatorname").text("");
+            $("#currsocialworker").text("");
+
+
+            const date = new Date();
+
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
+
+            // This arrangement can be altered based on how we want the date's format to appear.
+            let currentDate = `${day}/${month}/${year}`;
+            console.log(currentDate); // "17-6-2022"
+            $("#createdate").val(currentDate);
+
+            $("#createdate").each(function () {
+                $(this).datepicker('setDate', $(this).val());
+            });
+
+            
         }
 
         function copyStudentDataFromPdf() { 
@@ -345,7 +371,8 @@
             $("#editStudentModal").find("#branch").val($(e).parent().parent().attr("branch"));
             $("#editStudentModal").find("#coordinatorname").val($(e).parent().parent().attr("coordinatorname"));
             $("#editStudentModal").find("#socialworker").val($(e).parent().parent().attr("socialworker"));
-
+            $("#editStudentModal").find("#createdate").val($(e).parent().parent().attr("createdate"));
+            
             $("#currfirstname").text($(e).parent().parent().attr("currfirstname"));
             $("#currlastname").text($(e).parent().parent().attr("currlastname"));
             $("#currphone").text($(e).parent().parent().attr("currphone"));
@@ -353,6 +380,10 @@
             $("#currbranch").text($(e).parent().parent().attr("currbranch"));
             $("#currcoordinatorname").text($(e).parent().parent().attr("currcoordinatorname"));
             $("#currsocialworker").text($(e).parent().parent().attr("currsocialworker"));
+
+            $("#createdate").each(function () {
+                $(this).datepicker('setDate', $(this).val());
+            });
 
             if (stid <=0) {
                 copyStudentDataFromPdf();
@@ -394,7 +425,7 @@
             $("#editSubjectModal").find("#hours").val("");
             $("#editSubjectModal").find("#startdate").val($(e).parent().parent().attr("startdate"));
             $("#editSubjectModal").find("#enddate").val($(e).parent().parent().attr("enddate"));
-
+            
             $("#currhours").text("");
             $("#currstartdate").text("");
             $("#currenddate").text("");
@@ -505,7 +536,8 @@
             var q = $("#datachanged").val();
             $("#btnSave").prop('disabled', (q != "1"));
             $("#btnSendMails").prop('disabled', $(".subjectdatarow").length == 0);
-
+            $("#btnExportToExcel").prop('disabled', $(".subjectdatarow").length == 0);
+            
             $("#btnSave").on("click", function () {
                 confirmModal(
                     "שמירה",
@@ -594,8 +626,8 @@
                             <tr>
                                 <th>
                                     <span class="custom-checkbox">
-                                        <input type="checkbox" id="selectAll" disabled="disabled" />
-                                        <label for="selectAll"></label>
+<%--                                        <input type="checkbox" id="selectAll" disabled="disabled" />
+                                        <label for="selectAll"></label>--%>
                                     </span>
                                 </th>
                                 <th>סטטוס</th>
@@ -618,7 +650,7 @@
                                 <HeaderTemplate>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <tr class="studentdatarow" stidx="<%# Container.ItemIndex %>"  stid="<%#Eval("Id")%>" firstname="<%#AttrEval("CurrFirstName")%>" lastname="<%#AttrEval("CurrLastName")%>" idnum="<%#AttrEval("IdNum")%>" phone="<%#AttrEval("CurrPhone")%>" email="<%#AttrEval("CurrEmail")%>" socialworker="<%#AttrEval("CurrSocialWorker")%>" branch="<%#AttrEval("CurrBranch")%>" coordinatorname="<%#AttrEval("CoordinatorName")%>" startdate="<%#Eval("StartDate" , "{0:dd/MM/yyyy}")%>" enddate="<%#Eval("EndDate", "{0:dd/MM/yyyy}") %>" currfirstname="<%#AttrEval("FirstName")%>" currlastname="<%#AttrEval("LastName")%>" currphone="<%#AttrEval("Phone")%>" curremail="<%#AttrEval("Email")%>" currbranch="<%#AttrEval("Branch")%>" currcoordinatorname="<%#AttrEval("CoordinatorName")%>" currsocialworker="<%#AttrEval("SocialWorker")%>"> 
+                                    <tr class="studentdatarow" stidx="<%# Container.ItemIndex %>"  stid="<%#Eval("Id")%>" firstname="<%#AttrEval("CurrFirstName")%>" lastname="<%#AttrEval("CurrLastName")%>" idnum="<%#AttrEval("IdNum")%>" phone="<%#AttrEval("CurrPhone")%>" email="<%#AttrEval("CurrEmail")%>" socialworker="<%#AttrEval("CurrSocialWorker")%>" branch="<%#AttrEval("CurrBranch")%>" coordinatorname="<%#AttrEval("CoordinatorName")%>" startdate="<%#Eval("StartDate" , "{0:dd/MM/yyyy}")%>" enddate="<%#Eval("EndDate", "{0:dd/MM/yyyy}") %>" currfirstname="<%#StudentAttrEval("FirstName")%>" currlastname="<%#StudentAttrEval("LastName")%>" currphone="<%#StudentAttrEval("Phone")%>" curremail="<%#StudentAttrEval("Email")%>" currbranch="<%#StudentAttrEval("Branch")%>" currcoordinatorname="<%#StudentAttrEval("CoordinatorName")%>" currsocialworker="<%#StudentAttrEval("SocialWorker")%>" createdate="<%#Eval("CreateDate" , "{0:dd/MM/yyyy}")%>""> 
                                         <td></td>
                                         <td></td>
                                         <td><%#Eval("Id") %></td>
@@ -647,7 +679,6 @@
                                             <tr class="subjectdatarow" stsubidx="<%#((RepeaterItem)(Container.Parent.Parent)).ItemIndex %>" subjectidx="<%# Container.ItemIndex %>" subjectbtl="<%#Eval("SubjectBTL")%>" hours="<%#Eval("Hours")%>" startdate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.StartDate" , "{0:dd/MM/yyyy}") %>" enddate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.EndDate" , "{0:dd/MM/yyyy}") %>" currhours="<%#Eval("CurrHours")%>" currstartdate="<%#Eval("CurrStartDate", "{0:dd/MM/yyyy}") %>" currenddate="<%#Eval("CurrEndDate", "{0:dd/MM/yyyy}") %>"  />
                                             <td>
                                                 <%--                                    <span class="custom-checkbox">--%>
-                                                <input type="checkbox" />
                                                 <%--                                        <label for="checkbox1"></label>--%>
                                                 <%--                                    </span>--%>
                                             </td>
@@ -684,9 +715,10 @@
                             <div class="col-lg-6">
                                 <button id="btnSave" disabled="disabled" type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmModal" ><i class="material-icons">&#xF233;</i> <span>שמירה</span></></button>
                                 <button id="btnSendMails" disabled="disabled" type="button" class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שלח מיילים</span></button>
+                                <asp:LinkButton runat="server" OnClick="btnExportToExcel_Click" id="btnExportToExcel" CssClass="btn btn-success"><i class="material-icons">&#xE159;</i> <span>יצוא לאקסל</span></asp:LinkButton>
                             </div>
                             <div class="col-lg-6">
-                                <a href="EditMail.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE3C9;</i> <span>עריכת תבניות מייל</span></a>
+                                <a href="EditMail.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE161;</i> <span>עריכת תבניות מייל</span></a>
                             </div>
                     </div>
 
@@ -754,7 +786,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-lg-2">
-                                <label>שם פרטי</label>zzz
+                                <label>שם פרטי</label>
                             </div>
                             <div class="col-lg-10">
                                 <input runat="server" id="firstname" type="text" class="form-control" />
@@ -828,6 +860,14 @@
                             <div class="col-md-10">
                                 <asp:DropDownList runat="server" ID="coordinatorname" CssClass="form-control" />
                                 <span class="small text-info" id="currcoordinatorname"></span>
+                            </div>
+                            <div class="col-md-2">
+                                <label>תאריך קליטה<br />
+                                    <br />
+                                </label>
+                            </div>
+                            <div class="col-md-10">
+                                <input runat="server" id="createdate" class="form-control datepicker" />
                             </div>
 
                         </div>

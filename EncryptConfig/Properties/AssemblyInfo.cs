@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CommitmentLettersApp")]
+[assembly: AssemblyTitle("EncryptConfig")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DrLogy")]
-[assembly: AssemblyProduct("CommitmentLettersApp")]
-[assembly: AssemblyCopyright("Copyright © DrLogy 2023")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("EncryptConfig")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b40a1de8-7b24-460b-8303-41c422c7f8aa")]
+[assembly: Guid("123d16aa-a0f6-473e-8614-0578a5ec8559")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.0.6")]
-[assembly: AssemblyFileVersion("1.0.6")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

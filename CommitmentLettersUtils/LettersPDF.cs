@@ -10,6 +10,8 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+using System.Xml.Linq;
 
 namespace DrLogy.CommitmentLettersUtils
 {
@@ -39,6 +41,7 @@ namespace DrLogy.CommitmentLettersUtils
             data.FileName = filename;
             data.Project = project;
             data.CoordinatorName = _options.DefaultCoordinatorName;
+            data.CreateDate = DateTime.Now.Date;
             if (data.CoordinatorName == "")
                 data.CoordinatorName = _options.Coordinators[0].Name;
 
@@ -77,6 +80,9 @@ namespace DrLogy.CommitmentLettersUtils
             newRec = new RectangleF(0, rec[0].Y - 14, rec[0].X + 100, rec[0].Height);
             s = utils.ExtractText(newRec, 1).Trim();
             data.SocialWorker = Utils.FixRTLString(s);
+
+            if (data.SocialWorker.IndexOf("עוס") < 0 && data.SocialWorker.IndexOf("עו\"ס") < 0)
+                data.SocialWorker = "עו\"ס " + data.SocialWorker;
 
             var allRec = utils.SearchAllPages(_options.Branch);
             rec = allRec[allRec.Count - 1].res;
@@ -173,7 +179,7 @@ namespace DrLogy.CommitmentLettersUtils
                 {
                     //בדיקה אם קיים תלמיד עם ת.ז  הנוכחית - בפרוייקט אחר / הנגשה אחרת
                     dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_USER", new string[] { "zehut" }, new object[] { r.IdNum });
-
+                    subject.IsNew = true;
                 }
 
                 //עדכון כתובת ושם התלמיד מבסיס הנתונים - במידה וקיים
@@ -369,14 +375,14 @@ namespace DrLogy.CommitmentLettersUtils
             SubjectData subject = r.Subjects[subjectIndex];
             string rc = "";
 
-            if (!subject.Updated && subject.Status != StudentStatus.Updated)
+            if (/*!subject.Updated && */subject.Status != StudentStatus.Updated)
             {
                 subject.Updated = false;
                 try
                 {
                     if (subject.Status == StudentStatus.NotUpdated)
                     {
-                        DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, r.StartDate, r.EndDate, subject.Hours });
+                        DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "subject", "curr_start_date", "curr_end_date", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, subject.SubjectInDB, subject.CurrStartDate, subject.CurrEndDate, r.StartDate, r.EndDate, subject.Hours });
                         subject.Updated = true;
                     }
                     else if (subject.Status == StudentStatus.NoSubject || subject.Status == StudentStatus.NoStudent)
@@ -409,6 +415,92 @@ namespace DrLogy.CommitmentLettersUtils
         {
             get { return _results; }
             set { _results = value; }
+        }
+
+        private class ExcelData
+        {
+            public DateTime CreateDate { get; set; }
+            public string CoordinatorName { get; set; }
+            public string Subject { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string IdNum { get; set; }
+            public string Phone { get; set; }
+            public string Email { get; set; }
+            public DateTime? StartDate { get; set; }
+            public DateTime? EndDate { get; set; }
+            public Decimal Hours { get; set; }
+            public string SocialWorker { get; set; }
+        }   
+        public void ExportToExcel(string filename)
+        {
+            List<ExcelData> lst = new List<ExcelData>();
+            foreach (var tec in Results)
+            {
+                ExcelData exData = new ExcelData();
+                foreach (SubjectData sub in tec.Subjects)
+                {
+                    exData.CreateDate = tec.CreateDate;
+                    exData.CoordinatorName = tec.CoordinatorName;
+                    exData.Subject = sub.SubjectInDB;
+                    exData.FirstName = tec.FirstName;
+                    exData.LastName = tec.LastName;
+                    exData.IdNum = tec.IdNum;
+                    exData.Phone = tec.Phone;
+                    exData.Email = tec.Email;
+                    exData.StartDate = tec.StartDate;
+                    exData.EndDate = tec.EndDate;
+                    exData.Hours = sub.Hours;
+                    exData.SocialWorker = tec.SocialWorker;
+                }
+                lst.Add(exData);
+            }
+            DataTable dt = lst.ToDataTable();
+            var captions = new Dictionary<string, string>();
+
+            ////foreach (DataGridViewColumn col in dataGridView1.Columns)
+            ////captions.Add(col.Name, col.HeaderText);
+
+            ////var names =  ddataGridView1.Columns.Cast<DataGridViewColumn>().Select(x => x.Name).ToArray();
+            //..var captions = dataGridView1.Columns.Cast<DataGridViewColumn>().Select(x => x.HeaderText).ToArray();
+
+            //string[] names = new string[] {
+            //        "Phone",
+            //        "SocialWorker" ,
+            //        "Project"  ,
+            //        "Branch" ,
+            //        "FirstName",
+            //        "LastName" ,
+            //        "CurrPhone" ,
+            //        "CurrEmail" ,
+            //        "CurrFirstName" ,
+            //        "CurrLastName" ,
+            //        "CurrBranch" ,
+            //        "CurrSocialWorker" ,
+            //        "CoordinatorName" ,
+            //        "Comments" ,
+            //        "IsSelected" ,
+            //        "StartDate" ,
+            //        "EndDate" ,
+            //    "Subjects"};
+
+            captions["CreateDate"] = "תאריך קליטה";
+            captions["CoordinatorName"] = "רכז";
+            captions["Subject"] = "הנגשה";
+            captions["FirstName"] = "שם";
+            captions["LastName"] = "שם משפחה";
+            captions["IdNum"] = "ת.ז";
+            captions["Phone"] = "מס פלאפון";
+            captions["Email"] = "מייל";
+            captions["StartDate"] = "ת.זכאות";
+            captions["EndDate"] = "ס.זכאות";
+            captions["Hours"] = "מכסת שעות";
+            captions["SocialWorker"] = "עו\"ס";
+
+            ExcelCreator ex = new DrLogy.DrLogyUtils.ExcelCreator();
+            ex.DataTableToExcel(dt , 0, filename, "", captions);
+            //WriteToLog("הטבלה נשמרה בהצלחה");
+
         }
     }
 }
