@@ -318,61 +318,10 @@
             $("#confirmaction").val(action);
         }
 
-        function editStudent(e) {
-            $("#editStudentModal").find("#stid").val($(e).parent().parent().attr("stid"));
-            $("#editStudentModal").find("#stidx").val($(e).parent().parent().attr("stidx"));
-            $("#editStudentModal").find("#firstname").val($(e).parent().parent().attr("firstname"));
-            $("#editStudentModal").find("#lastname").val($(e).parent().parent().attr("lastname"));
-            $("#editStudentModal").find("#idnum").val($(e).parent().parent().attr("idnum"));
-            $("#editStudentModal").find("#phone").val($(e).parent().parent().attr("phone"));
-            $("#editStudentModal").find("#email").val($(e).parent().parent().attr("email"));
-            $("#editStudentModal").find("#branch").val($(e).parent().parent().attr("branch"));
-            $("#editStudentModal").find("#coordinatorname").val($(e).parent().parent().attr("coordinatorname"));
-            $("#editStudentModal").find("#socialworker").val($(e).parent().parent().attr("socialworker"));
 
-        }
-
-        function editSubject(e) {
-            var subjectSelect = $("#editSubjectModal").find("#subjectbtl");
-            var curSub = ($(e).parent().parent().attr("subjectbtl"));
-            var currSubjecs = [];
-
-            $(e).parent().parent().parent().children().each(function () {
-                var sub = $(this).attr("subjectbtl");
-                if (sub != null && sub != curSub)
-                    currSubjecs.push(sub);
-            });
-
-            //clear options
-            subjectSelect.children().remove().end();
-            for (var i = 0; i < subjectsBTL.length; i++) {
-                //add the subject if it doesn't exist in the letter
-                if (currSubjecs.indexOf(subjectsBTL[i]) < 0)
-                    subjectSelect.append($('<option>', {
-                        value: subjectsBTL[i],
-                        text: subjectsDB[i]
-                    }));
-            }
-
-            $("#editSubjectModal").find("#stsubidx").val($(e).parent().parent().attr("stsubidx"));
-            $("#editSubjectModal").find("#subjectidx").val($(e).parent().parent().attr("subjectidx"));
-            $("#editSubjectModal").find("#subjectbtl").val($(e).parent().parent().attr("subjectbtl"));
-            $("#editSubjectModal").find("#subjectindb").val($(e).parent().parent().attr("subjectindb"));
-            $("#editSubjectModal").find("#hours").val($(e).parent().parent().attr("hours"));
-            $("#editSubjectModal").find("#startdate").val($(e).parent().parent().attr("startdate"));
-            $("#editSubjectModal").find("#enddate").val($(e).parent().parent().attr("enddate"));
-
-            $("#editSubjectModal").find("#coordinatorname").val($(e).parent().parent().attr("coordinatorname"));
-            $("#editSubjectModal").find("#socialworker").val($(e).parent().parent().attr("socialworker"));
-
-            $(".datepicker").each(function () {
-                $(this).datepicker('setDate', $(this).val());
-            });
-
-        }
 
         function showAlert(msg) {
-            $('#alertokmessage').html (msg);
+            $('#alertokmessage').html(msg);
             $('#alertok').removeClass("d-none");;
         }
 
@@ -423,7 +372,7 @@
     <form runat="server" id="frm1">
         <input type="hidden" id="successhidden" value="" runat="server" />
         <input type="hidden" id="confirmaction" value="" runat="server" />
-        
+
         <div class="container-xl">
             <div class="table-responsive">
                 <div class="table-wrapper">
@@ -432,12 +381,12 @@
                             <div class="col-lg-12 text-right">
                                 <div class="alert alert-success d-none" id="alertok">
                                     <span id="alertokmessage">גיא פניני מת</span>
-                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
 
                                 </div>
-                             </div>
+                            </div>
 
 
                             <div class="col-lg-6">
@@ -464,16 +413,18 @@
                         </thead>
 
                         <tbody>
-                        <asp:Repeater id="rep1" runat="server">
-                          <ItemTemplate>
-                            <tr class="datarow">
-                                <td width="20px">
-                                    <asp:CheckBox runat="server" id="chk1" class="chk1"/>
-                                </td>
-                                <td width="20px"><%#Eval("MailSubject") %></td>
-                                <td width="100%"><iframe runat="server" style="width:100%;height:200px" srcdoc='<%#Eval("MailBody") %>' ></iframe></td>
+                            <asp:Repeater ID="rep1" runat="server">
+                                <ItemTemplate>
+                                    <tr class="datarow">
+                                        <td width="20px">
+                                            <asp:CheckBox runat="server" ID="chk1" class="chk1" />
+                                        </td>
+                                        <td width="20px"><%#Eval("MailSubject") %></td>
+                                        <td width="100%">
+                                            <iframe runat="server" style="width: 100%; height: 200px" srcdoc='<%#Eval("MailBody") %>'></iframe>
+                                        </td>
                                     </tr>
-                        </ItemTemplate>
+                                </ItemTemplate>
                             </asp:Repeater>
                         </tbody>
                     </table>
@@ -487,237 +438,6 @@
                         </div>
                     </div>
 
-                </div>
-            </div>
-        </div>
-        <!-- Add PDF HTML -->
-        <div id="addPdfsModal" dir="rtl" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <%--                <form id="frm2" runat="server">--%>
-                    <div class="modal-header">
-                        <div>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">טען קבצים</h4>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>בחר קבצים</label>
-                            <asp:FileUpload ID="fuPdfs" runat="server" accept=".pdf" CssClass="form-control" required2="required2" AllowMultiple="true" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <asp:Button runat="server" ID="btnAddPdf" OnClick="btnAddPdf_Click" CssClass="btn btn-success" Text="הוסף" />
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                    </div>
-
-                    <%--                </form>--%>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit Modal HTML -->
-        <div id="addStudentModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <%--                <form id="frm2">--%>
-                    <div class="modal-header">
-                        <h4 class="modal-title">Add Student</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" required2="required2" />
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" class="form-control" required2="required2" />
-                        </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <textarea class="form-control" required2="required2" /></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone</label>
-                            <input type="text" class="form-control" required2="required2" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול">
-                        <input type="submit" class="btn btn-success" value="Add2">
-                    </div>
-                    <%--                </form>--%>
-                </div>
-            </div>
-        </div>
-
-        <!-- Confirm Modal HTML -->
-        <div id="confirmModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <%--                <form id="frm1">--%>
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="confirmtitle"></h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <p id="confirmmessage"></p>
-                        <p class="text-warning"><small>הפעולה אינה הפיכה</small></p>
-                    </div>
-                    <div class="modal-footer">
-                        <asp:Button runat="server" id="btnConfirm" CssClass="btn btn-danger" Text="אישור" OnClick="btnConfirm_Click" />
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול">
-                    </div>
-                    <%--                </form>--%>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit Student Modal HTML -->
-        <div id="editStudentModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <%--                <form>--%>
-                    <input runat="server" id="stid" type="hidden" />
-                    <input runat="server" id="stidx" type="hidden" />
-                    <div class="modal-header">
-                        <h4 class="modal-title">עריכת תלמיד</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <label>שם פרטי</label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="firstname" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-lg-2">
-                                <label>שם משפחה</label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="lastname" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-lg-2">
-                                <label>ת.ז
-                                    <br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="idnum" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-lg-2">
-                                <label>טלפון<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="phone" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-md-2">
-                                <label>מייל<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-md-10">
-                                <input runat="server" id="email" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-md-2">
-                                <label>עו"ס<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-md-10">
-                                <input runat="server" id="socialworker" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-md-2">
-                                <label>סניף<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-md-10">
-                                <input runat="server" id="branch" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-md-2">
-                                <label>רכז<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-md-10">
-                                <input runat="server" id="coordinatorname" type="text" class="form-control" required2="required2" />
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                        <asp:button runat="server"  ID="btnSaveStudent" CssClass="btn btn-info" Text="3שמירה" OnClick="btnSaveStudent_Click"/>
-                    </div>
-                    <%--                </form>--%>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit Subject Modal HTML -->
-
-        <!-- Edit Subject Modal HTML -->
-        <div id="editSubjectModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <%--                <form id="Form1" runat="server">--%>
-                    <input runat="server" id="stsubidx" type="hidden" />
-                    <input runat="server" id="subjectidx" type="hidden" />
-                    <div class="modal-header">
-                        <h4 class="modal-title">עריכת הנגשה</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <label>הנגשה ב"ל</label>
-                            </div>
-                            <div class="col-lg-10">
-                                <select runat="server" id="subjectbtl" class="form-control">
-                                </select>
-                            </div>
-                            <div class="col-lg-2">
-                                <label>הנגשה</label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="subjectindb" type="text" class="form-control" disabled="disabled" />
-                            </div>
-                            <div class="col-lg-2">
-                                <label>שעות<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="hours" type="text" class="form-control" required2="required2" />
-                            </div>
-                            <div class="col-lg-2">
-                                <label>תאריך התחלה</label>
-                            </div>
-                            <div class="col-lg-10">
-                                <input runat="server" id="startdate" class="form-control datepicker" required2="required2" />
-                            </div>
-                            <div class="col-md-2">
-                                <label>תאריך סיום<br />
-                                    <br />
-                                </label>
-                            </div>
-                            <div class="col-md-10">
-                                <input runat="server" id="enddate" class="form-control datepicker" required2="required2" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                        <asp:Button runat="server" ID="btnSaveSubject" OnClick="btnSaveSubject_Click" CssClass="btn btn-info" Text="שמירה2" />
-                    </div>
-                    <%--                </form>--%>
                 </div>
             </div>
         </div>
