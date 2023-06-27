@@ -187,6 +187,7 @@ namespace DrLogy.CommitmentLettersUtils
                 {
                     DataRow row = dt.Rows[dt.Rows.Count - 1];
                     r.Id = (int)row["ST_ID"];
+                    r.IsNewStudent = false;
                     r.CurrFirstName = (string)row["ST_FNAME"];
                     r.CurrLastName = (string)row["ST_LNAME"];
                     r.CurrEmail = row["ST_EMAIL"].ToString();
@@ -437,9 +438,9 @@ namespace DrLogy.CommitmentLettersUtils
             List<ExcelData> lst = new List<ExcelData>();
             foreach (var tec in Results)
             {
-                ExcelData exData = new ExcelData();
                 foreach (SubjectData sub in tec.Subjects)
                 {
+                    ExcelData exData = new ExcelData();
                     exData.CreateDate = tec.CreateDate;
                     exData.CoordinatorName = tec.CoordinatorName;
                     exData.Subject = sub.SubjectInDB;
@@ -452,8 +453,8 @@ namespace DrLogy.CommitmentLettersUtils
                     exData.EndDate = tec.EndDate;
                     exData.Hours = sub.Hours;
                     exData.SocialWorker = tec.SocialWorker;
+                    lst.Add(exData);
                 }
-                lst.Add(exData);
             }
             DataTable dt = lst.ToDataTable();
             var captions = new Dictionary<string, string>();

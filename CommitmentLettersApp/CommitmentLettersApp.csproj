@@ -48,6 +48,10 @@
     <Reference Include="DocumentFormat.OpenXml, Version=2.20.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>..\packages\DocumentFormat.OpenXml.2.20.0\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
+    <Reference Include="DrLogyUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DrLogyWS\DrLogyUtils\bin\Debug\DrLogyUtils.dll</HintPath>
+    </Reference>
     <Reference Include="DrLogyUtils.Excel">
       <HintPath>..\..\DrLogyWS\DrLogyUtils.Excel\bin\Debug\DrLogyUtils.Excel.dll</HintPath>
     </Reference>
@@ -120,6 +124,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="letteroptions.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="lib\jquery-validation\dist\additional-methods.js" />
     <Content Include="lib\jquery-validation\dist\additional-methods.min.js" />
     <Content Include="lib\jquery-validation\dist\jquery.validate.js" />
@@ -794,10 +801,6 @@
     <Folder Include="Temp\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DrLogyWS\DrLogyUtils\DrLogyUtils.csproj">
-      <Project>{45c475c5-6986-4ad9-9aea-921f2752966f}</Project>
-      <Name>DrLogyUtils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CommitmentLettersUtils\CommitmentLettersUtils.csproj">
       <Project>{76B274F5-53D5-49BB-9851-5CC5D767DCEA}</Project>
       <Name>CommitmentLettersUtils</Name>

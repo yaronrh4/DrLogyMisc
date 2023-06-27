@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace DrLogy.CommitmentLettersUtils
 {
     [Serializable]
-    public class LetterData : BasePDFProperties    {
+    public class LetterData : BasePDFProperties {
         public LetterData() { }
 
         public string Phone { get; set; }
@@ -41,9 +41,11 @@ namespace DrLogy.CommitmentLettersUtils
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
-        public List <SubjectData> Subjects { get; set; }
+        public List<SubjectData> Subjects { get; set; }
 
         public DateTime CreateDate { get; set; }
+
+        public bool IsNewStudent { get; set; } = true;
 
     }
 }

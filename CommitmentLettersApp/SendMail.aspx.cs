@@ -21,11 +21,7 @@ namespace CommitmentLettersApp
     public partial class SendMail : System.Web.UI.Page
     {
 
-        private const string OPTIONS_FILENAME = "letteroptions.xml";
         private LettersPDF _lettersPDF = null;
-        private LettersPDFOptions _options = null;
-        private string _connection = null;
-        private string _project = null;
         List<mailitem> _mails = null;
         string _bcc = "";
 
@@ -46,20 +42,6 @@ namespace CommitmentLettersApp
             }
         }
 
-
-        public static string GetEnumDescription(Enum value)
-        {
-            FieldInfo fi = value.GetType().GetField(value.ToString());
-
-            DescriptionAttribute[] attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
-
-            if (attributes != null && attributes.Any())
-            {
-                return attributes.First().Description;
-            }
-
-            return value.ToString();
-        }
 
         private List<mailitem> ProcessMails(string testEmail)
         {
@@ -93,7 +75,7 @@ namespace CommitmentLettersApp
                     startDate = r.StartDate;
                     endDate = r.EndDate;
                     comments = "";
-                    mailType = 1;//(r.Status == StudentStatus.NoStudent) || (r.Status == StudentStatus.NoStudent) ? 1 : 2;
+                    mailType = r.IsNewStudent ? 1 : 2;
                     rakazName = r.CoordinatorName;
                     rakazPhone = lettersPDF.Options.Coordinators.First(x => x.Name == rakazName).Phone;
 
@@ -184,57 +166,6 @@ namespace CommitmentLettersApp
             {
                 _mails = ViewState["src"] as List<mailitem>;
             }
-        }
-
-        protected void btnSaveSubject_Click(object sender, EventArgs e)
-        {
-            LetterData r = _lettersPDF.Results[int.Parse(stsubidx.Value)];
-            SubjectData s = r.Subjects[int.Parse(subjectidx.Value)];
-
-            r.StartDate = DateTime.ParseExact(startdate.Value.Trim(), "dd/MM/yyyy", null);
-            r.EndDate = DateTime.ParseExact(enddate.Value.Trim(), "dd/MM/yyyy", null);
-
-            s.Hours = int.Parse(hours.Value);
-
-            _lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), int.Parse(subjectidx.Value));
-            RefreshData();
-        }
-        protected void btnAddPdf_Click(object sender, EventArgs e)
-        {
-            string filename = $"c:\\temp\\{fuPdfs.PostedFiles[0].FileName}";
-            fuPdfs.PostedFiles[0].SaveAs(filename);
-            _lettersPDF.Process(filename, _connection, _project);
-            //RefreshData();
-            RefreshData();
-        }
-
-        private void RefreshData()
-        {
-            //rep1.DataSource = _lettersPDF.Results;
-            //rep1.DataBind();
-        }
-
-        protected void btnSaveStudent_Click(object sender, EventArgs e)
-        {
-            LetterData r = _lettersPDF.Results[int.Parse(stidx.Value)];
-
-            r.CurrFirstName = firstname.Value;
-            r.CurrLastName = lastname.Value;
-            r.IdNum = idnum.Value;
-            r.CurrPhone = phone.Value;
-            r.CurrEmail = email.Value;
-            r.CoordinatorName = coordinatorname.Value;
-            r.Branch = branch.Value;
-            r.SocialWorker = socialworker.Value;
-
-            //_lettersPDF.UpdateStudent(int.Parse(stidx.Value) , _connection);
-
-            //_lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), int.Parse(subjectidx.Value));
-            RefreshData();
-        }
-
-        protected void btnConfirm_Click(object sender, EventArgs e)
-        {
         }
 
         protected void btnSendAllMails_Click(object sender, EventArgs e)

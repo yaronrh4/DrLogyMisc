@@ -6,7 +6,7 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>מכתבי התחייבות</title>
+    <title>עריכת תבניות מייל</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -449,7 +449,7 @@
                         <div class="row">
                             <div class="col-lg-12 text-right">
                                 <div class="alert alert-success d-none" id="alertok">
-                                    <span id="alertokmessage">גיא פניני מת</span>
+                                    <span id="alertokmessage"></span>
                                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>

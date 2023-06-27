@@ -301,6 +301,28 @@
         var subjectsBTL = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.BTLName).ToArray()) %>'.split(',');
         var subjectsDB = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.Name).ToArray()) %>'.split(',');
 
+        function ddmmyyyyToDate(value) {
+            var dateObject = null;
+
+            if (value != null) {
+                var dateParts = value.split("/");
+                if (dateParts.length == 3) {
+                    // month is 0-based, that's why we need dataParts[1] - 1
+                    dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+                }
+            }
+            return dateObject;
+        }
+
+        jQuery.validator.addMethod("greaterThanDate",
+            function (value, element, params) {
+                var date1 = ddmmyyyyToDate(value);
+                var date2 = ddmmyyyyToDate($(params).val())
+                return date1 > date2;
+            }, 'הערך חייב להיות גדול מ {0}.');
+
+
+
         function confirmModal(title, msg, action) {
             $("#confirmModal").find("#confirmtitle").html(title);
             $("#confirmModal").find("#confirmmessage").html(msg);
@@ -339,6 +361,8 @@
             let currentDate = `${day}/${month}/${year}`;
             console.log(currentDate); // "17-6-2022"
             $("#createdate").val(currentDate);
+            $("#isnewstudent").prop('checked', true);
+
 
             $("#createdate").each(function () {
                 $(this).datepicker('setDate', $(this).val());
@@ -372,6 +396,7 @@
             $("#editStudentModal").find("#coordinatorname").val($(e).parent().parent().attr("coordinatorname"));
             $("#editStudentModal").find("#socialworker").val($(e).parent().parent().attr("socialworker"));
             $("#editStudentModal").find("#createdate").val($(e).parent().parent().attr("createdate"));
+            $("#editStudentModal").find("#isnewstudent").prop("checked", $(e).parent().parent().attr("isnewstudent")==1);
             
             $("#currfirstname").text($(e).parent().parent().attr("currfirstname"));
             $("#currlastname").text($(e).parent().parent().attr("currlastname"));
@@ -391,26 +416,39 @@
         }
 
         function addSubject(e) {
+
+            $("#editSubjectModal").find(".modal-title").html("הוספת הנגשה");
             var subjectSelect = $("#editSubjectModal").find("#subjectbtl");
             var currSub = "";// ($(e).parent().parent().attr("subjectbtl"));
             var currSubjects = [];
             var stidx = $(e).parent().parent().attr("stidx");
-
+            subjectSelect.find(".modal-title").html("הוספת הנגשה");
             $(e).parent().parent().parent().children("[stsubidx='" +stidx +"']").each(function () {
                 var sub = $(this).attr("subjectbtl");
                 if (sub != null && sub != currSub)
                     currSubjects.push(sub);
             });
 
+            if (currSubjects.length >= subjectsBTL.length) {
+                showAlert("לתלמיד יש את כל ההנגשות הזמינות", "alert-danger");
+                return;
+            }
+
+
             //clear options
             subjectSelect.children().remove().end();
+
+            var val = "";
             for (var i = 0; i < subjectsBTL.length; i++) {
                 //add the subject if it doesn't exist in the letter
-                if (currSubjects.indexOf(subjectsBTL[i]) < 0)
+                if (currSubjects.indexOf(subjectsBTL[i]) < 0) {
+                    if (val == "")
+                        val = subjectsBTL[i];
                     subjectSelect.append($('<option>', {
                         value: subjectsBTL[i],
-                        text: subjectsDB[i]
+                        text: subjectsDB[i],
                     }));
+                }
             }
 
             $("#editSubjectModal").find("#subjectbtl").on("change" , function () {
@@ -419,9 +457,15 @@
 
             $("#stsubidx").val(stidx);
             $("#subjectidx").val("-1"); //new
-            $("#editSubjectModal").find("#subjectbtl").val("");
+
+            //select the first subject
+            $("#editSubjectModal").find("#subjectbtl").prop('selectedIndex', 0);
+            $("#subjectname").val($("#subjectbtl").val());
+
             $("#editSubjectModal").find("#subjectbtl").prop("disabled", false);
 
+
+            
             $("#editSubjectModal").find("#hours").val("");
             $("#editSubjectModal").find("#startdate").val($(e).parent().parent().attr("startdate"));
             $("#editSubjectModal").find("#enddate").val($(e).parent().parent().attr("enddate"));
@@ -434,10 +478,15 @@
                 $(this).datepicker('setDate', $(this).val());
             });
 
+            $('#editSubjectModal').modal('show');
+
+            return false;
+
         }
 
 
         function editSubject(e) {
+            $("#editSubjectModal").find(".modal-title").html("עריכת הנגשה");
             var subjectSelect = $("#editSubjectModal").find("#subjectbtl");
             var currSub = ($(e).parent().parent().attr("subjectbtl"));
             var i = subjectsBTL.indexOf(currSub);
@@ -471,8 +520,9 @@
             $('#alertmessage').parent().removeClass();
             $('#alertmessage').parent().addClass(cssClass);
             $('#alertmessage').html (msg);
-            $('#alert').removeClass("d-none");;
+            $('#alert').removeClass("d-none");
         }
+
 
         $(function () {
             $("#frm1").validate({
@@ -483,12 +533,12 @@
                     firstname: {
                         required: true,
                         minlength: 2,
-                        maxlenth: 50
+                        maxlength: 50
                     },
                     lastname: {
                         required: true,
                         minlength: 2,
-                        maxlenth: 50
+                        maxlength: 50
                     },
                     idnum: {
                         required: true,
@@ -507,12 +557,12 @@
                     socialworker: {
                         required: true,
                         minlength: 2,
-                        maxlenth: 50
+                        maxlength: 50
                     },
                     branch: {
                         required: true,
                         minlength: 2,
-                        maxlenth: 50
+                        maxlength: 50
                     },
                     coordinatorname: {
                         required: true
@@ -525,11 +575,13 @@
                         required: true
                     },
                     enddate: {
-                        required: true
+                        required: true,
+                        greaterThanDate: "#startdate"
                     }
                 },
                 messages: {
-                    phone: "הפורמט של מספר הטלפון שגוי"
+                    phone: "הפורמט של מספר הטלפון שגוי",
+                    enddate: "התאריך חייב להיות גדול מתאריך ההתחלה"
                 }
             });
 
@@ -650,7 +702,7 @@
                                 <HeaderTemplate>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <tr class="studentdatarow" stidx="<%# Container.ItemIndex %>"  stid="<%#Eval("Id")%>" firstname="<%#AttrEval("CurrFirstName")%>" lastname="<%#AttrEval("CurrLastName")%>" idnum="<%#AttrEval("IdNum")%>" phone="<%#AttrEval("CurrPhone")%>" email="<%#AttrEval("CurrEmail")%>" socialworker="<%#AttrEval("CurrSocialWorker")%>" branch="<%#AttrEval("CurrBranch")%>" coordinatorname="<%#AttrEval("CoordinatorName")%>" startdate="<%#Eval("StartDate" , "{0:dd/MM/yyyy}")%>" enddate="<%#Eval("EndDate", "{0:dd/MM/yyyy}") %>" currfirstname="<%#StudentAttrEval("FirstName")%>" currlastname="<%#StudentAttrEval("LastName")%>" currphone="<%#StudentAttrEval("Phone")%>" curremail="<%#StudentAttrEval("Email")%>" currbranch="<%#StudentAttrEval("Branch")%>" currcoordinatorname="<%#StudentAttrEval("CoordinatorName")%>" currsocialworker="<%#StudentAttrEval("SocialWorker")%>" createdate="<%#Eval("CreateDate" , "{0:dd/MM/yyyy}")%>""> 
+                                    <tr class="studentdatarow" stidx="<%# Container.ItemIndex %>"  stid="<%#Eval("Id")%>" firstname="<%#AttrEval("CurrFirstName")%>" lastname="<%#AttrEval("CurrLastName")%>" idnum="<%#AttrEval("IdNum")%>" phone="<%#AttrEval("CurrPhone")%>" email="<%#AttrEval("CurrEmail")%>" socialworker="<%#AttrEval("CurrSocialWorker")%>" branch="<%#AttrEval("CurrBranch")%>" coordinatorname="<%#AttrEval("CoordinatorName")%>" startdate="<%#Eval("StartDate" , "{0:dd/MM/yyyy}")%>" enddate="<%#Eval("EndDate", "{0:dd/MM/yyyy}") %>" currfirstname="<%#StudentAttrEval("FirstName")%>" currlastname="<%#StudentAttrEval("LastName")%>" currphone="<%#StudentAttrEval("Phone")%>" curremail="<%#StudentAttrEval("Email")%>" currbranch="<%#StudentAttrEval("Branch")%>" currcoordinatorname="<%#StudentAttrEval("CoordinatorName")%>" currsocialworker="<%#StudentAttrEval("SocialWorker")%>" createdate="<%#Eval("CreateDate" , "{0:dd/MM/yyyy}")%>" isnewstudent="<%#(bool)Eval("IsNewStudent") ? "1" : "0"%>"> 
                                         <td></td>
                                         <td></td>
                                         <td><%#Eval("Id") %></td>
@@ -670,7 +722,7 @@
                                         <td></td>
                                         <td id=" ">
                                             <a onclick="editStudent(this)" href="#editStudentModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="עריכת תלמיד">&#xE254;</i></a>
-                                                <a onclick="addSubject(this)" href="#editSubjectModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="הוסף הנגשה">&#xE145;</i></a>
+                                                <a onclick="addSubject(this)" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="הוסף הנגשה">&#xE145;</i></a>
 <%--                                            <a href="#confirmModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>--%>
                                         </td>
                                     </tr>
@@ -869,6 +921,14 @@
                             <div class="col-md-10">
                                 <input runat="server" id="createdate" class="form-control datepicker" />
                             </div>
+                            <div class="col-md-2">
+                                <label>תלמיד חדש<br />
+                                    <br />
+                                </label>
+                            </div>
+                            <div class="col-md-10">
+                                <asp:CheckBox runat="server" id="isnewstudent" class="form-control" />
+                            </div>
 
                         </div>
 
@@ -894,7 +954,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-lg-2">
-                                <label>הנגשה<br /><br /></label>
+                                <label>הנגשה11<br /><br /></label>
                             </div>
                             <div class="col-lg-10">
                                 <select id="subjectbtl" class="form-control">

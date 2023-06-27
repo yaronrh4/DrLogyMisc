@@ -69,7 +69,7 @@ namespace CommitmentLettersApp
                 subjects.Add(new Subject("תרגום הרצאה לשפת סימנים", "תרגום לשפת הסימנים", 0, true));
                 subjects.Add(new Subject("שקלוט הרצאה", "שקלוט", 0, true));
                 subjects.Add(new Subject("חונכות", "חונכות"));
-                subjects.Add(new Subject("הקראה למקבל השירות", "הקראה"));
+                subjects.Add(new Subject("הקראה למקבל השירות", "הקראות"));
 
                 options.Subjects = subjects;
 
@@ -182,22 +182,29 @@ namespace CommitmentLettersApp
         }
         protected void btnAddPdf_Click(object sender, EventArgs e)
         {
-            string tempDir = Utils.GetAppSetting("TempDir", "");
-            tempDir = Server.MapPath(tempDir);
-
-            foreach (var file in fuPdfs.PostedFiles)
+            try
             {
-                string filename = $"{tempDir}\\{file.FileName}";
-                file.SaveAs(filename);
-                _lettersPDF.Process(filename, _connection, _project);
+                string tempDir = Utils.GetAppSetting("TempDir", "");
+                tempDir = Server.MapPath(tempDir);
+
+                foreach (var file in fuPdfs.PostedFiles)
+                {
+                    string filename = $"{tempDir}\\{file.FileName}";
+                    file.SaveAs(filename);
+                    _lettersPDF.Process(filename, _connection, _project);
+                }
+
+                for (int i = 0; i < _lettersPDF.Results.Count && datachanged.Value == ""; i++)
+                    foreach (var sub in _lettersPDF.Results[i].Subjects)
+                        if (sub.Status == StudentStatus.NoStudent || sub.Status == StudentStatus.NoSubject || sub.Status == StudentStatus.NotUpdated)
+                            datachanged.Value = "1";
+
+                RefreshData();
             }
-
-            for (int i = 0; i < _lettersPDF.Results.Count && datachanged.Value == ""; i++)
-                foreach (var sub in _lettersPDF.Results[i].Subjects)
-                    if (sub.Status == StudentStatus.NoStudent || sub.Status == StudentStatus.NoSubject || sub.Status == StudentStatus.NotUpdated)
-                        datachanged.Value = "1";
-
-            RefreshData();
+            catch (Exception ex)
+            {
+                errorhidden.Value = ex.Message;
+            }
         }
 
         private void RefreshData()
@@ -232,6 +239,7 @@ namespace CommitmentLettersApp
             r.CurrBranch = branch.Value;
             r.CurrSocialWorker = socialworker.Value;
             r.CreateDate = DateTime.ParseExact(createdate.Value.Trim(), "dd/MM/yyyy", null);
+            r.IsNewStudent = isnewstudent.Checked;
 
             //_lettersPDF.UpdateStudent(int.Parse(stidx.Value) , _connection);
 

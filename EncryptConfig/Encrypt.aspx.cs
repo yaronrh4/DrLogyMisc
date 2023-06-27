@@ -4,6 +4,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.UI;
@@ -20,44 +21,65 @@ namespace CommitmentLettersApp
 
         {
 
-     
+
         }
 
         protected void btnRun_Click(object sender, EventArgs e)
         {
-            if (!fuConfig.HasFile)
-                return;
+            int deb = 0;
+            try
 
-            //Get config file in memory
+            {
+                deb = 1;
+                if (!fuConfig.HasFile)
+                    return;
 
-            // Create a filemap refering the config file.
-            ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
-            fileMap.ExeConfigFilename = MapPath($"{txtFolder.Text}\\{fuConfig.FileName}");
+                //Get config file in memory
+                deb = 2;
 
-            // Retrieve the config file.
-            Configuration config = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+                // Create a filemap refering the config file.
+                ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
+                fileMap.ExeConfigFilename = MapPath($"{txtFolder.Text}\\{fuConfig.FileName}");
+                deb = 3;
 
-            //Encrypt section
+                // Retrieve the config file.
+                Configuration config = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+                deb = 4;
 
-            var c = config.AppSettings;
-            if (c!=null)
-                c.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
+                //Encrypt section
 
-            var c2 = config.GetSectionGroup("system.net/mailSettings");
-            if (c2!=null && c2.Sections.Count > 0)
-                c2.Sections[0].SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
+                var c = config.AppSettings;
+                if (c != null)
+                    c.SectionInformation.ProtectSection("DpapiProtectedConfigurationProvider");
+                deb = 5;
 
-            var c3 = config.ConnectionStrings;
-            if (c3 != null)
-                c3.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
+                var c2 = config.GetSectionGroup("system.net/mailSettings");
+                if (c2 != null && c2.Sections.Count > 0)
+                    c2.Sections[0].SectionInformation.ProtectSection("DpapiProtectedConfigurationProvider");
+                deb = 6;
 
-            // Save the encrypted section.
+                var c3 = config.ConnectionStrings;
+                if (c3 != null)
+                    c3.SectionInformation.ProtectSection("DpapiProtectedConfigurationProvider");
+                deb = 7;
 
-            config.AppSettings.SectionInformation.ForceSave = true;
+                // Save the encrypted section.
 
-            config.Save(ConfigurationSaveMode.Full);
+                config.AppSettings.SectionInformation.ForceSave = true;
+                deb = 8;
 
-            GetConfig(fileMap.ExeConfigFilename);
+                config.Save(ConfigurationSaveMode.Full);
+                deb = 9;
+
+                GetConfig(fileMap.ExeConfigFilename);
+                deb = 10;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"mess {ex.Message} msg#{deb}");
+            }
+
         }
 
         public void GetConfig(string filepath)
