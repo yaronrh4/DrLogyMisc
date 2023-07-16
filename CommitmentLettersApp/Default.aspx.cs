@@ -227,7 +227,6 @@ namespace CommitmentLettersApp
                 r.Project = _project;
                 r.Subjects = new List<SubjectData>();
                 lettersPDF.Results.Add(r);
-
             }
 
             r.CurrFirstName = firstname.Value;
@@ -240,11 +239,15 @@ namespace CommitmentLettersApp
             r.CurrSocialWorker = socialworker.Value;
             r.CreateDate = DateTime.ParseExact(createdate.Value.Trim(), "dd/MM/yyyy", null);
             r.IsNewStudent = isnewstudent.Checked;
+            r.Comments = comments.Value;
 
             //_lettersPDF.UpdateStudent(int.Parse(stidx.Value) , _connection);
 
             //_lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), int.Parse(subjectidx.Value));
             datachanged.Value = "1";
+
+            //force opening the edit popup with the current values
+            r.Edited = true;
             RefreshData();
         }
 

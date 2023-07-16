@@ -249,6 +249,15 @@ namespace CommitmentLettersApp
         protected global::System.Web.UI.HtmlControls.HtmlInputText createdate;
 
         /// <summary>
+        /// comments control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTextArea comments;
+
+        /// <summary>
         /// isnewstudent control.
         /// </summary>
         /// <remarks>

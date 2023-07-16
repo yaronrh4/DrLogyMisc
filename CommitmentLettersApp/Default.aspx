@@ -341,6 +341,7 @@
             $("#editStudentModal").find("#branch").val("");
             $("#editStudentModal").find("#coordinatorname").val($("#defcoordinator").val());
             $("#editStudentModal").find("#socialworker").val("");
+            $("#editStudentModal").find("#comments").val("");
 
             $("#currfirstname").text("");
             $("#currlastname").text("");
@@ -383,6 +384,7 @@
 
         function editStudent(e) {
             var stid = $(e).parent().parent().attr("stid");
+            var edited = $(e).parent().parent().attr("edited"); 
             $("#editStudentModal").find(".modal-title").html("עריכת תלמיד");
 
             $("#editStudentModal").find("#stid").val(stid);
@@ -397,7 +399,8 @@
             $("#editStudentModal").find("#socialworker").val($(e).parent().parent().attr("socialworker"));
             $("#editStudentModal").find("#createdate").val($(e).parent().parent().attr("createdate"));
             $("#editStudentModal").find("#isnewstudent").prop("checked", $(e).parent().parent().attr("isnewstudent")==1);
-            
+            $("#editStudentModal").find("#comments").val($(e).parent().parent().attr("comments"));
+
             $("#currfirstname").text($(e).parent().parent().attr("currfirstname"));
             $("#currlastname").text($(e).parent().parent().attr("currlastname"));
             $("#currphone").text($(e).parent().parent().attr("currphone"));
@@ -410,9 +413,8 @@
                 $(this).datepicker('setDate', $(this).val());
             });
 
-            if (stid <=0) {
+            if (stid == 0 && edited != "1")
                 copyStudentDataFromPdf();
-            }
         }
 
         function addSubject(e) {
@@ -692,6 +694,7 @@
                                 <th>סיום</th>
                                 <th>הנגשה</th>
                                 <th>שעות</th>
+                                <th>הערות</th>
                                 <th>פעולות</th>
                             </tr>
                         </thead>
@@ -702,7 +705,7 @@
                                 <HeaderTemplate>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <tr class="studentdatarow" stidx="<%# Container.ItemIndex %>"  stid="<%#Eval("Id")%>" firstname="<%#AttrEval("CurrFirstName")%>" lastname="<%#AttrEval("CurrLastName")%>" idnum="<%#AttrEval("IdNum")%>" phone="<%#AttrEval("CurrPhone")%>" email="<%#AttrEval("CurrEmail")%>" socialworker="<%#AttrEval("CurrSocialWorker")%>" branch="<%#AttrEval("CurrBranch")%>" coordinatorname="<%#AttrEval("CoordinatorName")%>" startdate="<%#Eval("StartDate" , "{0:dd/MM/yyyy}")%>" enddate="<%#Eval("EndDate", "{0:dd/MM/yyyy}") %>" currfirstname="<%#StudentAttrEval("FirstName")%>" currlastname="<%#StudentAttrEval("LastName")%>" currphone="<%#StudentAttrEval("Phone")%>" curremail="<%#StudentAttrEval("Email")%>" currbranch="<%#StudentAttrEval("Branch")%>" currcoordinatorname="<%#StudentAttrEval("CoordinatorName")%>" currsocialworker="<%#StudentAttrEval("SocialWorker")%>" createdate="<%#Eval("CreateDate" , "{0:dd/MM/yyyy}")%>" isnewstudent="<%#(bool)Eval("IsNewStudent") ? "1" : "0"%>"> 
+                                    <tr class="studentdatarow" stidx="<%# Container.ItemIndex %>"  stid="<%#Eval("Id")%>" firstname="<%#AttrEval("CurrFirstName")%>" lastname="<%#AttrEval("CurrLastName")%>" idnum="<%#AttrEval("IdNum")%>" phone="<%#AttrEval("CurrPhone")%>" email="<%#AttrEval("CurrEmail")%>" socialworker="<%#AttrEval("CurrSocialWorker")%>" branch="<%#AttrEval("CurrBranch")%>" coordinatorname="<%#AttrEval("CoordinatorName")%>" startdate="<%#Eval("StartDate" , "{0:dd/MM/yyyy}")%>" enddate="<%#Eval("EndDate", "{0:dd/MM/yyyy}") %>" currfirstname="<%#StudentAttrEval("FirstName")%>" currlastname="<%#StudentAttrEval("LastName")%>" currphone="<%#StudentAttrEval("Phone")%>" curremail="<%#StudentAttrEval("Email")%>" currbranch="<%#StudentAttrEval("Branch")%>" currcoordinatorname="<%#StudentAttrEval("CoordinatorName")%>" currsocialworker="<%#StudentAttrEval("SocialWorker")%>" createdate="<%#Eval("CreateDate" , "{0:dd/MM/yyyy}")%>" isnewstudent="<%#(bool)Eval("IsNewStudent") ? "1" : "0"%>" comments="<%#AttrEval("Comments")%>" edited="<%#(bool)Eval("Edited") ? 1 : 0%>"> 
                                         <td></td>
                                         <td></td>
                                         <td><%#Eval("Id") %></td>
@@ -720,7 +723,10 @@
                                         <td><%#Eval("EndDate", "{0:dd/MM/yyyy}")%></td>
                                         <td></td>
                                         <td></td>
-                                        <td id=" ">
+                                        <td><%#Eval("Comments")%>
+                                        </td>
+
+                                        <td>
                                             <a onclick="editStudent(this)" href="#editStudentModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="עריכת תלמיד">&#xE254;</i></a>
                                                 <a onclick="addSubject(this)" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="הוסף הנגשה">&#xE145;</i></a>
 <%--                                            <a href="#confirmModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>--%>
@@ -747,6 +753,8 @@
                                             <span class="small text-info">(<%#Eval("CurrHours")%>)</span>
                                             </td>
                                             <td>
+                                            </td>
+                                            <td>
                                                 <a onclick="editSubject(this)" href="#editSubjectModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="עריכת הנגשה">&#xE254;</i></a>
 <%--                                                <a href="#confirmModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>--%>
                                             </td>
@@ -761,7 +769,7 @@
                             </asp:Repeater>
                         </tbody>
                     </table>
-
+                        </div>
                     <div class="table-title">
                         <div class="row">
                             <div class="col-lg-6">
@@ -921,6 +929,15 @@
                             <div class="col-md-10">
                                 <input runat="server" id="createdate" class="form-control datepicker" />
                             </div>
+                            <div class="col-md-2">
+                                <label>הערות<br />
+                                    <br />
+                                </label>
+                            </div>
+                            <div class="col-md-10">
+                                <textarea runat="server" id="comments" class="form-control" rows="3" />
+                            </div>
+
                             <div class="col-md-2">
                                 <label>תלמיד חדש<br />
                                     <br />

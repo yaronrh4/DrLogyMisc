@@ -31,12 +31,9 @@ namespace DrLogy.CommitmentLettersUtils
         public string CurrBranch { get; set; }
         public string CurrSocialWorker { get; set; }
 
-
         public string CoordinatorName { get; set; }
 
         public string Comments { get; set; }
-
-        public bool IsSelected { get; set; }
 
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
@@ -47,5 +44,6 @@ namespace DrLogy.CommitmentLettersUtils
 
         public bool IsNewStudent { get; set; } = true;
 
+        public bool Edited { get; set; } = false;
     }
 }

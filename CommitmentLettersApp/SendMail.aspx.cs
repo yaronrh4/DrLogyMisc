@@ -87,14 +87,13 @@ namespace CommitmentLettersApp
 
                         subjects.Add(_lettersPDF.Options.Subjects.First(x => x.BTLName == s.SubjectBTL).Name);
                         subjectHours.Add(s.Hours);
+                    }
 
-                        if (!string.IsNullOrWhiteSpace(r.Comments))
-                        {
-                            if (comments != "")
-                                comments += "<br/>";
-                            comments += r.Comments;
-                        }
-
+                    if (!string.IsNullOrWhiteSpace(r.Comments))
+                    {
+                        //if (comments != "")
+                        //    comments += "<br/>";
+                        comments += r.Comments;
                     }
                 }
 
