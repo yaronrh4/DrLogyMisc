@@ -150,10 +150,10 @@ namespace CommitmentLettersApp
         protected void Page_Load(object sender, EventArgs e)
         {
             _lettersPDF = Session["lettersPDF"] as LettersPDF;
+            _bcc = Utils.GetAppSetting("MailBcc", "");
 
             if (!Page.IsPostBack)
             {
-                _bcc = Utils.GetAppSetting("MailBcc", "");
                 var m = ProcessMails(txtTestEmail.Text);
 
                 rep1.DataSource = m;
