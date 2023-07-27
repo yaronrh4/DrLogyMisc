@@ -31,6 +31,7 @@ namespace CommitmentLettersApp
             public string MailSubject { get; set; }
             public string MailBody { get; set; }
             public string MailAddress { get; set; }
+            public string RakazEmail { get; set; }
             public bool Sent { get; set; }
         }
 
@@ -53,6 +54,7 @@ namespace CommitmentLettersApp
             string rakazName = "";
             string rakazPhone = "";
             string email = "";
+            string rakazEmail = "";
             DateTime? startDate = null;
             DateTime? endDate = null;
             int mailType = 0;
@@ -69,8 +71,12 @@ namespace CommitmentLettersApp
                     //r.IsSelected = false;
                     studentRows = new List<int>();
 
-                    name = r.Name;
+                    name = r.FirstName + ' ' + r.LastName;
+                    if (string.IsNullOrWhiteSpace (name))
+                        name = r.CurrFirstName + ' ' + r.CurrLastName;
+
                     subjects = new List<string>();
+
                     subjectHours = new List<decimal>();
                     startDate = r.StartDate;
                     endDate = r.EndDate;
@@ -78,13 +84,15 @@ namespace CommitmentLettersApp
                     mailType = r.IsNewStudent ? 1 : 2;
                     rakazName = r.CoordinatorName;
                     rakazPhone = lettersPDF.Options.Coordinators.First(x => x.Name == rakazName).Phone;
+                    rakazEmail = lettersPDF.Options.Coordinators.First(x => x.Name == rakazName).Email;
 
                     //studentRows.Add(i);
                     for (int j = 0; j < r.Subjects.Count; j++)
                     {
                         SubjectData s = r.Subjects[j];
                         email = string.IsNullOrEmpty(testEmail) ? r.CurrEmail : testEmail;
-
+                        if (email == null)
+                            email = r.Email;
                         subjects.Add(_lettersPDF.Options.Subjects.First(x => x.BTLName == s.SubjectBTL).Name);
                         subjectHours.Add(s.Hours);
                     }
@@ -134,7 +142,8 @@ namespace CommitmentLettersApp
                     {
                         MailAddress = email,
                         MailBody = html,
-                        MailSubject = subject
+                        MailSubject = subject,
+                        RakazEmail = rakazEmail
                     };
 
                     mailitems.Add(m);
@@ -175,7 +184,7 @@ namespace CommitmentLettersApp
             {
                 cnt++;
                 string mailAddress = txtTestEmail.Text != "" ? txtTestEmail.Text : m.MailAddress;
-                eml.SendEmail(mailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc);
+                eml.SendEmail(mailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc , m.RakazEmail);
             }
             successhidden.Value = $"{cnt} מיילים נשלחו בהצלחה";
 
@@ -193,7 +202,7 @@ namespace CommitmentLettersApp
                     mailitem m = _mails[i];
                     cnt++;
                     string mailAddress = txtTestEmail.Text != "" ? txtTestEmail.Text : m.MailAddress;
-                    eml.SendEmail(mailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc);
+                    eml.SendEmail(mailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc , m.RakazEmail);
                 }
             }
             successhidden.Value = $"{cnt} מיילים נשלחו בהצלחה";

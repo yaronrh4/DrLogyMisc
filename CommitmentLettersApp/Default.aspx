@@ -1018,3 +1018,5 @@
 
 </body>
 </html>
+
+<!-- Session Timeout:<%= Session.Timeout %> <%=DateTime.Now.ToString() %>-->

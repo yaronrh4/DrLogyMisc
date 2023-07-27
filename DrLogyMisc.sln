@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommitmentLettersUtils", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncryptConfig", "EncryptConfig\EncryptConfig.csproj", "{123D16AA-A0F6-473E-8614-0578A5EC8559}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrLogyUtils", "..\DrLogyWS\DrLogyUtils\DrLogyUtils.csproj", "{45C475C5-6986-4AD9-9AEA-921F2752966F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{123D16AA-A0F6-473E-8614-0578A5EC8559}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{123D16AA-A0F6-473E-8614-0578A5EC8559}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{123D16AA-A0F6-473E-8614-0578A5EC8559}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45C475C5-6986-4AD9-9AEA-921F2752966F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45C475C5-6986-4AD9-9AEA-921F2752966F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45C475C5-6986-4AD9-9AEA-921F2752966F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45C475C5-6986-4AD9-9AEA-921F2752966F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

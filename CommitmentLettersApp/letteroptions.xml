@@ -51,7 +51,7 @@
     </Subject>
     <Subject>
       <BTLName>הקראה למקבל השירות</BTLName>
-      <Name>הקראות</Name>
+      <Name>הקראה</Name>
       <Hours>0</Hours>
       <Grouped>false</Grouped>
     </Subject>
@@ -60,30 +60,37 @@
     <Coordinator>
       <Name>מיכאל</Name>
       <Phone>0545422211</Phone>
+      <Email>michaelp007@gmail.com</Email>
     </Coordinator>
     <Coordinator>
       <Name>דשה</Name>
       <Phone>0546953420</Phone>
+      <Email>dashaleikin@gmail.com</Email>
     </Coordinator>
     <Coordinator>
       <Name>טובי</Name>
       <Phone>0542331013</Phone>
+      <Email>tovigadot@gmail.com</Email>
     </Coordinator>
     <Coordinator>
       <Name>גל</Name>
       <Phone>0525498369</Phone>
+      <Email>drlogygal@gmail.com</Email>
     </Coordinator>
     <Coordinator>
       <Name>אינה</Name>
       <Phone>0587024681</Phone>
+      <Email></Email>
     </Coordinator>
     <Coordinator>
       <Name>אוריין</Name>
       <Phone>0502645970</Phone>
+      <Email>drlogyoreyan@gmail.com</Email>
     </Coordinator>
     <Coordinator>
       <Name>מעיין</Name>
       <Phone>0523460209</Phone>
+      <Email>maayan.gil89@gmail.com</Email>
     </Coordinator>
   </Coordinators>
   <DefaultCoordinatorName>אוריין</DefaultCoordinatorName>

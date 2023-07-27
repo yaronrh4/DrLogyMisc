@@ -11,10 +11,11 @@ namespace DrLogy.CommitmentLettersUtils
     {
         public Coordinator() { }
 
-        public Coordinator(string name, string phone) 
-        { 
-            this.Name= name; 
+        public Coordinator(string name, string phone, string email="")
+        {
+            this.Name = name;
             this.Phone = phone;
+            this.Email = email;
         }
 
 
@@ -26,6 +27,11 @@ namespace DrLogy.CommitmentLettersUtils
         public string Phone
         {
             get; set;
+        }
+
+        public string Email
+        {
+            get;set;
         }
 
     }

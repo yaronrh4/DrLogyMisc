@@ -74,13 +74,13 @@ namespace CommitmentLettersApp
                 options.Subjects = subjects;
 
                 List<Coordinator> coordinators = new List<Coordinator>();
-                coordinators.Add(new Coordinator("מיכאל", "0545422211"));
-                coordinators.Add(new Coordinator("דשה", "0546953420"));
-                coordinators.Add(new Coordinator("טובי", "0542331013"));
-                coordinators.Add(new Coordinator("גל", "0525498369"));
-                coordinators.Add(new Coordinator("אינה", "0587024681"));
-                coordinators.Add(new Coordinator("אוריין", "0502645970"));
-                coordinators.Add(new Coordinator("מעיין", "0523460209"));
+                coordinators.Add(new Coordinator("מיכאל", "0545422211" , "michaelp007@gmail.com"));
+                coordinators.Add(new Coordinator("דשה", "0546953420" , "dashaleikin@gmail.com"));
+                coordinators.Add(new Coordinator("טובי", "0542331013", "tovigadot@gmail.com"));
+                coordinators.Add(new Coordinator("גל", "0525498369", "drlogygal@gmail.com"));
+                coordinators.Add(new Coordinator("אינה", "0587024681", ""));
+                coordinators.Add(new Coordinator("אוריין", "0502645970", "drlogyoreyan@gmail.com"));
+                coordinators.Add(new Coordinator("מעיין", "0523460209", "maayan.gil89@gmail.com"));
 
 
                 options.Coordinators = coordinators;
