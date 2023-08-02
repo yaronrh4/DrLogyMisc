@@ -55,5 +55,11 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DrLogyPDFUtils\DrLogyPDFUtils.csproj">
+      <Project>{f07fe9a7-9da9-48c1-b395-e68343c1322e}</Project>
+      <Name>DrLogyPDFUtils</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

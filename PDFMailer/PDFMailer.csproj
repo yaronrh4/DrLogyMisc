@@ -112,6 +112,10 @@
       <Project>{8e59bc8f-09eb-4cd8-810d-f3e86d59c281}</Project>
       <Name>DrLogyPDFMailerUtils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DrLogyPDFUtils\DrLogyPDFUtils.csproj">
+      <Project>{f07fe9a7-9da9-48c1-b395-e68343c1322e}</Project>
+      <Name>DrLogyPDFUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="806Mailer.xml">

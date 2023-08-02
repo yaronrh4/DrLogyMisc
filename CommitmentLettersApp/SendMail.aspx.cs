@@ -114,9 +114,6 @@ namespace CommitmentLettersApp
                     string html = System.IO.File.ReadAllText(htmlName);
                     string subject = System.IO.File.ReadAllText(subjectName);
 
-                    if (comments != "")
-                        comments = "הערות: " + comments;
-
                     html = html.Replace("|שם|", name);
                     html = html.Replace("|התחלה|", startDate.Value.ToString("dd/MM/yyyy"));
                     html = html.Replace("|סוף|", endDate.Value.ToString("dd/MM/yyyy"));

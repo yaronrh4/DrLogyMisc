@@ -15,13 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrLogyPDFMailerUtils", "DrL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPdf", "TestPdf\TestPdf.csproj", "{CDA515EF-CEA6-4C37-B009-43096955C7C8}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CommitmentLettersSetup", "CommitmentLettersSetup\CommitmentLettersSetup.vdproj", "{664A7368-D6F5-4E50-93EE-84E16DE575F0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommitmentLettersApp", "CommitmentLettersApp\CommitmentLettersApp.csproj", "{B40A1DE8-7B24-460B-8303-41C422C7F8AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommitmentLettersUtils", "CommitmentLettersUtils\CommitmentLettersUtils.csproj", "{76B274F5-53D5-49BB-9851-5CC5D767DCEA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncryptConfig", "EncryptConfig\EncryptConfig.csproj", "{123D16AA-A0F6-473E-8614-0578A5EC8559}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrLogyPDFUtils", "DrLogyPDFUtils\DrLogyPDFUtils.csproj", "{F07FE9A7-9DA9-48C1-B395-E68343C1322E}"
 EndProject
@@ -55,8 +51,6 @@ Global
 		{CDA515EF-CEA6-4C37-B009-43096955C7C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDA515EF-CEA6-4C37-B009-43096955C7C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDA515EF-CEA6-4C37-B009-43096955C7C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{664A7368-D6F5-4E50-93EE-84E16DE575F0}.Debug|Any CPU.ActiveCfg = Debug
-		{664A7368-D6F5-4E50-93EE-84E16DE575F0}.Release|Any CPU.ActiveCfg = Release
 		{B40A1DE8-7B24-460B-8303-41C422C7F8AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B40A1DE8-7B24-460B-8303-41C422C7F8AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B40A1DE8-7B24-460B-8303-41C422C7F8AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,10 +59,6 @@ Global
 		{76B274F5-53D5-49BB-9851-5CC5D767DCEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76B274F5-53D5-49BB-9851-5CC5D767DCEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76B274F5-53D5-49BB-9851-5CC5D767DCEA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{123D16AA-A0F6-473E-8614-0578A5EC8559}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{123D16AA-A0F6-473E-8614-0578A5EC8559}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{123D16AA-A0F6-473E-8614-0578A5EC8559}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{123D16AA-A0F6-473E-8614-0578A5EC8559}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F07FE9A7-9DA9-48C1-B395-E68343C1322E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F07FE9A7-9DA9-48C1-B395-E68343C1322E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F07FE9A7-9DA9-48C1-B395-E68343C1322E}.Release|Any CPU.ActiveCfg = Release|Any CPU
