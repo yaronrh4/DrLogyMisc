@@ -70,7 +70,7 @@ namespace DrLogy.CommitmentLettersUtils
 
             foreach (var selectedsubject in subjects)
             {
-                var subject = this._options.Subjects.Find(z => z.Name == selectedsubject);
+                var subject = this._options.Subjects.Find(z => z.BTLName == selectedsubject);
 
                 if (subject != null)
                 {

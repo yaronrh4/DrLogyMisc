@@ -137,7 +137,7 @@ namespace CommitmentLettersApp
 
                 foreach (var z in _lettersPDF.Options.Subjects)
                 {
-                    chklstSubjects.Items.Add(z.Name);
+                    chklstSubjects.Items.Add(z.BTLName);
                 }
 
                 Session["lettersPDF"] = _lettersPDF;
