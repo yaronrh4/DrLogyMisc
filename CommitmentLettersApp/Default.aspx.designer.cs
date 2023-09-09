@@ -141,6 +141,51 @@ namespace CommitmentLettersApp
         protected global::System.Web.UI.WebControls.LinkButton btnExportToExcel;
 
         /// <summary>
+        /// Loadidnum control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText Loadidnum;
+
+        /// <summary>
+        /// Loadstartdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText Loadstartdate;
+
+        /// <summary>
+        /// Loadenddate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText Loadenddate;
+
+        /// <summary>
+        /// chklstSubjects control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList chklstSubjects;
+
+        /// <summary>
+        /// btnLoadStudent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnLoadStudent;
+
+        /// <summary>
         /// fuPdfs control.
         /// </summary>
         /// <remarks>

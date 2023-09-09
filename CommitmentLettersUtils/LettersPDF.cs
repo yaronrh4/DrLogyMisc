@@ -30,6 +30,75 @@ namespace DrLogy.CommitmentLettersUtils
             get { return _options; }
         }
 
+        public void LoadStudent(string idNum, string[] subjects, DateTime startDate , DateTime endDate, string connectionString, string project)
+        {
+            PDFUtils utils = new PDFUtils();
+            LetterData data = new LetterData();
+
+            data.PageNumber = 1;
+            data.FileName = "";
+            data.Project = project;
+            data.CoordinatorName = _options.DefaultCoordinatorName;
+            data.CreateDate = DateTime.Now.Date;
+            if (data.CoordinatorName == "")
+                data.CoordinatorName = _options.Coordinators[0].Name;
+
+            data.IdNum = idNum;
+            data.EndDate = endDate;
+            data.StartDate = startDate;
+
+            DrLogy.DrLogyUtils.DbUtils.ConStr = connectionString;
+
+            //בדיקה אם קיים תלמיד בפרוייקט הספציפי בהנגשה הנוכחית עם נתונים אחרים
+            DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_USER", new string[] { "zehut", "project"}, new object[] { idNum, project });
+            if (dt.Rows.Count > 0)
+            {
+                DataRow row = dt.Rows[dt.Rows.Count - 1];
+                data.Id = (int)row["ST_ID"];
+                data.FirstName = (string)row["ST_FNAME"];
+                data.LastName = (string)row["ST_LNAME"];
+                data.Name = data.FirstName + " " + data.LastName;
+                data.SocialWorker = (string)row["ST_PARENTNAME"];
+                data.Branch = (string)row["ST_CITY"];
+                data.Phone = (string)row["ST_PHONE1"];
+                data.Email = (string)row["ST_EMAIL"];
+            }
+
+            //Subjects
+            SubjectData newSubject = null;
+            data.Subjects = new List<SubjectData>();
+
+            foreach (var selectedsubject in subjects)
+            {
+                var subject = this._options.Subjects.Find(z => z.Name == selectedsubject);
+
+                if (subject != null)
+                {
+                    newSubject = new SubjectData();
+                    newSubject.SubjectBTL = subject.BTLName;
+                    newSubject.SubjectInDB = subject.Name;
+                    newSubject.Hours = 1; //dummy value would be updated letter
+                    data.Subjects.Add(newSubject);
+                }
+            }
+
+            _results.Add(data);
+            
+            for (int i = 0; i < Results.Count; i++)
+                for (int j = 0; j < Results[i].Subjects.Count; j++)
+                    GetDataFromDB(i, j, connectionString);
+
+            foreach (var subject in data.Subjects)
+            {
+                subject.Hours = subject.CurrHours.GetValueOrDefault();
+            }
+
+            for (int i=0; i < Results[Results.Count-1].Subjects.Count; i++)
+            {
+                RefreshStatus(Results.Count - 1, i);
+            }
+        }
+
         public void Process(string filename, string connectionString, string project)
         {
             RemoveOld(filename);

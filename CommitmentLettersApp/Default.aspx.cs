@@ -74,8 +74,8 @@ namespace CommitmentLettersApp
                 options.Subjects = subjects;
 
                 List<Coordinator> coordinators = new List<Coordinator>();
-                coordinators.Add(new Coordinator("מיכאל", "0545422211" , "michaelp007@gmail.com"));
-                coordinators.Add(new Coordinator("דשה", "0546953420" , "dashaleikin@gmail.com"));
+                coordinators.Add(new Coordinator("מיכאל", "0545422211", "michaelp007@gmail.com"));
+                coordinators.Add(new Coordinator("דשה", "0546953420", "dashaleikin@gmail.com"));
                 coordinators.Add(new Coordinator("טובי", "0542331013", "tovigadot@gmail.com"));
                 coordinators.Add(new Coordinator("גל", "0525498369", "drlogygal@gmail.com"));
                 coordinators.Add(new Coordinator("אינה", "0587024681", ""));
@@ -134,6 +134,11 @@ namespace CommitmentLettersApp
                 string path = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, System.AppDomain.CurrentDomain.RelativeSearchPath ?? "");
                 _options = (LettersPDFOptions)Utils.DeSerializeObjectUTF(path + "\\" + OPTIONS_FILENAME, typeof(LettersPDFOptions));
                 _lettersPDF = new LettersPDF(_options);
+
+                foreach (var z in _lettersPDF.Options.Subjects)
+                {
+                    chklstSubjects.Items.Add(z.Name);
+                }
 
                 Session["lettersPDF"] = _lettersPDF;
                 Session["connection"] = _connection;
@@ -302,10 +307,6 @@ namespace CommitmentLettersApp
 
             return rc;
         }
-        protected void btnSendMails_Click(object sender, EventArgs e)
-        {
-
-        }
 
         protected void btnClear_Click(object sender, EventArgs e)
         {
@@ -334,6 +335,32 @@ namespace CommitmentLettersApp
                 SaveToExcel($"letters.xlsx");
                 successhidden.Value = "השמירה בוצעה בהצלחה";
             }
+
+        }
+
+        protected void btnLoadStudent_Click(object sender, EventArgs e)
+        {
+            List<string> subjects = new List<string>();
+
+            for (int i = 0; i < chklstSubjects.Items.Count; i++)
+            {
+                if (chklstSubjects.Items[i].Selected)
+                {
+                    subjects.Add(chklstSubjects.Items[i].Value);
+                }
+            }
+
+            DateTime startDate = DateTime.ParseExact(Loadstartdate.Value.Trim(), "dd/MM/yyyy", null);
+            DateTime endDate = DateTime.ParseExact(Loadenddate.Value.Trim(), "dd/MM/yyyy", null);
+
+            _lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, _connection, _project);
+
+            for (int i = 0; i < _lettersPDF.Results.Count && datachanged.Value == ""; i++)
+                foreach (var sub in _lettersPDF.Results[i].Subjects)
+                    if (sub.Status == StudentStatus.NoStudent || sub.Status == StudentStatus.NoSubject || sub.Status == StudentStatus.NotUpdated)
+                        datachanged.Value = "1";
+
+            RefreshData();
 
         }
     }
