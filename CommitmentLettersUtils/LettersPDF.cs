@@ -452,7 +452,7 @@ namespace DrLogy.CommitmentLettersUtils
                 {
                     if (subject.Status == StudentStatus.NotUpdated)
                     {
-                        DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "subject", "curr_start_date", "curr_end_date", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, subject.SubjectInDB, subject.CurrStartDate, subject.CurrEndDate, r.StartDate, r.EndDate, subject.Hours });
+                        DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "st_zehut", "project", "subject", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, _results[rowIndex].IdNum ,  _results[rowIndex].Project, subject.SubjectInDB, r.StartDate, r.EndDate, subject.Hours });
                         subject.Updated = true;
                     }
                     else if (subject.Status == StudentStatus.NoSubject || subject.Status == StudentStatus.NoStudent)
@@ -513,15 +513,15 @@ namespace DrLogy.CommitmentLettersUtils
                     exData.CreateDate = tec.CreateDate;
                     exData.CoordinatorName = tec.CoordinatorName;
                     exData.Subject = sub.SubjectInDB;
-                    exData.FirstName = tec.FirstName;
-                    exData.LastName = tec.LastName;
+                    exData.FirstName = tec.FirstName ?? tec.CurrFirstName;
+                    exData.LastName = tec.LastName ?? tec.CurrLastName;
                     exData.IdNum = tec.IdNum;
-                    exData.Phone = tec.Phone;
-                    exData.Email = tec.Email;
+                    exData.Phone = tec.Phone ?? tec.CurrPhone;
+                    exData.Email = tec.Email ?? tec.CurrEmail;
                     exData.StartDate = tec.StartDate;
                     exData.EndDate = tec.EndDate;
                     exData.Hours = sub.Hours;
-                    exData.SocialWorker = tec.SocialWorker;
+                    exData.SocialWorker = tec.SocialWorker ?? tec.CurrSocialWorker;
                     lst.Add(exData);
                 }
             }

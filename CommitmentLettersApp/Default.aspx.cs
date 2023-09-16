@@ -332,7 +332,7 @@ namespace CommitmentLettersApp
         {
             if (_lettersPDF.Results.Count > 0)
             {
-                SaveToExcel($"letters.xlsx");
+                SaveToExcel($"letters");
                 successhidden.Value = "השמירה בוצעה בהצלחה";
             }
 
@@ -359,6 +359,10 @@ namespace CommitmentLettersApp
                 foreach (var sub in _lettersPDF.Results[i].Subjects)
                     if (sub.Status == StudentStatus.NoStudent || sub.Status == StudentStatus.NoSubject || sub.Status == StudentStatus.NotUpdated)
                         datachanged.Value = "1";
+            Loadidnum.Value = "";
+            Loadstartdate.Value = "";
+            Loadenddate.Value = "";
+            chklstSubjects.ClearSelection();
 
             RefreshData();
 
