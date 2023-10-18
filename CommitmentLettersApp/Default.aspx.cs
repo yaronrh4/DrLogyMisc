@@ -81,6 +81,7 @@ namespace CommitmentLettersApp
                 coordinators.Add(new Coordinator("אינה", "0587024681", ""));
                 coordinators.Add(new Coordinator("אוריין", "0502645970", "drlogyoreyan@gmail.com"));
                 coordinators.Add(new Coordinator("מעיין", "0523460209", "maayan.gil89@gmail.com"));
+                coordinators.Add(new Coordinator("ניקול", "0533201971", "nicolpodgorni@gmail.com"));
 
 
                 options.Coordinators = coordinators;
