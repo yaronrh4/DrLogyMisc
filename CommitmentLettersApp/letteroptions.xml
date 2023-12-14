@@ -92,6 +92,16 @@
       <Phone>0523460209</Phone>
       <Email>maayandrlogi@gmail.com</Email>
     </Coordinator>
+	  <Coordinator>
+		  <Name>ניקול</Name>
+		  <Phone>0533201971</Phone>
+		  <Email>nicolpodgorni@gmail.com</Email>
+	  </Coordinator>
+	  <Coordinator>
+		  <Name>שגיא</Name>
+		  <Phone>0522579733</Phone>
+		  <Email>logyeducation@gmail.com</Email>
+	  </Coordinator>	  
   </Coordinators>
   <DefaultCoordinatorName>אוריין</DefaultCoordinatorName>
 </LettersPDFOptions>

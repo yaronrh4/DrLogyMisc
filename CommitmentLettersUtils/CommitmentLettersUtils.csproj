@@ -58,11 +58,6 @@
     <Compile Include="Subject.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="letteroptions.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DrLogyPDFMailerUtils\DrLogyPDFMailerUtils.csproj">
       <Project>{8e59bc8f-09eb-4cd8-810d-f3e86d59c281}</Project>
       <Name>DrLogyPDFMailerUtils</Name>
