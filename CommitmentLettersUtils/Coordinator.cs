@@ -34,5 +34,10 @@ namespace DrLogy.CommitmentLettersUtils
             get;set;
         }
 
+        public int TeacherId
+        {
+            get;set;
+        }
+
     }
 }

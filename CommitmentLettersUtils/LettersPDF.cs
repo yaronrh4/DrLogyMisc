@@ -415,7 +415,9 @@ namespace DrLogy.CommitmentLettersUtils
             {
                 try
                 {
-                    var z = DbUtils.ExecSP("SPMISC_UPDATE_STUDENT", new string[] { "st_id", "zehut", "fname", "lname", "project", "phone", "city", "parentname", "email" }, new object[] { r.Id, r.IdNum.Trim(), r.CurrFirstName.Trim(), r.CurrLastName.Trim(), r.Project.Trim(), r.CurrPhone.Trim(), r.CurrBranch.Trim(), r.CurrSocialWorker.Trim() , r.CurrEmail }, true);
+                    int rakazId = _options.Coordinators.First(x => x.Name == r.CoordinatorName).TeacherId;
+
+                    var z = DbUtils.ExecSP("SPMISC_UPDATE_STUDENT", new string[] { "st_id", "zehut", "fname", "lname", "project", "phone", "city", "parentname", "email" ,"rakaz" }, new object[] { r.Id, r.IdNum.Trim(), r.CurrFirstName.Trim(), r.CurrLastName.Trim(), r.Project.Trim(), r.CurrPhone.Trim(), r.CurrBranch.Trim(), r.CurrSocialWorker.Trim() , r.CurrEmail , rakazId }, true);
                     r.Id = (int)z;
                     //yaron to check
                     //for (int i = 0; i < _results.Count; i++)
@@ -450,14 +452,16 @@ namespace DrLogy.CommitmentLettersUtils
                 subject.Updated = false;
                 try
                 {
+                    int rakazId = _options.Coordinators.First(x => x.Name == r.CoordinatorName).TeacherId;
+
                     if (subject.Status == StudentStatus.NotUpdated)
                     {
-                        DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "st_zehut", "project", "subject", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, _results[rowIndex].IdNum ,  _results[rowIndex].Project, subject.SubjectInDB, r.StartDate, r.EndDate, subject.Hours });
+                        DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "st_zehut", "project", "subject", "rakaz", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, _results[rowIndex].IdNum ,  _results[rowIndex].Project, subject.SubjectInDB, rakazId, r.StartDate, r.EndDate, subject.Hours });
                         subject.Updated = true;
                     }
                     else if (subject.Status == StudentStatus.NoSubject || subject.Status == StudentStatus.NoStudent)
                     {
-                        DbUtils.ExecSP("SPMISC_INSERT_SUBJECT", new string[] { "st_id", "project", "subject", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, r.Project, subject.SubjectInDB, r.StartDate, r.EndDate, subject.Hours });
+                        DbUtils.ExecSP("SPMISC_INSERT_SUBJECT", new string[] { "st_id", "project", "subject", "rakaz", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, r.Project, subject.SubjectInDB, rakazId, r.StartDate, r.EndDate, subject.Hours });
                         subject.Updated = true;
                     }
                     else

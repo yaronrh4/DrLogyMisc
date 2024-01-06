@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -73,20 +74,6 @@ namespace CommitmentLettersApp
 
                 options.Subjects = subjects;
 
-                List<Coordinator> coordinators = new List<Coordinator>();
-                coordinators.Add(new Coordinator("מיכאל", "0545422211", "michaelp007@gmail.com"));
-                coordinators.Add(new Coordinator("דשה", "0546953420", "dashaleikin@gmail.com"));
-                coordinators.Add(new Coordinator("טובי", "0542331013", "tovigadot@gmail.com"));
-                coordinators.Add(new Coordinator("גל", "0525498369", "drlogygal@gmail.com"));
-                coordinators.Add(new Coordinator("אינה", "0587024681", ""));
-                coordinators.Add(new Coordinator("אוריין", "0502645970", "drlogyoreyan@gmail.com"));
-                coordinators.Add(new Coordinator("מעיין", "0523460209", "maayan.gil89@gmail.com"));
-                coordinators.Add(new Coordinator("ניקול", "0533201971", "nicolpodgorni@gmail.com"));
-                coordinators.Add(new Coordinator("שגיא", "0522579733", "logyeducation@gmail.com"));
-
-
-                options.Coordinators = coordinators;
-
                 Utils.SerializeObjectUTF($"c:\\temp\\{OPTIONS_FILENAME}", options);
 
                 return options;
@@ -135,6 +122,7 @@ namespace CommitmentLettersApp
                 //bin folder
                 string path = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, System.AppDomain.CurrentDomain.RelativeSearchPath ?? "");
                 _options = (LettersPDFOptions)Utils.DeSerializeObjectUTF(path + "\\" + OPTIONS_FILENAME, typeof(LettersPDFOptions));
+                _options.Coordinators = LoadCoordinators();
                 _lettersPDF = new LettersPDF(_options);
 
                 foreach (var z in _lettersPDF.Options.Subjects)
@@ -159,6 +147,28 @@ namespace CommitmentLettersApp
             }
         }
 
+        private List<Coordinator> LoadCoordinators()
+        {
+            DrLogy.DrLogyUtils.DbUtils.ConStr = _connection;
+
+            DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_COORDINATORS");
+
+            List<Coordinator> lst = new List<Coordinator>();
+
+            foreach (DataRow r in dt.Rows)
+            {
+                lst.Add(new Coordinator()
+                {
+                    Name = r["ACR_NAME"].ToString(),
+                    Email = r["ACR_EMAIL"].ToString(),
+                    Phone = r["ACR_PHONE"].ToString(),
+                    TeacherId = (int)r["ACR_TEACHER_ID"]
+                });
+                ;
+            }
+            return lst;
+        }
+
         protected void btnSaveSubject_Click(object sender, EventArgs e)
         {
             LetterData r = _lettersPDF.Results[int.Parse(stsubidx.Value)];
@@ -168,10 +178,22 @@ namespace CommitmentLettersApp
             else
             {
                 s = new SubjectData();
-                s.IsNew = true;
                 r.Subjects.Add(s);
                 s.SubjectBTL = subjectname.Value;
                 s.SubjectInDB = lettersPDF.Options.Subjects.Where(z => z.BTLName == s.SubjectBTL).Select(q => q.Name).First();
+
+                DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_SUBJECT", new string[] { "zehut", "project", "subject" }, new object[] { r.IdNum, r.Project, s.SubjectInDB });
+
+                if (dt.Rows.Count > 0)
+                {
+                    var row = dt.Rows[0];
+                    s.CurrHours = (decimal?)row["ST_MAX_HOURS"];
+                    s.CurrStartDate = (DateTime?)row["ST_SIGNDATE"];
+                    s.CurrEndDate = (DateTime?)row["ST_DATEEND"];
+                    s.IsNew = false;
+                }
+                else
+                    s.IsNew = true;
 
             }
 
@@ -223,22 +245,17 @@ namespace CommitmentLettersApp
         protected void btnSaveStudent_Click(object sender, EventArgs e)
         {
             LetterData r = null;
-            int stIdx = int.Parse(stidx.Value);
-            if (stIdx >= 0)
-            {
-                r = _lettersPDF.Results[int.Parse(stidx.Value)];
-            }
-            else
-            {
-                r = new LetterData();
-                r.Project = _project;
-                r.Subjects = new List<SubjectData>();
-                lettersPDF.Results.Add(r);
-            }
 
+            r = new LetterData();
+            r.Project = _project;
+            r.Subjects = new List<SubjectData>();
+
+            lettersPDF.Results.Add(r);
+
+            r.Id = (int)DrLogy.DrLogyUtils.DbUtils.ExecSP("SPMISC_GET_STID_BY_ZEHUT", new string[] { "zehut" }, new object[] { idnum.Value.Trim() });
+            r.IdNum = idnum.Value.Trim();
             r.CurrFirstName = firstname.Value;
             r.CurrLastName = lastname.Value;
-            r.IdNum = idnum.Value;
             r.CurrPhone = phone.Value;
             r.CurrEmail = email.Value;
             r.CoordinatorName = coordinatorname.SelectedValue;
