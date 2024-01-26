@@ -988,8 +988,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label>
-                                        רכז<br />
-                                        <br />
+                                        רכז תלמיד<br />
                                     </label>
                                 </div>
                                 <div class="col-md-10">
