@@ -55,13 +55,13 @@ namespace DrLogy.CommitmentLettersUtils
             {
                 DataRow row = dt.Rows[dt.Rows.Count - 1];
                 data.Id = (int)row["ST_ID"];
-                data.FirstName = (string)row["ST_FNAME"];
-                data.LastName = (string)row["ST_LNAME"];
+                data.FirstName = row["ST_FNAME"].ToString();
+                data.LastName = row["ST_LNAME"].ToString();
                 data.Name = data.FirstName + " " + data.LastName;
-                data.SocialWorker = (string)row["ST_PARENTNAME"];
-                data.Branch = (string)row["ST_CITY"];
-                data.Phone = (string)row["ST_PHONE1"];
-                data.Email = (string)row["ST_EMAIL"];
+                data.SocialWorker = row["ST_PARENTNAME"].ToString();
+                data.Branch = row["ST_CITY"].ToString();
+                data.Phone = row["ST_PHONE1"].ToString();
+                data.Email = row["ST_EMAIL"].ToString();
             }
 
             //Subjects
