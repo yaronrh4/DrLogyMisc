@@ -74,7 +74,6 @@ namespace DrLogy.DrLogyPDFMailerUtils
             string idNum = _utils.ExtractText(options.KeyRectangle, pageNumber);
             System.Windows.Forms.Application.DoEvents();
             prop.IdNum = CleanValue(idNum, true, options.KeyType == PDFKeyType.PDFNumber , true);
-
             prop.FileName = _utils.Filename;
             prop.IsEmpty = false;
 

@@ -23,13 +23,12 @@ namespace PDFMailer
             for (int i= 12 ; i >= 1; i--)
             {
                 var r= dt.Select($"TEACMONTH_MONTH = {i}");
-                if (r.Count() > 0)
+                if (r.Length > 0)
                 {
-                    v += "V";
+                    v += "V ";
                 }
                 else
                     v += "  ";
-                v += "  ";
             }
             if (v.Trim()=="")
             {
@@ -38,13 +37,13 @@ namespace PDFMailer
 
             PDFReplaceOption rep = new PDFReplaceOption();
             rep.Rec = options.EditOptions[0].Rec;
-            rep.Rec.X -= 4;
+            rep.Rec.X -= 2;
             rep.Rec.Y += 5;
             rep.Rec.Height -= 5;
             rep.Replace = v;
-            rep.FontName = "David";
+            rep.FontName = "Courier New";
             rep.FontStyle = System.Drawing.FontStyle.Bold;
-            rep.FontSize = 12;
+            rep.FontSize = 11;
             _utils.Replace(rep ,pageNumber);
 
             return props;
