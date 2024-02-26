@@ -245,12 +245,18 @@ namespace CommitmentLettersApp
         protected void btnSaveStudent_Click(object sender, EventArgs e)
         {
             LetterData r = null;
-
-            r = new LetterData();
-            r.Project = _project;
-            r.Subjects = new List<SubjectData>();
-
-            lettersPDF.Results.Add(r);
+            int stIdx = int.Parse(stidx.Value);
+            if (stIdx >= 0)
+            {
+                r = _lettersPDF.Results[int.Parse(stidx.Value)];
+            }
+            else
+            {
+                r = new LetterData();
+                r.Project = _project;
+                r.Subjects = new List<SubjectData>();
+                lettersPDF.Results.Add(r);
+            }
 
             r.Id = (int)DrLogy.DrLogyUtils.DbUtils.ExecSP("SPMISC_GET_STID_BY_ZEHUT", new string[] { "zehut" }, new object[] { idnum.Value.Trim() });
             r.IdNum = idnum.Value.Trim();
