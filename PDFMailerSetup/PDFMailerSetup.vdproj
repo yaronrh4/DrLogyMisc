@@ -70,13 +70,13 @@
         "Entry"
         {
         "MsmKey" = "8:_32FCB8C4F965DADD95D4FC6C3B2B81CF"
-        "OwnerKey" = "8:_AB11FF5D9BA84F0AAC905E96BB3D1C45"
+        "OwnerKey" = "8:_F9527A6ECC1A86E1A0F8BA5445129759"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_32FCB8C4F965DADD95D4FC6C3B2B81CF"
-        "OwnerKey" = "8:_F9527A6ECC1A86E1A0F8BA5445129759"
+        "OwnerKey" = "8:_AB11FF5D9BA84F0AAC905E96BB3D1C45"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -160,6 +160,12 @@
         "Entry"
         {
         "MsmKey" = "8:_64FD05D2A219A81404F588AE6A9F4D1E"
+        "OwnerKey" = "8:_B0E24537EB40D10ACECF84B5B6462DE2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_64FD05D2A219A81404F588AE6A9F4D1E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -167,6 +173,12 @@
         {
         "MsmKey" = "8:_7244A39A5BC97ADFCDBBEC75395E7191"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7244A39A5BC97ADFCDBBEC75395E7191"
+        "OwnerKey" = "8:_B0E24537EB40D10ACECF84B5B6462DE2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -262,6 +274,36 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_557CD9CE9CBA98CD2F4D995BC5024093"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5945BED9DDB0FAB3179ADC7A88392407"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2562234FE6AC1769D383C3A516B9F7A3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B0D8005C6AEB4552554F61E3F5911789"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B0D8005C6AEB4552554F61E3F5911789"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_32FCB8C4F965DADD95D4FC6C3B2B81CF"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -292,19 +334,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_557CD9CE9CBA98CD2F4D995BC5024093"
+        "OwnerKey" = "8:_F9527A6ECC1A86E1A0F8BA5445129759"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5945BED9DDB0FAB3179ADC7A88392407"
+        "OwnerKey" = "8:_B0E24537EB40D10ACECF84B5B6462DE2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2562234FE6AC1769D383C3A516B9F7A3"
+        "OwnerKey" = "8:_64FD05D2A219A81404F588AE6A9F4D1E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -316,19 +358,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F9527A6ECC1A86E1A0F8BA5445129759"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B0D8005C6AEB4552554F61E3F5911789"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B0D8005C6AEB4552554F61E3F5911789"
+        "OwnerKey" = "8:_7244A39A5BC97ADFCDBBEC75395E7191"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -890,6 +920,11 @@
             "AssemblyAsmDisplayName" = "8:System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_64FD05D2A219A81404F588AE6A9F4D1E"
+                    {
+                    "Name" = "8:System.Numerics.Vectors.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Numerics.Vectors.dll"
             "TargetName" = "8:"
@@ -916,6 +951,11 @@
             "AssemblyAsmDisplayName" = "8:System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_7244A39A5BC97ADFCDBBEC75395E7191"
+                    {
+                    "Name" = "8:System.Buffers.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Buffers.dll"
             "TargetName" = "8:"
@@ -1004,6 +1044,11 @@
             "AssemblyAsmDisplayName" = "8:System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_B0E24537EB40D10ACECF84B5B6462DE2"
+                    {
+                    "Name" = "8:System.Memory.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Memory.dll"
             "TargetName" = "8:"
@@ -1214,15 +1259,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PDFMailer"
-        "ProductCode" = "8:{AD497932-0A39-4D10-9AE0-343A185C214D}"
-        "PackageCode" = "8:{A7277CB8-6DC8-49A2-9C97-7E860CFD8225}"
+        "ProductCode" = "8:{8588A439-87BC-4270-91C2-AC4B0874AF1C}"
+        "PackageCode" = "8:{F66FED71-F402-4261-A4B8-6D74B6D25538}"
         "UpgradeCode" = "8:{57542F1D-1FDD-4438-8F26-6C9338F442C6}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.20"
+        "ProductVersion" = "8:1.0.22"
         "Manufacturer" = "8:DrLogy"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

@@ -151,7 +151,7 @@ namespace CommitmentLettersApp
         {
             DrLogy.DrLogyUtils.DbUtils.ConStr = _connection;
 
-            DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_COORDINATORS");
+            DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_COORDINATORS" );
 
             List<Coordinator> lst = new List<Coordinator>();
 
@@ -258,7 +258,7 @@ namespace CommitmentLettersApp
                 lettersPDF.Results.Add(r);
             }
 
-            r.Id = (int)DrLogy.DrLogyUtils.DbUtils.ExecSP("SPMISC_GET_STID_BY_ZEHUT", new string[] { "zehut" }, new object[] { idnum.Value.Trim() });
+            r.Id = (int)DrLogy.DrLogyUtils.DbUtils.ExecSP("SPMISC_GET_STID_BY_ZEHUT", new string[] { "zehut" }, new object[] { idnum.Value.Trim() },true);
             r.IdNum = idnum.Value.Trim();
             r.CurrFirstName = firstname.Value;
             r.CurrLastName = lastname.Value;

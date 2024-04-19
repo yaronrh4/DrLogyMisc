@@ -456,12 +456,12 @@ namespace DrLogy.CommitmentLettersUtils
 
                     if (subject.Status == StudentStatus.NotUpdated)
                     {
-                        DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "st_zehut", "project", "subject", "rakaz", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, _results[rowIndex].IdNum ,  _results[rowIndex].Project, subject.SubjectInDB, rakazId, r.StartDate, r.EndDate, subject.Hours });
+                        DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "st_zehut", "project", "subject", "rakaz", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, _results[rowIndex].IdNum ,  _results[rowIndex].Project, subject.SubjectInDB, rakazId, r.StartDate, r.EndDate, subject.Hours }, true);
                         subject.Updated = true;
                     }
                     else if (subject.Status == StudentStatus.NoSubject || subject.Status == StudentStatus.NoStudent)
                     {
-                        DbUtils.ExecSP("SPMISC_INSERT_SUBJECT", new string[] { "st_id", "project", "subject", "rakaz", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, r.Project, subject.SubjectInDB, rakazId, r.StartDate, r.EndDate, subject.Hours });
+                        DbUtils.ExecSP("SPMISC_INSERT_SUBJECT", new string[] { "st_id", "project", "subject", "rakaz", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, r.Project, subject.SubjectInDB, rakazId, r.StartDate, r.EndDate, subject.Hours } ,true);
                         subject.Updated = true;
                     }
                     else
