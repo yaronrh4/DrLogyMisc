@@ -91,7 +91,7 @@ namespace CommitmentLettersApp
                     {
                         SubjectData s = r.Subjects[j];
                         email = string.IsNullOrEmpty(testEmail) ? r.CurrEmail : testEmail;
-                        if (email == null)
+                        if (string.IsNullOrEmpty(email))
                             email = r.Email;
                         subjects.Add(_lettersPDF.Options.Subjects.First(x => x.BTLName == s.SubjectBTL).Name);
                         subjectHours.Add(s.Hours);
