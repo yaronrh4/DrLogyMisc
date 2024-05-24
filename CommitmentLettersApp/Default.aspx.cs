@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Runtime;
 using System.Security.Cryptography;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
@@ -286,6 +287,11 @@ namespace CommitmentLettersApp
             string rc = "";
             if (confirmaction.Value == "save")
             {
+                string userName = System.Configuration.ConfigurationManager.AppSettings["AuditUserName"].ToString();
+                string addHours = System.Configuration.ConfigurationManager.AppSettings["AuditAddHours"].ToString();
+                if (string.IsNullOrEmpty(addHours))
+                    addHours = "0"; 
+                DbUtils.ExecSP ("SP_AUDIT" , new string[] { "UserName" , "AddHours"} , new object[] {userName, int.Parse(addHours)} );
                 for (int i = 0; i < _lettersPDF.Results.Count && rc == ""; i++)
                 {
                     rc = _lettersPDF.UpdateStudent(i, _connection);
