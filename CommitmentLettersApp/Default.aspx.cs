@@ -26,6 +26,7 @@ namespace CommitmentLettersApp
         private LettersPDFOptions _options = null;
         private string _connection = null;
         private string _project = null;
+        private string _defaultCoordinatorName = null;
 
         public LettersPDF lettersPDF
         {
@@ -61,7 +62,6 @@ namespace CommitmentLettersApp
                 options.Email = "כתובת מייל:";
                 options.SocialWorker = "פקיד/ת שיקום";
                 options.Branch = "סניף:";
-                options.DefaultCoordinatorName = Utils.GetAppSetting("DefaultCoordinator", "");
 
                 List<Subject> subjects = new List<Subject>();
                 subjects.Add(new Subject("תמלול", "תמלול", 0, true));
@@ -91,7 +91,7 @@ namespace CommitmentLettersApp
             datachanged.Value = "";
             if (!Page.IsPostBack)
             {
-                defcoordinator.Value = Utils.GetAppSetting("DefaultCoordinator", "");
+                Pref.UserId = 4921; //for now until login - default orian
 
                 //SettingsProperty prop = null;
                 //int i = 1;
@@ -104,7 +104,22 @@ namespace CommitmentLettersApp
                 //if (cmbConnection.SelectedIndex == -1)
                 //    cmbConnection.SelectedIndex = 0;
                 _connection = Utils.GetAppSetting("Connection", "");
-                _project = Utils.GetAppSetting("Project", _project);
+
+                DrLogy.DrLogyUtils.DbUtils.ConStr = _connection;
+
+                DataTable dtProject = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { Pref.UserId, 3 /*Project*/ });
+                if (dtProject.Rows.Count == 0)
+                    throw new Exception("שגיאה בטעינת פרוייקט ברירת מחדל");
+
+                DataTable dtDefaultCoordinator = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { Pref.UserId, 4 /*DefaultCoordinator*/ });
+                if (dtDefaultCoordinator.Rows.Count == 0)
+                    throw new Exception("שגיאה בטעינת רכז ברירת מחדל לתלמיד");
+
+                _project = (string)dtProject.Rows[0]["ACT_VALUE"];
+                _defaultCoordinatorName = (string)dtDefaultCoordinator.Rows[0]["ACT_VALUE"];
+
+                defcoordinator.Value = _defaultCoordinatorName;
+
 
                 System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -221,7 +236,7 @@ namespace CommitmentLettersApp
                 {
                     string filename = $"{tempDir}\\{file.FileName}";
                     file.SaveAs(filename);
-                    _lettersPDF.Process(filename, _connection, _project);
+                    _lettersPDF.Process(filename, _connection, _project , _defaultCoordinatorName);
                 }
 
                 for (int i = 0; i < _lettersPDF.Results.Count && datachanged.Value == ""; i++)
@@ -384,7 +399,7 @@ namespace CommitmentLettersApp
             DateTime startDate = DateTime.ParseExact(Loadstartdate.Value.Trim(), "dd/MM/yyyy", null);
             DateTime endDate = DateTime.ParseExact(Loadenddate.Value.Trim(), "dd/MM/yyyy", null);
 
-            _lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, _connection, _project);
+            _lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, _connection, _project , _defaultCoordinatorName );
 
             for (int i = 0; i < _lettersPDF.Results.Count && datachanged.Value == ""; i++)
                 foreach (var sub in _lettersPDF.Results[i].Subjects)

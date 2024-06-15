@@ -19,8 +19,5 @@ namespace DrLogy.CommitmentLettersUtils
 
         public List<Coordinator> Coordinators { get; set; }
 
-        public string DefaultCoordinatorName { get; set; }
-
-
     }
 }

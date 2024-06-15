@@ -13,54 +13,24 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
+using System.Data;
 
 namespace CommitmentLettersApp
 {
     public partial class EditMail : System.Web.UI.Page
     {
 
-        private const string OPTIONS_FILENAME = "letteroptions.xml";
-        private LettersPDF _lettersPDF = null;
-        private LettersPDFOptions _options = null;
-        private string _connection = null;
-        private string _project = null;
-        List<mailitem> _mails = null;
-
-        [Serializable]
-        private class mailitem
-        {
-            public string MailSubject { get; set; }
-            public string MailBody { get; set; }
-            public string MailAddress { get; set; }
-            public bool Sent { get; set; }
-        }
-
-        public LettersPDF lettersPDF
-        {
-            get {
-                return _lettersPDF;
-            }
-        }
-
-
-        public static string GetEnumDescription(Enum value)
-        {
-            FieldInfo fi = value.GetType().GetField(value.ToString());
-
-            DescriptionAttribute[] attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
-
-            if (attributes != null && attributes.Any())
-            {
-                return attributes.First().Description;
-            }
-
-            return value.ToString();
-        }
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
+                DataTable dtType = DbUtils.GetSPData("SPMISC_GET_TEMPLATE_TYPES");
+                    
+                    //DbUtils.GetSPData("SPMISC_GET_TEMPLATE_TYPES");
+                drpType.DataSource = dtType;
+                drpType.DataValueField = "ACTT_ID";
+                drpType.DataTextField  = "ACTT_NAME";
+                drpType.DataBind();
                 drpType.SelectedIndex = 0;
                 LoadHtml();
             }
@@ -70,26 +40,30 @@ namespace CommitmentLettersApp
         {
             if (drpType.SelectedIndex >= 0)
             {
-                string htmlName = MapPath("Templates/" + Utils.GetAppSetting($"MailMessage{drpType.SelectedValue}", ""));
-                string subjectName = MapPath("Templates/" + Utils.GetAppSetting($"MailSubject{drpType.SelectedValue}", ""));
+                DataTable dt = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { Pref.UserId, int.Parse(drpType.SelectedValue) });
 
-                string html = System.IO.File.ReadAllText(htmlName);
-                string subject = System.IO.File.ReadAllText(subjectName);
+                if (dt.Rows.Count > 0)
+                {
+                    string html = (string)dt.Rows[0]["ACT_HTML"];
+                    string subject = (string)dt.Rows[0]["ACT_SUBJECT"];
 
 
-                editorcontent.InnerText = html;
-                txtSubject.Text = subject;
+                    editorcontent.InnerText = html;
+                    txtSubject.Text = subject;
+                }
+                else 
+                    throw new Exception("שגיאה בטעינת תבנית");
             }
+            else
+                throw new Exception("לא נבחר סוג תבנית לעריכה");
+
         }
 
         private void SaveHTML()
         {
             if (drpType.SelectedIndex >= 0)
             {
-                string htmlName = MapPath("Templates/" + Utils.GetAppSetting($"MailMessage{drpType.SelectedValue}" ,""));
-                System.IO.File.WriteAllText(htmlName, editorcontent.InnerText);
-                string subjectName = MapPath("Templates/" + Utils.GetAppSetting($"MailSubject{drpType.SelectedValue}", ""));
-                System.IO.File.WriteAllText(subjectName, txtSubject.Text);
+                DbUtils.ExecSP("SPMISC_SET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE", "TEMPLATE_SUBJECT", "TEMPLATE_HTML" ,"CDATE"}, new object[] { Pref.UserId, int.Parse(drpType.SelectedValue), txtSubject.Text, editorcontent.InnerText , Utils.DateTimeNow() }, true);
             }
         }
 

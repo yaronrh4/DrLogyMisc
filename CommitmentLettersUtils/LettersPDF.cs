@@ -30,7 +30,7 @@ namespace DrLogy.CommitmentLettersUtils
             get { return _options; }
         }
 
-        public void LoadStudent(string idNum, string[] subjects, DateTime startDate , DateTime endDate, string connectionString, string project)
+        public void LoadStudent(string idNum, string[] subjects, DateTime startDate , DateTime endDate, string connectionString, string project , string defaultCoordinatorName)
         {
             PDFUtils utils = new PDFUtils();
             LetterData data = new LetterData();
@@ -38,7 +38,7 @@ namespace DrLogy.CommitmentLettersUtils
             data.PageNumber = 1;
             data.FileName = "";
             data.Project = project;
-            data.CoordinatorName = _options.DefaultCoordinatorName;
+            data.CoordinatorName = defaultCoordinatorName;
             data.CreateDate = DateTime.Now.Date;
             if (data.CoordinatorName == "")
                 data.CoordinatorName = _options.Coordinators[0].Name;
@@ -99,7 +99,7 @@ namespace DrLogy.CommitmentLettersUtils
             }
         }
 
-        public void Process(string filename, string connectionString, string project)
+        public void Process(string filename, string connectionString, string project , string defaultCoordinatorName)
         {
             RemoveOld(filename);
 
@@ -109,7 +109,7 @@ namespace DrLogy.CommitmentLettersUtils
             data.PageNumber = 1;
             data.FileName = filename;
             data.Project = project;
-            data.CoordinatorName = _options.DefaultCoordinatorName;
+            data.CoordinatorName = defaultCoordinatorName;
             data.CreateDate = DateTime.Now.Date;
             if (data.CoordinatorName == "")
                 data.CoordinatorName = _options.Coordinators[0].Name;

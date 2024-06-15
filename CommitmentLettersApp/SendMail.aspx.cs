@@ -108,11 +108,13 @@ namespace CommitmentLettersApp
                 if (subjects != null && subjects.Count > 0)
                 {
                     //Create email
-                    string htmlName = MapPath("Templates/" + Utils.GetAppSetting($"MailMessage{mailType}", ""));
-                    string subjectName = MapPath("Templates/" + Utils.GetAppSetting($"MailSubject{mailType}", ""));
+                    DataTable dt = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { Pref.UserId, mailType });
 
-                    string html = System.IO.File.ReadAllText(htmlName);
-                    string subject = System.IO.File.ReadAllText(subjectName);
+                    if (dt.Rows.Count == 0)
+                        throw new Exception("שגיאה בטעינת תבנית מייל");
+
+                    string html = (string)dt.Rows[0]["ACT_HTML"];
+                    string subject = (string)dt.Rows[0]["ACT_SUBJECT"];
 
                     html = html.Replace("|שם|", name);
                     html = html.Replace("|התחלה|", startDate.Value.ToString("dd/MM/yyyy"));

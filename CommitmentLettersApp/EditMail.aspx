@@ -461,8 +461,6 @@
 
                             <div class="col-lg-2">
                                 <asp:DropDownList runat="server" ID="drpType" OnSelectedIndexChanged="drpType_SelectedIndexChanged" AutoPostBack="true" >
-                                    <asp:ListItem Text="תלמיד חדש" Value="1" ></asp:ListItem>
-                                    <asp:ListItem Text="הארכת זכאות" Value="2" ></asp:ListItem>
                                 </asp:DropDownList>
                             </div>
 

@@ -801,6 +801,7 @@
     <Content Include="lib\bootstrap-datepicker\locales\bootstrap-datepicker.he.min.js" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pref.cs" />
     <Compile Include="EditMail.aspx.cs">
       <DependentUpon>EditMail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
