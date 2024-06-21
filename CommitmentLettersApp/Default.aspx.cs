@@ -315,7 +315,7 @@ namespace CommitmentLettersApp
             string rc = "";
             if (confirmaction.Value == "save")
             {
-                string userName = System.Configuration.ConfigurationManager.AppSettings["AuditUserName"].ToString();
+                string userName = System.Configuration.ConfigurationManager.AppSettings["AuditUserName"].ToString() + " " + UserManager.UserName;
                 string addHours = System.Configuration.ConfigurationManager.AppSettings["AuditAddHours"].ToString();
                 if (string.IsNullOrEmpty(addHours))
                     addHours = "0"; 
