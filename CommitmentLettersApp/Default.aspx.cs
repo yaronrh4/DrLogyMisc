@@ -91,7 +91,8 @@ namespace CommitmentLettersApp
             datachanged.Value = "";
             if (!Page.IsPostBack)
             {
-                Pref.UserId = 4921; //for now until login - default orian
+                if (UserManager.UserId == 0)
+                    Response.Redirect("Login.aspx");
 
                 //SettingsProperty prop = null;
                 //int i = 1;
@@ -107,11 +108,11 @@ namespace CommitmentLettersApp
 
                 DrLogy.DrLogyUtils.DbUtils.ConStr = _connection;
 
-                DataTable dtProject = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { Pref.UserId, 3 /*Project*/ });
+                DataTable dtProject = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { UserManager.UserId, 3 /*Project*/ });
                 if (dtProject.Rows.Count == 0)
                     throw new Exception("שגיאה בטעינת פרוייקט ברירת מחדל");
 
-                DataTable dtDefaultCoordinator = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { Pref.UserId, 4 /*DefaultCoordinator*/ });
+                DataTable dtDefaultCoordinator = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { UserManager.UserId, 4 /*DefaultCoordinator*/ });
                 if (dtDefaultCoordinator.Rows.Count == 0)
                     throw new Exception("שגיאה בטעינת רכז ברירת מחדל לתלמיד");
 
@@ -187,6 +188,9 @@ namespace CommitmentLettersApp
 
         protected void btnSaveSubject_Click(object sender, EventArgs e)
         {
+            if (UserManager.UserId == 0)
+                Response.Redirect("Login.aspx");
+
             LetterData r = _lettersPDF.Results[int.Parse(stsubidx.Value)];
             SubjectData s = null;
             if (int.Parse(subjectidx.Value) >= 0)
@@ -227,6 +231,9 @@ namespace CommitmentLettersApp
         }
         protected void btnAddPdf_Click(object sender, EventArgs e)
         {
+            if (UserManager.UserId == 0)
+                Response.Redirect("Login.aspx");
+
             try
             {
                 string tempDir = Utils.GetAppSetting("TempDir", "");
@@ -260,6 +267,9 @@ namespace CommitmentLettersApp
 
         protected void btnSaveStudent_Click(object sender, EventArgs e)
         {
+            if (UserManager.UserId == 0)
+                Response.Redirect("Login.aspx");
+
             LetterData r = null;
             int stIdx = int.Parse(stidx.Value);
             if (stIdx >= 0)
@@ -299,6 +309,9 @@ namespace CommitmentLettersApp
 
         protected void btnConfirm_Click(object sender, EventArgs e)
         {
+            if (UserManager.UserId == 0)
+                Response.Redirect("Login.aspx");
+
             string rc = "";
             if (confirmaction.Value == "save")
             {
@@ -356,6 +369,9 @@ namespace CommitmentLettersApp
 
         protected void btnClear_Click(object sender, EventArgs e)
         {
+            if (UserManager.UserId == 0)
+                Response.Redirect("Login.aspx");
+
             _lettersPDF.Results.Clear();
             RefreshData();
         }
@@ -376,6 +392,9 @@ namespace CommitmentLettersApp
 
         protected void btnExportToExcel_Click(object sender, EventArgs e)
         {
+            if (UserManager.UserId == 0)
+                Response.Redirect("Login.aspx");
+
             if (_lettersPDF.Results.Count > 0)
             {
                 SaveToExcel($"letters");
@@ -386,6 +405,9 @@ namespace CommitmentLettersApp
 
         protected void btnLoadStudent_Click(object sender, EventArgs e)
         {
+            if (UserManager.UserId == 0)
+                Response.Redirect("Login.aspx");
+
             List<string> subjects = new List<string>();
 
             for (int i = 0; i < chklstSubjects.Items.Count; i++)

@@ -108,7 +108,7 @@ namespace CommitmentLettersApp
                 if (subjects != null && subjects.Count > 0)
                 {
                     //Create email
-                    DataTable dt = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { Pref.UserId, mailType });
+                    DataTable dt = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { UserManager.UserId, mailType });
 
                     if (dt.Rows.Count == 0)
                         throw new Exception("שגיאה בטעינת תבנית מייל");
@@ -162,6 +162,9 @@ namespace CommitmentLettersApp
 
             if (!Page.IsPostBack)
             {
+                if (UserManager.UserId == 0)
+                    Response.Redirect("Login.aspx");
+
                 var m = ProcessMails(txtTestEmail.Text);
 
                 rep1.DataSource = m;
@@ -177,6 +180,9 @@ namespace CommitmentLettersApp
 
         protected void btnSendAllMails_Click(object sender, EventArgs e)
         {
+            if (UserManager.UserId == 0)
+                Response.Redirect("Login.aspx");
+
             EmailSender eml = new EmailSender();
             int cnt = 0;
             foreach (var m in _mails)
@@ -191,6 +197,9 @@ namespace CommitmentLettersApp
 
         protected void btnSendSelectedMails_Click(object sender, EventArgs e)
         {
+            if (UserManager.UserId == 0)
+                Response.Redirect("Login.aspx");
+
             EmailSender eml = new EmailSender();
             int cnt = 0;
             for (int i = 0; i < _mails.Count; i++)

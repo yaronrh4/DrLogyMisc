@@ -24,6 +24,10 @@ namespace CommitmentLettersApp
         {
             if (!Page.IsPostBack)
             {
+                if (UserManager.UserId == 0)
+                    Response.Redirect("Login.aspx");
+
+
                 DataTable dtType = DbUtils.GetSPData("SPMISC_GET_TEMPLATE_TYPES");
                     
                     //DbUtils.GetSPData("SPMISC_GET_TEMPLATE_TYPES");
@@ -40,7 +44,7 @@ namespace CommitmentLettersApp
         {
             if (drpType.SelectedIndex >= 0)
             {
-                DataTable dt = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { Pref.UserId, int.Parse(drpType.SelectedValue) });
+                DataTable dt = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { UserManager.UserId, int.Parse(drpType.SelectedValue) });
 
                 if (dt.Rows.Count > 0)
                 {
@@ -63,7 +67,7 @@ namespace CommitmentLettersApp
         {
             if (drpType.SelectedIndex >= 0)
             {
-                DbUtils.ExecSP("SPMISC_SET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE", "TEMPLATE_SUBJECT", "TEMPLATE_HTML" ,"CDATE"}, new object[] { Pref.UserId, int.Parse(drpType.SelectedValue), txtSubject.Text, editorcontent.InnerText , Utils.DateTimeNow() }, true);
+                DbUtils.ExecSP("SPMISC_SET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE", "TEMPLATE_SUBJECT", "TEMPLATE_HTML" ,"CDATE"}, new object[] { UserManager.UserId, int.Parse(drpType.SelectedValue), txtSubject.Text, editorcontent.InnerText , Utils.DateTimeNow() }, true);
             }
         }
 
@@ -74,6 +78,9 @@ namespace CommitmentLettersApp
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
+            if (UserManager.UserId == 0)
+                Response.Redirect("Login.aspx");
+
             SaveHTML();
             successhidden.Value = "התבנית נשמרה בהצלחה";
         }

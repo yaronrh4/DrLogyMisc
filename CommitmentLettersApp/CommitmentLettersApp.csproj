@@ -794,6 +794,8 @@
     <Content Include="lib\tinymce\themes\silver\theme.min.js" />
     <Content Include="lib\tinymce\tinymce.min.js" />
     <Content Include="EditMail.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="Logout.aspx" />
     <Content Include="SendMail.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="lib\bootstrap-datepicker\css\bootstrap-datepicker.standalone.min.css" />
@@ -801,13 +803,26 @@
     <Content Include="lib\bootstrap-datepicker\locales\bootstrap-datepicker.he.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pref.cs" />
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
     <Compile Include="EditMail.aspx.cs">
       <DependentUpon>EditMail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EditMail.aspx.designer.cs">
       <DependentUpon>EditMail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Logout.aspx.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Logout.aspx.designer.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
     </Compile>
     <Compile Include="SendMail.aspx.cs">
       <DependentUpon>SendMail.aspx</DependentUpon>
@@ -824,6 +839,7 @@
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="libman.json" />
@@ -833,6 +849,7 @@
     <Content Include="lib\jquery-validation\LICENSE.md" />
     <Content Include="lib\jquery-validation\package.json" />
     <Content Include="lib\jquery-validation\README.md" />
+    <Content Include="signin.css" />
     <Content Include="Templates\New.html" />
     <Content Include="Templates\UpdatedSubject.txt" />
     <Content Include="Templates\NewSubject.txt" />
@@ -840,6 +857,7 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\" />
     <Folder Include="Temp\" />
   </ItemGroup>
   <ItemGroup>

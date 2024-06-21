@@ -785,6 +785,8 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="table-wrapper">
+
                 <div class="table-title">
                     <div class="row">
                         <div class="col-lg-6">
@@ -792,11 +794,15 @@
                             <button id="btnSendMails" disabled="disabled" type="button" class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שלח מיילים</span></button>
                             <asp:LinkButton runat="server" OnClick="btnExportToExcel_Click" ID="btnExportToExcel" CssClass="btn btn-success"><i class="material-icons">&#xE159;</i> <span>יצוא לאקסל</span></asp:LinkButton>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-5">
                             <a href="EditMail.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE161;</i> <span>עריכת תבניות מייל</span></a>
+                        </div>
+                        <div class="col-lg-1">
+                            <a href="logout.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE9BA;</i> <span></span></a>
                         </div>
                     </div>
 
+                </div>
                 </div>
             </div>
 
@@ -860,7 +866,7 @@
                     </div>
                 </div>
             </div>
-                </div>>
+                </div>
 
             <!-- Add PDF HTML -->
             <div id="addPdfsModal" dir="rtl" class="modal fade">
