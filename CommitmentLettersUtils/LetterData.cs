@@ -30,6 +30,7 @@ namespace DrLogy.CommitmentLettersUtils
 
         public string CurrBranch { get; set; }
         public string CurrSocialWorker { get; set; }
+        public string CurrCoordinatorName { get; set; }
 
         public string CoordinatorName { get; set; }
 
