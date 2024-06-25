@@ -1,4 +1,5 @@
-﻿using DrLogy.CommitmentLettersUtils;
+﻿using DocumentFormat.OpenXml.Office.PowerPoint.Y2021.M06.Main;
+using DrLogy.CommitmentLettersUtils;
 using DrLogy.DrLogyUtils;
 using System;
 using System.Collections.Generic;
@@ -25,9 +26,28 @@ namespace CommitmentLettersApp
         private LettersPDF _lettersPDF = null;
         private LettersPDFOptions _options = null;
         private string _connection = null;
-        private string _project = null;
-        private string _defaultCoordinatorName = null;
-
+        private string Project
+        {
+            set
+            {
+                ViewState["Project"] = value;
+            }
+            get
+            {
+                return ViewState["Project"] != null ? (string)ViewState["Project"] : null;
+            }
+        }
+        private string DefaultCoordinatorName
+        {
+            set
+            {
+                ViewState["DefaultCoordinatorName"] = value;
+            }
+            get
+            {
+                return ViewState["DefaultCoordinatorName"] != null ? (string)ViewState["DefaultCoordinatorName"] : null;
+            }
+        }
         public LettersPDF lettersPDF
         {
             get
@@ -116,10 +136,10 @@ namespace CommitmentLettersApp
                 if (dtDefaultCoordinator.Rows.Count == 0)
                     throw new Exception("שגיאה בטעינת רכז ברירת מחדל לתלמיד");
 
-                _project = (string)dtProject.Rows[0]["ACT_VALUE"];
-                _defaultCoordinatorName = (string)dtDefaultCoordinator.Rows[0]["ACT_VALUE"];
+                this.Project = (string)dtProject.Rows[0]["ACT_VALUE"];
+                this.DefaultCoordinatorName = (string)dtDefaultCoordinator.Rows[0]["ACT_VALUE"];
 
-                defcoordinator.Value = _defaultCoordinatorName;
+                defcoordinator.Value = this.DefaultCoordinatorName;
 
 
                 System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -149,7 +169,6 @@ namespace CommitmentLettersApp
 
                 Session["lettersPDF"] = _lettersPDF;
                 Session["connection"] = _connection;
-                Session["project"] = _project;
 
                 coordinatorname.DataSource = _options.Coordinators;
                 coordinatorname.DataValueField = "Name";
@@ -160,7 +179,6 @@ namespace CommitmentLettersApp
             {
                 _lettersPDF = Session["lettersPDF"] as LettersPDF;
                 _connection = Session["connection"] as string;
-                _project = Session["project"] as string;
             }
         }
 
@@ -243,7 +261,7 @@ namespace CommitmentLettersApp
                 {
                     string filename = $"{tempDir}\\{file.FileName}";
                     file.SaveAs(filename);
-                    _lettersPDF.Process(filename, _connection, _project , _defaultCoordinatorName);
+                    _lettersPDF.Process(filename, _connection, this.Project, DefaultCoordinatorName);
                 }
 
                 for (int i = 0; i < _lettersPDF.Results.Count && datachanged.Value == ""; i++)
@@ -279,7 +297,7 @@ namespace CommitmentLettersApp
             else
             {
                 r = new LetterData();
-                r.Project = _project;
+                r.Project = this.Project;
                 r.Subjects = new List<SubjectData>();
                 lettersPDF.Results.Add(r);
             }
@@ -421,7 +439,7 @@ namespace CommitmentLettersApp
             DateTime startDate = DateTime.ParseExact(Loadstartdate.Value.Trim(), "dd/MM/yyyy", null);
             DateTime endDate = DateTime.ParseExact(Loadenddate.Value.Trim(), "dd/MM/yyyy", null);
 
-            _lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, _connection, _project , _defaultCoordinatorName );
+            _lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, _connection, this.Project , DefaultCoordinatorName );
 
             for (int i = 0; i < _lettersPDF.Results.Count && datachanged.Value == ""; i++)
                 foreach (var sub in _lettersPDF.Results[i].Subjects)

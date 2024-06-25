@@ -415,8 +415,16 @@ namespace DrLogy.CommitmentLettersUtils
             {
                 try
                 {
-                    int rakazId = _options.Coordinators.First(x => x.Name == r.CoordinatorName).TeacherId;
-
+                    int rakazId = 0;
+                    try
+                    {
+                        rakazId = _options.Coordinators.First(x => x.Name == r.CoordinatorName).TeacherId;
+                    }
+                    catch (Exception ex)
+                    {
+                        rc = "שגיאה באיתור שם רכז";
+                        return rc;
+                    }
                     var z = DbUtils.ExecSP("SPMISC_UPDATE_STUDENT", new string[] { "st_id", "zehut", "fname", "lname", "project", "phone", "city", "parentname", "email" ,"rakaz" }, new object[] { r.Id, r.IdNum.Trim(), r.CurrFirstName.Trim(), r.CurrLastName.Trim(), r.Project.Trim(), r.CurrPhone.Trim(), r.CurrBranch.Trim(), r.CurrSocialWorker.Trim() , r.CurrEmail , rakazId }, true);
                     r.Id = (int)z;
                     //yaron to check
