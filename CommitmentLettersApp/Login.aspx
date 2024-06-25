@@ -43,7 +43,7 @@
 
                                 <div class="d-none text-right alert alert-danger alert-dismissible fade show" role="alert" id="alerterror">
     <div id="alerterrormsg"></div>
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <button title="סגירה" type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -57,7 +57,7 @@
 <div class="checkbox mb-3">
 <label> <input type="checkbox" id="chkRememberMe" runat="server" value="remember-me">זכור אותי</label>
 </div>
-<asp:Button runat="server" ID="btnLogin" CssClass="btn btn-lg btn-primary btn-block" OnClick="btnLogin_Click" Text="התחברות"></asp:Button>
+<asp:Button ToolTip="התחברות" runat="server" ID="btnLogin" CssClass="btn btn-lg btn-primary btn-block" OnClick="btnLogin_Click" Text="התחברות"></asp:Button>
 </form>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 

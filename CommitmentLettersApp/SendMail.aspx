@@ -432,8 +432,8 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-lg-6">
-                                <asp:LinkButton runat="server" ID="btnSendAllMails" OnClick="btnSendAllMails_Click"> <div class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שלח כל המיילים</span></div></asp:LinkButton>
-                                <asp:LinkButton runat="server" ID="btnSendSelectedMails" OnClick="btnSendSelectedMails_Click"> <div class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שלח מיילים מסומנים</span></div></asp:LinkButton>
+                                <asp:LinkButton ToolTip="שליחת כל המיילים" runat="server" ID="btnSendAllMails" OnClick="btnSendAllMails_Click"> <div class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שליחת כל המיילים</span></div></asp:LinkButton>
+                                <asp:LinkButton ToolTip="שליחת מיילים מסומנים" runat="server" ID="btnSendSelectedMails" OnClick="btnSendSelectedMails_Click"> <div class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שליחת מיילים מסומנים</span></div></asp:LinkButton>
                             </div>
                         </div>
                     </div>

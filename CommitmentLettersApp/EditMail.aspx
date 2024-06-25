@@ -450,7 +450,7 @@
                             <div class="col-lg-12 text-right">
                                 <div class="alert alert-success d-none" id="alertok">
                                     <span id="alertokmessage"></span>
-                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <button title="סגירה" type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
 
@@ -486,7 +486,7 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-lg-6">
-                                <asp:LinkButton runat="server" ID="btnUpdate" OnClick="btnUpdate_Click"> <div class="btn btn-success"><i class="material-icons">&#xE161;</i> <span>שמירה</span></div></asp:LinkButton>
+                                <asp:LinkButton ToolTip="שמירה" runat="server" ID="btnUpdate" OnClick="btnUpdate_Click"> <div class="btn btn-success"><i class="material-icons">&#xE161;</i> <span>שמירה</span></div></asp:LinkButton>
                             </div>
                         </div>
                     </div>

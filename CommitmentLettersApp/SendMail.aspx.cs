@@ -108,7 +108,7 @@ namespace CommitmentLettersApp
                 if (subjects != null && subjects.Count > 0)
                 {
                     //Create email
-                    DataTable dt = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { UserManager.UserId, mailType });
+                    DataTable dt = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { -1, mailType });
 
                     if (dt.Rows.Count == 0)
                         throw new Exception("שגיאה בטעינת תבנית מייל");

@@ -669,7 +669,7 @@
                                 <div class="alert d-none" id="alert">
                                     <div>
                                         <span id="alertmessage">גיא פניני מת</span>
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <button title="סגירה" type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -682,11 +682,11 @@
                             </div>
                             <div class="col-lg-6">
 
-                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addPdfsModal"><i class="material-icons">&#xE147;</i> <span>טען קבצי PDF</span></button>
-                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#loadStudentModal"><i class="material-icons">&#xE7FD;</i> <span>טען תלמיד</span></button>
-                                <button onclick="addStudent(this)" type="button" class="btn btn-success" data-toggle="modal" data-target="#editStudentModal"><i class="material-icons" data-toggle="tooltip" title="הוספת תלמיד">&#xE7FE;</i> <span>הוספת תלמיד</span></button>
+                                <button type="button" title="טעינת קבצי PDF" class="btn btn-success" data-toggle="modal" data-target="#addPdfsModal"><i class="material-icons">&#xE147;</i> <span>טעינת קבצי PDF</span></button>
+                                <button type="button" title="טעינת תלמיד" class="btn btn-success" data-toggle="modal" data-target="#loadStudentModal"><i class="material-icons">&#xE7FD;</i> <span>טעינת תלמיד</span></button>
+                                <button onclick="addStudent(this)" title="הוספת תלמיד" type="button" class="btn btn-success" data-toggle="modal" data-target="#editStudentModal"><i class="material-icons" data-toggle="tooltip" title="הוספת תלמיד">&#xE7FE;</i> <span>הוספת תלמיד</span></button>
 
-                                <asp:LinkButton runat="server" OnClick="btnClear_Click" ID="btnClear" CssClass="btn btn-success"><i class="material-icons">&#xE14C;</i> <span>ניקוי</span></asp:LinkButton>
+                                <asp:LinkButton ToolTip="ניקוי" runat="server" OnClick="btnClear_Click" ID="btnClear" CssClass="btn btn-success"><i class="material-icons">&#xE14C;</i> <span>ניקוי</span></asp:LinkButton>
                                 <%--                                <a href="#confirmModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>--%>
                             </div>
                         </div>
@@ -770,7 +770,7 @@
                                             </td>
                                             <td></td>
                                             <td>
-                                                <a onclick="editSubject(this)" href="#editSubjectModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="עריכת הנגשה">&#xE254;</i></a>
+                                                <a title="עריכת הנגשה" onclick="editSubject(this)" href="#editSubjectModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" >&#xE254;</i></a>
                                                 <%--                                                <a href="#confirmModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>--%>
                                             </td>
                                             </tr>
@@ -790,15 +790,15 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-lg-6">
-                            <button id="btnSave" disabled="disabled" type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmModal"><i class="material-icons">&#xF233;</i> <span>שמירה</span></></button>
-                            <button id="btnSendMails" disabled="disabled" type="button" class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שלח מיילים</span></button>
-                            <asp:LinkButton runat="server" OnClick="btnExportToExcel_Click" ID="btnExportToExcel" CssClass="btn btn-success"><i class="material-icons">&#xE159;</i> <span>יצוא לאקסל</span></asp:LinkButton>
+                            <button id="btnSave" title="שמירה" disabled="disabled" type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmModal"><i class="material-icons">&#xF233;</i> <span>שמירה</span></></button>
+                            <button id="btnSendMails" title="שליחת מיילים" disabled="disabled" type="button" class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שליחת מיילים</span></button>
+                            <asp:LinkButton ToolTip="יצוא לאקסל" runat="server" OnClick="btnExportToExcel_Click" ID="btnExportToExcel" CssClass="btn btn-success"><i class="material-icons">&#xE159;</i> <span>יצוא לאקסל</span></asp:LinkButton>
                         </div>
                         <div class="col-lg-5">
-                            <a href="EditMail.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE161;</i> <span>עריכת תבניות מייל</span></a>
+                            <a title="עריכת תבניות מייל" href="EditMail.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE161;</i> <span>עריכת תבניות מייל</span></a>
                         </div>
                         <div class="col-lg-1">
-                            <a href="logout.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE9BA;</i> <span></span></a>
+                            <a title="התנתקות" href="logout.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE9BA;</i> <span></span></a>
                         </div>
                     </div>
 
@@ -812,8 +812,8 @@
                         <%--                <form id="frm2" runat="server">--%>
                         <div class="modal-header">
                             <div>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">טען תלמיד</h4>
+                                <button title="סגירה" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">טעינת תלמיד</h4>
                             </div>
                         </div>
                         <div class="modal-body">
@@ -858,8 +858,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <asp:Button runat="server" ID="btnLoadStudent" OnClick="btnLoadStudent_Click" CssClass="btn btn-success" Text="טען" />
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
+                            <asp:Button ToolTip="טעינה" runat="server" ID="btnLoadStudent" OnClick="btnLoadStudent_Click" CssClass="btn btn-success" Text="טעינה" />
+                            <input  title="ביטול" type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
                         </div>
 
                         <%--                </form>--%>
@@ -875,19 +875,19 @@
                         <%--                <form id="frm2" runat="server">--%>
                         <div class="modal-header">
                             <div>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">טען קבצים</h4>
+                                <button title="סגירה" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">טעינת קבצים</h4>
                             </div>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>בחר קבצים</label>
+                                <label>בחירת קבצים</label>
                                 <asp:FileUpload ID="fuPdfs" runat="server" accept="application/pdf" CssClass="form-control" AllowMultiple="true" />
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <asp:Button runat="server" ID="btnAddPdf" OnClick="btnAddPdf_Click" CssClass="btn btn-success" Text="הוסף" />
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
+                            <asp:Button title="הוספה" runat="server" ID="btnAddPdf" OnClick="btnAddPdf_Click" CssClass="btn btn-success" Text="הוספה" />
+                            <input type="button" title="ביטול" class="btn btn-default" data-dismiss="modal" value="ביטול" />
                         </div>
 
                         <%--                </form>--%>
@@ -902,15 +902,15 @@
                         <%--                <form id="frm1">--%>
                         <div class="modal-header">
                             <h4 class="modal-title" id="confirmtitle"></h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <button type="button" title="סגירה" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">
                             <p id="confirmmessage"></p>
                             <p class="text-warning"><small>הפעולה אינה הפיכה</small></p>
                         </div>
                         <div class="modal-footer">
-                            <asp:Button runat="server" ID="btnConfirm" CssClass="btn btn-danger" Text="אישור" OnClick="btnConfirm_Click" />
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
+                            <asp:Button title="אישור" runat="server" ID="btnConfirm" CssClass="btn btn-danger" Text="אישור" OnClick="btnConfirm_Click" />
+                            <input titlt="ביטול" type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
                         </div>
                         <%--                </form>--%>
                     </div>
@@ -923,7 +923,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">עריכת תלמיד</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <button title="סגירה" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
@@ -1035,8 +1035,8 @@
 
                         </div>
                         <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                            <asp:Button runat="server" ID="btnSaveStudent" OnClick="btnSaveStudent_Click" CssClass="btn btn-info" Text="שמירה" />
+                            <input title="ביטול" type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
+                            <asp:Button ToolTip="שמירה" runat="server" ID="btnSaveStudent" OnClick="btnSaveStudent_Click" CssClass="btn btn-info" Text="שמירה" />
                         </div>
 
                     </div>
@@ -1050,7 +1050,7 @@
                         <%--                <form id="Form1" runat="server">--%>
                         <div class="modal-header">
                             <h4 class="modal-title">עריכת הנגשה</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <button title="סגירה" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
@@ -1095,8 +1095,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                            <asp:Button runat="server" ID="btnSaveSubject" OnClick="btnSaveSubject_Click" CssClass="btn btn-info" Text="שמירה" />
+                            <input title="סגירה" type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
+                            <asp:Button ToolTip="שמירה" runat="server" ID="btnSaveSubject" OnClick="btnSaveSubject_Click" CssClass="btn btn-info" Text="שמירה" />
                         </div>
                         <%--                </form>--%>
                     </div>
