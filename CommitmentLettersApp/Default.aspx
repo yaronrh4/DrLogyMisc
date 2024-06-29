@@ -319,8 +319,10 @@
             function (value, element, params) {
                 var date1 = ddmmyyyyToDate(value);
                 var date2 = ddmmyyyyToDate($(params).val())
+      
+
                 return date1 > date2;
-            }, 'הערך חייב להיות גדול מ {0}.');
+            }, 'הערך חייב להיות גדול מתאריך התחלה.');
 
 
 
@@ -677,14 +679,15 @@
                             </div>
 
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-3">
                                 <h2>עדכון התחייבויות</h2>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-9">
 
                                 <button type="button" title="טעינת קבצי PDF" class="btn btn-success" data-toggle="modal" data-target="#addPdfsModal"><i class="material-icons">&#xE147;</i> <span>טעינת קבצי PDF</span></button>
                                 <button type="button" title="טעינת תלמיד" class="btn btn-success" data-toggle="modal" data-target="#loadStudentModal"><i class="material-icons">&#xE7FD;</i> <span>טעינת תלמיד</span></button>
                                 <button onclick="addStudent(this)" title="הוספת תלמיד" type="button" class="btn btn-success" data-toggle="modal" data-target="#editStudentModal"><i class="material-icons" data-toggle="tooltip" title="הוספת תלמיד">&#xE7FE;</i> <span>הוספת תלמיד</span></button>
+                                <button type="button" title="יבוא מאקסל" class="btn btn-success" data-toggle="modal" data-target="#excelImportModal"><i class="material-icons">&#xEAF3;</i> <span>יבוא מאקסל</span></button>
 
                                 <asp:LinkButton ToolTip="ניקוי" runat="server" OnClick="btnClear_Click" ID="btnClear" CssClass="btn btn-success"><i class="material-icons">&#xE14C;</i> <span>ניקוי</span></asp:LinkButton>
                                 <%--                                <a href="#confirmModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>--%>
@@ -895,6 +898,34 @@
                 </div>
             </div>
 
+            <!-- Excel Impoty HTML -->
+            <div id="excelImportModal" dir="rtl" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <%--                <form id="frm2" runat="server">--%>
+                        <div class="modal-header">
+                            <div>
+                                <button title="סגירה" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">יבוא מאקסל</h4>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>בחירת קובץ</label>
+                                <asp:FileUpload ID="fuExcel" runat="server" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" CssClass="form-control" AllowMultiple="false" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button title="הוספה" runat="server" ID="btnImportFromExcel" OnClick="btnImportFromExcel_Click" CssClass="btn btn-success" Text="יבוא" />
+                            <input type="button" title="ביטול" class="btn btn-default" data-dismiss="modal" value="ביטול" />
+                        </div>
+
+                        <%--                </form>--%>
+                    </div>
+                </div>
+            </div>
+
+
             <!-- Confirm Modal HTML -->
             <div id="confirmModal" class="modal fade">
                 <div class="modal-dialog">
@@ -1056,7 +1087,7 @@
                             <div class="row">
                                 <div class="col-lg-2">
                                     <label>
-                                        הנגשה11<br />
+                                        הנגשה<br />
                                         <br />
                                     </label>
                                 </div>

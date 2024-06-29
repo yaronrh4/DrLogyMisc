@@ -25,7 +25,6 @@ namespace CommitmentLettersApp
         private const string OPTIONS_FILENAME = "letteroptions.xml";
         private LettersPDF _lettersPDF = null;
         private LettersPDFOptions _options = null;
-        private string _connection = null;
         private string Project
         {
             set
@@ -35,6 +34,18 @@ namespace CommitmentLettersApp
             get
             {
                 return ViewState["Project"] != null ? (string)ViewState["Project"] : null;
+            }
+        }
+
+        private string Connection
+        {
+            set
+            {
+                ViewState["Connection"] = value;
+            }
+            get
+            {
+                return ViewState["Connection"] != null ? (string)ViewState["Connection"] : null;
             }
         }
         private string DefaultCoordinatorName
@@ -124,9 +135,9 @@ namespace CommitmentLettersApp
                 //cmbConnection.SelectedIndex = cmbConnection.FindString(Utils.GetAppSetting("Connection", "0"));
                 //if (cmbConnection.SelectedIndex == -1)
                 //    cmbConnection.SelectedIndex = 0;
-                _connection = Utils.GetAppSetting("Connection", "");
+                this.Connection = Utils.GetAppSetting("Connection", "");
 
-                DrLogy.DrLogyUtils.DbUtils.ConStr = _connection;
+                DrLogy.DrLogyUtils.DbUtils.ConStr = Connection;
 
                 DataTable dtProject = DbUtils.GetSPData("SPMISC_GET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE" }, new object[] { UserManager.UserId, 3 /*Project*/ });
                 if (dtProject.Rows.Count == 0)
@@ -168,7 +179,6 @@ namespace CommitmentLettersApp
                 }
 
                 Session["lettersPDF"] = _lettersPDF;
-                Session["connection"] = _connection;
 
                 coordinatorname.DataSource = _options.Coordinators;
                 coordinatorname.DataValueField = "Name";
@@ -178,13 +188,12 @@ namespace CommitmentLettersApp
             else
             {
                 _lettersPDF = Session["lettersPDF"] as LettersPDF;
-                _connection = Session["connection"] as string;
             }
         }
 
         private List<Coordinator> LoadCoordinators()
         {
-            DrLogy.DrLogyUtils.DbUtils.ConStr = _connection;
+            DrLogy.DrLogyUtils.DbUtils.ConStr = Connection;
 
             DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_COORDINATORS" );
 
@@ -261,7 +270,7 @@ namespace CommitmentLettersApp
                 {
                     string filename = $"{tempDir}\\{file.FileName}";
                     file.SaveAs(filename);
-                    _lettersPDF.Process(filename, _connection, this.Project, DefaultCoordinatorName);
+                    _lettersPDF.Process(filename, Connection, this.Project, DefaultCoordinatorName);
                 }
 
                 for (int i = 0; i < _lettersPDF.Results.Count && datachanged.Value == ""; i++)
@@ -340,7 +349,7 @@ namespace CommitmentLettersApp
                 DbUtils.ExecSP ("SP_AUDIT" , new string[] { "UserName" , "AddHours"} , new object[] {userName, int.Parse(addHours)} );
                 for (int i = 0; i < _lettersPDF.Results.Count && rc == ""; i++)
                 {
-                    rc = _lettersPDF.UpdateStudent(i, _connection);
+                    rc = _lettersPDF.UpdateStudent(i, Connection);
                     if (rc != "")
                         errorhidden.Value = rc;
                 }
@@ -439,7 +448,7 @@ namespace CommitmentLettersApp
             DateTime startDate = DateTime.ParseExact(Loadstartdate.Value.Trim(), "dd/MM/yyyy", null);
             DateTime endDate = DateTime.ParseExact(Loadenddate.Value.Trim(), "dd/MM/yyyy", null);
 
-            _lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, _connection, this.Project , DefaultCoordinatorName );
+            _lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, Connection, this.Project , DefaultCoordinatorName );
 
             for (int i = 0; i < _lettersPDF.Results.Count && datachanged.Value == ""; i++)
                 foreach (var sub in _lettersPDF.Results[i].Subjects)
@@ -452,6 +461,43 @@ namespace CommitmentLettersApp
 
             RefreshData();
 
+        }
+
+        protected void btnImportFromExcel_Click(object sender, EventArgs e)
+        {
+            string tempDir = Utils.GetAppSetting("TempDir", "");
+            tempDir = Server.MapPath(tempDir);
+
+            string filename = $"{tempDir}\\{fuExcel.PostedFile.FileName}";
+            fuExcel.PostedFile.SaveAs(filename);
+            string rc = lettersPDF.ImportFromExcel(filename, Connection, Project, DefaultCoordinatorName);
+        
+            if (string.IsNullOrEmpty(rc))
+            {
+                datachanged.Value = "1";
+                RefreshData();
+            }
+        }
+
+        DateTime dtStart;
+
+        protected override void OnPreInit(EventArgs e)
+        {
+            dtStart = DateTime.Now;
+
+            base.OnPreInit(e);
+        }
+
+        protected override void Render(HtmlTextWriter writer)
+        {
+            try
+            {
+                base.Render(writer);
+                Response.Write("<!--" + (DateTime.Now - dtStart).TotalMilliseconds + "-->");
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 }

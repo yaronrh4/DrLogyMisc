@@ -46,5 +46,33 @@ namespace DrLogy.CommitmentLettersUtils
         public bool IsNewStudent { get; set; } = true;
 
         public bool Edited { get; set; } = false;
+
+        //New fields for ExcelImport
+
+        public string NewKey { get; set; }
+
+        public string ClassName { get; set; }
+
+        public string Age { get; set; }
+
+
+        public string Address { get; set; }
+
+
+        public string Mikud { get; set; }
+
+
+        public string CurrNewKey { get; set; }
+
+        public string CurrClassName { get; set; }
+
+        public string CurrAge { get; set; }
+
+        public string CurrAddress { get; set; }
+
+
+        public string CurrMikud { get; set; }
+
+
     }
 }

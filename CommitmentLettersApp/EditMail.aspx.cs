@@ -27,7 +27,6 @@ namespace CommitmentLettersApp
                 if (UserManager.UserId == 0)
                     Response.Redirect("Login.aspx");
 
-
                 DataTable dtType = DbUtils.GetSPData("SPMISC_GET_TEMPLATE_TYPES");
                     
                     //DbUtils.GetSPData("SPMISC_GET_TEMPLATE_TYPES");

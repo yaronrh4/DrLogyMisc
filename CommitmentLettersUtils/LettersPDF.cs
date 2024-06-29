@@ -62,6 +62,11 @@ namespace DrLogy.CommitmentLettersUtils
                 data.Branch = row["ST_CITY"].ToString();
                 data.Phone = row["ST_PHONE1"].ToString();
                 data.Email = row["ST_EMAIL"].ToString();
+                data.NewKey =   row["ST_EMAIL"].ToString();
+                data.ClassName = row["CLS_NAME"].ToString();
+                data.Age = row["ST_AGE"].ToString();
+                data.Address = row["ST_ADDRESS"].ToString();
+                data.Mikud = row["ST_MIKUD"].ToString();
             }
 
             //Subjects
@@ -99,11 +104,95 @@ namespace DrLogy.CommitmentLettersUtils
             }
         }
 
+        public string ImportFromExcel(string filename, string connectionString, string project, string defaultCoordinatorName)
+        {
+            _results.Clear();
+
+            var excel = new ExcelCreator();
+
+            DataTable dt = excel.ExcelToDatatable(filename);
+
+            var sorted = dt.AsEnumerable().OrderBy(x => x["ת.ז"]);
+            DataTable badDt = dt.Clone();
+            //todo validation
+
+            int idNum = -1;
+            LetterData data = null;
+            foreach (var row in sorted)
+            {
+                int currIdNum = int.Parse (row["ת.ז"].ToString());
+
+                if (data == null || idNum != currIdNum)
+                {
+                    idNum = currIdNum;
+                    data = new LetterData();
+                    data.IdNum = currIdNum.ToString();
+
+                    data.FileName = filename;
+                    data.Project = project;
+                    data.CreateDate = row["תאריך קליטה"] is DBNull ? DateTime.Now : (DateTime)row["תאריך קליטה"]; ;
+
+                    data.StartDate = (DateTime)row["תאריך התחלה"];
+                    data.EndDate = (DateTime)row["תאריך התחלה"];
+
+                    data.Email = data.CurrEmail = row["מייל"] is DBNull ? "" : (string)row["מייל"];
+                    data.CoordinatorName = data.CurrCoordinatorName = row["רכז תלמיד"] is DBNull ? "" : (string)row["רכז תלמיד"].ToString();
+                    data.FirstName = data.CurrFirstName = row["שם פרטי"] is DBNull ? "" : row["שם פרטי"].ToString();
+                    data.LastName = data.CurrLastName = row["שם משפחה"] is DBNull ? "" : row["שם משפחה"].ToString();
+                    data.SocialWorker = data.CurrSocialWorker = row["עו\"ס"] is DBNull ? "" : row["עו\"ס"].ToString();
+                    data.Branch = data.CurrBranch = row["עיר"] is DBNull ? "" : row["עיר"].ToString();
+                    data.Phone = data.CurrPhone = row["טלפון"] is DBNull ? "" : row["טלפון"].ToString();
+
+                    data.NewKey = data.CurrNewKey = row["מספר פנימי"] is DBNull ? "" : row["מספר פנימי"].ToString();
+                    data.ClassName = data.CurrClassName = row["כיתה"] is DBNull ? "" : row["כיתה"].ToString();
+                    data.Age = data.CurrAge = row["גיל"] is DBNull ? "" : row["גיל"].ToString();
+                    data.Address = data.CurrAddress = row["כתובת"] is DBNull ? "" : row["כתובת"].ToString();
+                    data.Mikud = data.CurrMikud = row["מיקוד"] is DBNull ? "" : row["מיקוד"].ToString();
+
+                    if (data.SocialWorker.IndexOf("עוס") < 0 && data.SocialWorker.IndexOf("עו\"ס") < 0)
+                        data.SocialWorker = "עו\"ס " + data.SocialWorker;
+                    data.CurrSocialWorker = data.SocialWorker;
+
+                    data.Subjects = new List<SubjectData>();
+                    _results.Add(data);
+                }
+                SubjectData newSubject = new SubjectData();
+                string subName = (string)row["הנגשה"];
+
+                var sub = _options.Subjects.FirstOrDefault(c => c.BTLName == subName);
+
+                //newSubject.SubjectBTL = subject.BTLName;
+                newSubject.SubjectInDB = (string)row["הנגשה"];
+                newSubject.Hours = row["מכסת שעות"] is DBNull ? 0 :(Decimal)row["הנגשה"];
+                newSubject.SubjectBTL = subName;
+                newSubject.SubjectInDB = sub == null ? subName : sub.Name;
+
+                data.Subjects.Add(newSubject);
+            }
+
+            for (int i = 0; i < Results.Count; i++)
+            {
+                for (int j = 0; j < Results[i].Subjects.Count; j++)
+                {
+                    GetDataFromDB(i, j, connectionString);
+                    RefreshStatus(i,j);
+
+                }
+                if (Results[i].Subjects[0].Status== StudentStatus.NoStudent)
+                {
+
+                }
+
+            }
+
+            return "";
+        }
         public void Process(string filename, string connectionString, string project , string defaultCoordinatorName)
         {
             RemoveOld(filename);
 
             PDFUtils utils = new PDFUtils();
+
             LetterData data = new LetterData();
 
             data.PageNumber = 1;
@@ -257,12 +346,19 @@ namespace DrLogy.CommitmentLettersUtils
                     DataRow row = dt.Rows[dt.Rows.Count - 1];
                     r.Id = (int)row["ST_ID"];
                     r.IsNewStudent = false;
-                    r.CurrFirstName = (string)row["ST_FNAME"];
-                    r.CurrLastName = (string)row["ST_LNAME"];
+                    r.CurrFirstName = row["ST_FNAME"].ToString();
+                    r.CurrLastName = row["ST_LNAME"].ToString();
+                    r.CurrBranch = row["ST_CITY"].ToString();
                     r.CurrEmail = row["ST_EMAIL"].ToString();
                     r.CurrPhone = row["ST_PHONE1"].ToString();
                     r.CurrBranch = row["ST_CITY"].ToString();
                     r.CurrSocialWorker = row["ST_PARENTNAME"].ToString();
+                    r.CurrNewKey = row["ST_NEW_KEY"].ToString();
+                    r.CurrClassName = row["ST_CLASSNAME"].ToString();
+                    r.CurrAge = row["ST_AGE"].ToString();
+                    r.CurrAddress = row["ST_ADDRESS"].ToString();
+                    r.CurrMikud = row["ST_MIKUD"].ToString();
+
                     string rName = row["RAKAZ_NAME"].ToString();
                     if (rName != "")
                     {
@@ -276,8 +372,14 @@ namespace DrLogy.CommitmentLettersUtils
                         r.LastName = r.LastName;
                         r.Name = r.FirstName + " " + r.LastName;
                         subject.SubjectBTL = subject.CurrSubjectBTL;
+                        r.Branch = r.CurrBranch;
                         r.Email = r.CurrEmail;
                         r.Phone = r.CurrPhone;
+                        r.NewKey = r.CurrNewKey;
+                        r.ClassName = r.CurrClassName;
+                        r.Age = r.CurrAddress;
+                        r.Address = r.CurrAddress;
+                        r.Mikud = r.CurrMikud;
                     }
                 }
 
@@ -408,6 +510,13 @@ namespace DrLogy.CommitmentLettersUtils
                 r.CurrEmail = r.Email;
                 r.CurrBranch = r.Branch;
                 r.CurrSocialWorker = r.SocialWorker;
+
+
+                r.CurrNewKey = r.NewKey;
+                r.CurrClassName = r.ClassName;
+                r.CurrAge = r.Address;
+                r.CurrAddress = r.Address;
+                r.CurrMikud = r.Mikud;
             }
 
             float idnum = 0;
@@ -425,7 +534,15 @@ namespace DrLogy.CommitmentLettersUtils
                         rc = "שגיאה באיתור שם רכז";
                         return rc;
                     }
-                    var z = DbUtils.ExecSP("SPMISC_UPDATE_STUDENT", new string[] { "st_id", "zehut", "fname", "lname", "project", "phone", "city", "parentname", "email" ,"rakaz" }, new object[] { r.Id, r.IdNum.Trim(), r.CurrFirstName.Trim(), r.CurrLastName.Trim(), r.Project.Trim(), r.CurrPhone.Trim(), r.CurrBranch.Trim(), r.CurrSocialWorker.Trim() , r.CurrEmail , rakazId }, true);
+                    DateTime dt1 = DateTime.Now;
+                    var z = DbUtils.ExecSP("SPMISC_UPDATE_STUDENT", new string[] { "st_id", "zehut", "fname", "lname", "project", "phone", "city", "parentname", "email" ,"rakaz" , "newkey", "classname", "age", "address", "mikud" }, new object[] { r.Id, r.IdNum.Trim(), r.CurrFirstName.Trim(), r.CurrLastName.Trim(), r.Project.Trim(), r.CurrPhone.Trim(), r.CurrBranch.Trim(), r.CurrSocialWorker.Trim() , r.CurrEmail , rakazId  , r.CurrNewKey, r.CurrClassName, r.CurrAge , r.CurrAddress,r.CurrMikud }, true);
+                    double xxx = (dt1-DateTime.Now).TotalMilliseconds;
+                    r.NewKey= r.CurrNewKey;
+                    r.ClassName = r.CurrClassName;
+                    r.Age = r.CurrAddress;
+                    r.Address = r.CurrAddress;
+                    r.Mikud = r.CurrMikud;
+                    
                     r.Id = (int)z;
                     //yaron to check
                     //for (int i = 0; i < _results.Count; i++)
