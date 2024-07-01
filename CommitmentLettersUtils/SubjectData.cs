@@ -20,21 +20,21 @@ namespace DrLogy.CommitmentLettersUtils
     }
     [Serializable]
     public class SubjectData     {
-        public bool IsNew { get; set; }
+        public bool? IsNew { get; set; }
         public bool Updated { get; set; }
 
         public string Project { get; set; }
 
         public string Branch { get; set; }
 
-        public string SubjectBTL { get; set; }
+        public string SubjectFile { get; set; }
 
         public string SubjectInDB { get; set; }
         public decimal Hours { get; set; }
 
         public StudentStatus Status { get; set; }
 
-        public string CurrSubjectBTL { get; set; }
+        public string CurrSubjectFile { get; set; }
 
         public DateTime? CurrStartDate { get; set; }
         public DateTime? CurrEndDate { get; set; }

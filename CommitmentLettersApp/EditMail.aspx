@@ -333,30 +333,30 @@
         }
 
         function editSubject(e) {
-            var subjectSelect = $("#editSubjectModal").find("#subjectbtl");
-            var curSub = ($(e).parent().parent().attr("subjectbtl"));
+            var subjectSelect = $("#editSubjectModal").find("#subjectfile");
+            var curSub = ($(e).parent().parent().attr("subjectfile"));
             var currSubjecs = [];
 
             $(e).parent().parent().parent().children().each(function () {
-                var sub = $(this).attr("subjectbtl");
+                var sub = $(this).attr("subjectfile");
                 if (sub != null && sub != curSub)
                     currSubjecs.push(sub);
             });
 
             //clear options
             subjectSelect.children().remove().end();
-            for (var i = 0; i < subjectsBTL.length; i++) {
+            for (var i = 0; i < subjectsFile.length; i++) {
                 //add the subject if it doesn't exist in the letter
-                if (currSubjecs.indexOf(subjectsBTL[i]) < 0)
+                if (currSubjecs.indexOf(subjectsFile[i]) < 0)
                     subjectSelect.append($('<option>', {
-                        value: subjectsBTL[i],
+                        value: subjectsFile[i],
                         text: subjectsDB[i]
                     }));
             }
 
             $("#editSubjectModal").find("#stsubidx").val($(e).parent().parent().attr("stsubidx"));
             $("#editSubjectModal").find("#subjectidx").val($(e).parent().parent().attr("subjectidx"));
-            $("#editSubjectModal").find("#subjectbtl").val($(e).parent().parent().attr("subjectbtl"));
+            $("#editSubjectModal").find("#subjectfile").val($(e).parent().parent().attr("subjectfile"));
             $("#editSubjectModal").find("#subjectindb").val($(e).parent().parent().attr("subjectindb"));
             $("#editSubjectModal").find("#hours").val($(e).parent().parent().attr("hours"));
             $("#editSubjectModal").find("#startdate").val($(e).parent().parent().attr("startdate"));

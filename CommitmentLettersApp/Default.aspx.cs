@@ -170,12 +170,13 @@ namespace CommitmentLettersApp
                 //bin folder
                 string path = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, System.AppDomain.CurrentDomain.RelativeSearchPath ?? "");
                 _options = (LettersPDFOptions)Utils.DeSerializeObjectUTF(path + "\\" + OPTIONS_FILENAME, typeof(LettersPDFOptions));
+                _options.LoadSubjectsFromDb(this.Project, this.Connection);
                 _options.Coordinators = LoadCoordinators();
                 _lettersPDF = new LettersPDF(_options);
 
                 foreach (var z in _lettersPDF.Options.Subjects)
                 {
-                    chklstSubjects.Items.Add(z.BTLName);
+                    chklstSubjects.Items.Add(z.NameInFile);
                 }
 
                 Session["lettersPDF"] = _lettersPDF;
@@ -226,8 +227,8 @@ namespace CommitmentLettersApp
             {
                 s = new SubjectData();
                 r.Subjects.Add(s);
-                s.SubjectBTL = subjectname.Value;
-                s.SubjectInDB = lettersPDF.Options.Subjects.Where(z => z.BTLName == s.SubjectBTL).Select(q => q.Name).First();
+                s.SubjectFile = subjectname.Value;
+                s.SubjectInDB = lettersPDF.Options.Subjects.Where(z => z.NameInFile == s.SubjectFile).Select(q => q.Name).First();
 
                 DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_SUBJECT", new string[] { "zehut", "project", "subject" }, new object[] { r.IdNum, r.Project, s.SubjectInDB });
 

@@ -75,14 +75,15 @@ namespace DrLogy.CommitmentLettersUtils
 
             foreach (var selectedsubject in subjects)
             {
-                var subject = this._options.Subjects.Find(z => z.BTLName == selectedsubject);
+                var subject = this._options.Subjects.Find(z => z.NameInFile == selectedsubject);
 
                 if (subject != null)
                 {
                     newSubject = new SubjectData();
-                    newSubject.SubjectBTL = subject.BTLName;
+                    newSubject.SubjectFile = subject.NameInFile;
                     newSubject.SubjectInDB = subject.Name;
                     newSubject.Hours = 1; //dummy value would be updated letter
+                    newSubject.IsNew = false; //default value
                     data.Subjects.Add(newSubject);
                 }
             }
@@ -133,7 +134,7 @@ namespace DrLogy.CommitmentLettersUtils
                     data.CreateDate = row["תאריך קליטה"] is DBNull ? DateTime.Now : (DateTime)row["תאריך קליטה"]; ;
 
                     data.StartDate = (DateTime)row["תאריך התחלה"];
-                    data.EndDate = (DateTime)row["תאריך התחלה"];
+                    data.EndDate = (DateTime)row["תאריך סיום"];
 
                     data.Email = data.CurrEmail = row["מייל"] is DBNull ? "" : (string)row["מייל"];
                     data.CoordinatorName = data.CurrCoordinatorName = row["רכז תלמיד"] is DBNull ? "" : (string)row["רכז תלמיד"].ToString();
@@ -149,7 +150,7 @@ namespace DrLogy.CommitmentLettersUtils
                     data.Address = data.CurrAddress = row["כתובת"] is DBNull ? "" : row["כתובת"].ToString();
                     data.Mikud = data.CurrMikud = row["מיקוד"] is DBNull ? "" : row["מיקוד"].ToString();
 
-                    if (data.SocialWorker.IndexOf("עוס") < 0 && data.SocialWorker.IndexOf("עו\"ס") < 0)
+                    if (!string.IsNullOrEmpty (data.SocialWorker) && data.SocialWorker.IndexOf("עוס") < 0 && data.SocialWorker.IndexOf("עו\"ס") < 0)
                         data.SocialWorker = "עו\"ס " + data.SocialWorker;
                     data.CurrSocialWorker = data.SocialWorker;
 
@@ -159,13 +160,18 @@ namespace DrLogy.CommitmentLettersUtils
                 SubjectData newSubject = new SubjectData();
                 string subName = (string)row["הנגשה"];
 
-                var sub = _options.Subjects.FirstOrDefault(c => c.BTLName == subName);
+                var sub = _options.Subjects.FirstOrDefault(c => c.NameInFile == subName);
 
-                //newSubject.SubjectBTL = subject.BTLName;
+                //newSubject.SubjectFile = subject.NameInFile;
                 newSubject.SubjectInDB = (string)row["הנגשה"];
                 newSubject.Hours = row["מכסת שעות"] is DBNull ? 0 :(Decimal)row["הנגשה"];
-                newSubject.SubjectBTL = subName;
+                newSubject.SubjectFile = subName;
                 newSubject.SubjectInDB = sub == null ? subName : sub.Name;
+                newSubject.IsNew = null; //ברירת מחדל
+                if (row.Table.Columns.Contains ("תלמיד חדש") && row["תלמיד חדש"].ToString() == "כן")
+                    newSubject.IsNew = true;
+                else if (row["תלמיד חדש"].ToString() == "לא")
+                    newSubject.IsNew = false;
 
                 data.Subjects.Add(newSubject);
             }
@@ -176,10 +182,9 @@ namespace DrLogy.CommitmentLettersUtils
                 {
                     GetDataFromDB(i, j, connectionString);
                     RefreshStatus(i,j);
-
-                }
-                if (Results[i].Subjects[0].Status== StudentStatus.NoStudent)
-                {
+                    //שינוי סטטוס לחדש אם סטטוס הוא ברירת מחדל והתלמיד חדש
+                    if (!Results[i].Subjects[j].IsNew.HasValue)
+                        Results[i].Subjects[j].IsNew = (Results[i].Subjects[j].Status == StudentStatus.NoStudent);
 
                 }
 
@@ -265,12 +270,12 @@ namespace DrLogy.CommitmentLettersUtils
                     GetDataFromDB(i, j, connectionString);
 
         }
-        public string GetDbSubject(string btlSubject)
+        public string GetDbSubject(string fileSubject)
         {
             string subject = "";
-            if (!string.IsNullOrEmpty(btlSubject))
+            if (!string.IsNullOrEmpty(fileSubject))
             {
-                var item = _options.Subjects.Where(t => t.BTLName == btlSubject).FirstOrDefault();
+                var item = _options.Subjects.Where(t => t.NameInFile == fileSubject).FirstOrDefault();
 
                 if (item != null)
                 {
@@ -297,7 +302,7 @@ namespace DrLogy.CommitmentLettersUtils
             DrLogy.DrLogyUtils.DbUtils.ConStr = connectionString;
 
             //בדיקה אם קיים התלמיד בפרוייקט ובהתנגשה הספציפיים
-            if (subject.SubjectBTL != null && subject.SubjectBTL != "" && r.StartDate.HasValue && r.EndDate.HasValue && subject.Hours > 0)
+            if (subject.SubjectFile != null && subject.SubjectFile != "" && r.StartDate.HasValue && r.EndDate.HasValue /*&& subject.Hours > 0*/)
             {
                 dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_USER", new string[] { "zehut", "project", "subject", "hours", "start_date", "end_date" }, new object[] { r.IdNum, r.Project, subject.SubjectInDB, subject.Hours, r.StartDate.Value, r.EndDate.Value });
 
@@ -307,7 +312,7 @@ namespace DrLogy.CommitmentLettersUtils
                     subject.CurrStartDate = (DateTime)row["ST_SIGNDATE"];
                     subject.CurrEndDate = (DateTime)row["ST_DATEEND"];
                     subject.CurrHours = (decimal)row["ST_MAX_HOURS"];
-                    subject.CurrSubjectBTL = subject.SubjectBTL;
+                    subject.CurrSubjectFile = subject.SubjectFile;
                 }
 
 
@@ -328,7 +333,7 @@ namespace DrLogy.CommitmentLettersUtils
 
                         if (!(row["ST_MAX_HOURS"] is DBNull))
                             subject.CurrHours = (decimal)row["ST_MAX_HOURS"];
-                        subject.CurrSubjectBTL = subject.SubjectBTL;
+                        subject.CurrSubjectFile = subject.SubjectFile;
 
                     }
                 }
@@ -337,7 +342,8 @@ namespace DrLogy.CommitmentLettersUtils
                 {
                     //בדיקה אם קיים תלמיד עם ת.ז  הנוכחית - בפרוייקט אחר / הנגשה אחרת
                     dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_USER", new string[] { "zehut" }, new object[] { r.IdNum });
-                    subject.IsNew = true;
+                    if (subject.IsNew.HasValue)
+                        subject.IsNew = true;
                 }
 
                 //עדכון כתובת ושם התלמיד מבסיס הנתונים - במידה וקיים
@@ -371,7 +377,7 @@ namespace DrLogy.CommitmentLettersUtils
                         r.FirstName = r.CurrFirstName;
                         r.LastName = r.LastName;
                         r.Name = r.FirstName + " " + r.LastName;
-                        subject.SubjectBTL = subject.CurrSubjectBTL;
+                        subject.SubjectFile = subject.CurrSubjectFile;
                         r.Branch = r.CurrBranch;
                         r.Email = r.CurrEmail;
                         r.Phone = r.CurrPhone;
@@ -405,7 +411,7 @@ namespace DrLogy.CommitmentLettersUtils
 
             foreach (var subject in subjects)
             {
-                rec = utils.SearchPage(subject.BTLName);
+                rec = utils.SearchPage(subject.NameInFile);
                 if (rec.Count() > 0)
                 {
                     if (subject.Hours > 0)
@@ -437,7 +443,7 @@ namespace DrLogy.CommitmentLettersUtils
                     }
 
                     newSubject = new SubjectData();
-                    newSubject.SubjectBTL = subject.BTLName;
+                    newSubject.SubjectFile = subject.NameInFile;
                     newSubject.SubjectInDB = subject.Name;
                     newSubject.Hours = hours;
 
@@ -477,7 +483,7 @@ namespace DrLogy.CommitmentLettersUtils
             if (r.Id > 0)
             {
 
-                if (!subject.IsNew)
+                if (!subject.IsNew.GetValueOrDefault())
                 {
                     if (subject.Hours == subject.CurrHours && r.StartDate == subject.CurrStartDate && r.EndDate == subject.CurrEndDate)
                         subject.Status = StudentStatus.Updated;
@@ -539,7 +545,7 @@ namespace DrLogy.CommitmentLettersUtils
                     double xxx = (dt1-DateTime.Now).TotalMilliseconds;
                     r.NewKey= r.CurrNewKey;
                     r.ClassName = r.CurrClassName;
-                    r.Age = r.CurrAddress;
+                    r.Age = r.CurrAge;
                     r.Address = r.CurrAddress;
                     r.Mikud = r.CurrMikud;
                     

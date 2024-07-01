@@ -299,7 +299,7 @@
         }
     </style>
     <script>
-        var subjectsBTL = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.BTLName).ToArray()) %>'.split(',');
+        var subjectsFile = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.NameInFile).ToArray()) %>'.split(',');
         var subjectsDB = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.Name).ToArray()) %>'.split(',');
 
         function ddmmyyyyToDate(value) {
@@ -423,18 +423,18 @@
         function addSubject(e) {
 
             $("#editSubjectModal").find(".modal-title").html("הוספת הנגשה");
-            var subjectSelect = $("#editSubjectModal").find("#subjectbtl");
-            var currSub = "";// ($(e).parent().parent().attr("subjectbtl"));
+            var subjectSelect = $("#editSubjectModal").find("#subjectfile");
+            var currSub = "";// ($(e).parent().parent().attr("subjectfile"));
             var currSubjects = [];
             var stidx = $(e).parent().parent().attr("stidx");
             subjectSelect.find(".modal-title").html("הוספת הנגשה");
             $(e).parent().parent().parent().children("[stsubidx='" + stidx + "']").each(function () {
-                var sub = $(this).attr("subjectbtl");
+                var sub = $(this).attr("subjectfile");
                 if (sub != null && sub != currSub)
                     currSubjects.push(sub);
             });
 
-            if (currSubjects.length >= subjectsBTL.length) {
+            if (currSubjects.length >= subjectsFile.length) {
                 showAlert("לתלמיד יש את כל ההנגשות הזמינות", "alert-danger");
                 return;
             }
@@ -444,19 +444,19 @@
             subjectSelect.children().remove().end();
 
             var val = "";
-            for (var i = 0; i < subjectsBTL.length; i++) {
+            for (var i = 0; i < subjectsFile.length; i++) {
                 //add the subject if it doesn't exist in the letter
-                if (currSubjects.indexOf(subjectsBTL[i]) < 0) {
+                if (currSubjects.indexOf(subjectsFile[i]) < 0) {
                     if (val == "")
-                        val = subjectsBTL[i];
+                        val = subjectsFile[i];
                     subjectSelect.append($('<option>', {
-                        value: subjectsBTL[i],
+                        value: subjectsFile[i],
                         text: subjectsDB[i],
                     }));
                 }
             }
 
-            $("#editSubjectModal").find("#subjectbtl").on("change", function () {
+            $("#editSubjectModal").find("#subjectfile").on("change", function () {
                 $("#subjectname").val($(this).val());
             });
 
@@ -464,10 +464,10 @@
             $("#subjectidx").val("-1"); //new
 
             //select the first subject
-            $("#editSubjectModal").find("#subjectbtl").prop('selectedIndex', 0);
-            $("#subjectname").val($("#subjectbtl").val());
+            $("#editSubjectModal").find("#subjectfile").prop('selectedIndex', 0);
+            $("#subjectname").val($("#subjectfile").val());
 
-            $("#editSubjectModal").find("#subjectbtl").prop("disabled", false);
+            $("#editSubjectModal").find("#subjectfile").prop("disabled", false);
 
 
 
@@ -492,20 +492,20 @@
 
         function editSubject(e) {
             $("#editSubjectModal").find(".modal-title").html("עריכת הנגשה");
-            var subjectSelect = $("#editSubjectModal").find("#subjectbtl");
-            var currSub = ($(e).parent().parent().attr("subjectbtl"));
-            var i = subjectsBTL.indexOf(currSub);
+            var subjectSelect = $("#editSubjectModal").find("#subjectfile");
+            var currSub = ($(e).parent().parent().attr("subjectfile"));
+            var i = subjectsFile.indexOf(currSub);
 
             subjectSelect.append($('<option>', {
-                value: subjectsBTL[i],
+                value: subjectsFile[i],
                 text: subjectsDB[i]
             }));
 
             $("#stsubidx").val($(e).parent().parent().attr("stsubidx"));
 
             $("#subjectidx").val($(e).parent().parent().attr("subjectidx"));
-            $("#editSubjectModal").find("#subjectbtl").val($(e).parent().parent().attr("subjectbtl"));
-            $("#editSubjectModal").find("#subjectbtl").prop("disabled", "disabled");
+            $("#editSubjectModal").find("#subjectfile").val($(e).parent().parent().attr("subjectfile"));
+            $("#editSubjectModal").find("#subjectfile").prop("disabled", "disabled");
             $("#editSubjectModal").find("#hours").val($(e).parent().parent().attr("hours"));
             $("#editSubjectModal").find("#startdate").val($(e).parent().parent().attr("startdate"));
             $("#editSubjectModal").find("#enddate").val($(e).parent().parent().attr("enddate"));
@@ -753,7 +753,7 @@
                                     </tr>
                                     <asp:Repeater runat="server" DataSource='<%# Eval("Subjects") %>'>
                                         <ItemTemplate>
-                                            <tr class="subjectdatarow" stsubidx="<%#((RepeaterItem)(Container.Parent.Parent)).ItemIndex %>" subjectidx="<%# Container.ItemIndex %>" subjectbtl="<%#Eval("SubjectBTL")%>" hours="<%#Eval("Hours")%>" startdate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.StartDate" , "{0:dd/MM/yyyy}") %>" enddate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.EndDate" , "{0:dd/MM/yyyy}") %>" currhours="<%#Eval("CurrHours")%>" currstartdate="<%#Eval("CurrStartDate", "{0:dd/MM/yyyy}") %>" currenddate="<%#Eval("CurrEndDate", "{0:dd/MM/yyyy}") %>" />
+                                            <tr class="subjectdatarow" stsubidx="<%#((RepeaterItem)(Container.Parent.Parent)).ItemIndex %>" subjectidx="<%# Container.ItemIndex %>" subjectfile="<%#Eval("SubjectFile")%>" hours="<%#Eval("Hours")%>" startdate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.StartDate" , "{0:dd/MM/yyyy}") %>" enddate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.EndDate" , "{0:dd/MM/yyyy}") %>" currhours="<%#Eval("CurrHours")%>" currstartdate="<%#Eval("CurrStartDate", "{0:dd/MM/yyyy}") %>" currenddate="<%#Eval("CurrEndDate", "{0:dd/MM/yyyy}") %>" />
                                             <td>
                                                 <%--                                    <span class="custom-checkbox">--%>
                                                 <%--                                        <label for="checkbox1"></label>--%>
@@ -767,7 +767,7 @@
                                             <td></td>
                                             <td><span class="small text-info">(<%#Eval("CurrStartDate", "{0:dd/MM/yyyy}")%>)</span></td>
                                             <td><span class="small text-info">(<%#Eval("CurrEndDate", "{0:dd/MM/yyyy}")%>)</span></td>
-                                            <td><%#Eval("SubjectBTL")%></td>
+                                            <td><%#Eval("SubjectFile")%></td>
                                             <td><%#Eval("Hours")%>
                                                 <span class="small text-info">(<%#Eval("CurrHours")%>)</span>
                                             </td>
@@ -1092,7 +1092,7 @@
                                     </label>
                                 </div>
                                 <div class="col-lg-10">
-                                    <select id="subjectbtl" class="form-control">
+                                    <select id="subjectfile" class="form-control">
                                     </select>
                                 </div>
                                 <div class="col-lg-2">

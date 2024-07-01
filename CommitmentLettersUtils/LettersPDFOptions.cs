@@ -1,5 +1,8 @@
-﻿using System;
+﻿using DrLogy.DrLogyUtils;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 
 
 namespace DrLogy.CommitmentLettersUtils
@@ -19,5 +22,21 @@ namespace DrLogy.CommitmentLettersUtils
 
         public List<Coordinator> Coordinators { get; set; }
 
+        public void LoadSubjectsFromDb(string project , string connection)
+        {
+            DbUtils.ConStr = connection;
+            DataTable dt = DbUtils.GetSPData("SPMISC_GET_PROJECT_SUBJECTS" , new string[] { "project" } , new object[] { project });
+            this.Subjects.Clear();
+            foreach (DataRow dr in dt.Rows)
+            {
+                this.Subjects.Add(new Subject
+                {
+                    Name = (string)dr["NAME_IN_DB"],
+                    NameInFile = (string)dr["NAME_IN_FILE"],
+                    Grouped = dr["GROUPED"] is DBNull ? false : (bool)dr["GROUPED"],
+                    Hours = dr["HOURS"] is DBNull ? 0 : (int)dr["HOURS"]
+                });
+            }
+        }
     }
 }
