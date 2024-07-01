@@ -164,7 +164,7 @@ namespace DrLogy.CommitmentLettersUtils
 
                 //newSubject.SubjectFile = subject.NameInFile;
                 newSubject.SubjectInDB = (string)row["הנגשה"];
-                newSubject.Hours = row["מכסת שעות"] is DBNull ? 0 :(Decimal)row["הנגשה"];
+                newSubject.Hours = row["מכסת שעות"] is DBNull ? 0 : decimal.Parse(row["מכסת שעות"].ToString());
                 newSubject.SubjectFile = subName;
                 newSubject.SubjectInDB = sub == null ? subName : sub.Name;
                 newSubject.IsNew = null; //ברירת מחדל
