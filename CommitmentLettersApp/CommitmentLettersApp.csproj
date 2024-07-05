@@ -796,6 +796,7 @@
     <Content Include="EditMail.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Logout.aspx" />
+    <Content Include="OldAppServices.asmx" />
     <Content Include="SendMail.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="lib\bootstrap-datepicker\css\bootstrap-datepicker.standalone.min.css" />
@@ -824,6 +825,10 @@
     <Compile Include="Logout.aspx.designer.cs">
       <DependentUpon>Logout.aspx</DependentUpon>
     </Compile>
+    <Compile Include="OldAppServices.asmx.cs">
+      <DependentUpon>OldAppServices.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SendMail.aspx.cs">
       <DependentUpon>SendMail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -839,6 +844,13 @@
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TeacherStart.aspx.cs">
+      <DependentUpon>TeacherStart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TeacherStart.aspx.designer.cs">
+      <DependentUpon>TeacherStart.aspx</DependentUpon>
+    </Compile>
     <Compile Include="UserManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -850,6 +862,7 @@
     <Content Include="lib\jquery-validation\package.json" />
     <Content Include="lib\jquery-validation\README.md" />
     <Content Include="signin.css" />
+    <Content Include="TeacherStart.aspx" />
     <Content Include="Templates\New.html" />
     <Content Include="Templates\UpdatedSubject.txt" />
     <Content Include="Templates\NewSubject.txt" />
