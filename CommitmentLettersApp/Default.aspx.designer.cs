@@ -141,6 +141,24 @@ namespace CommitmentLettersApp
         protected global::System.Web.UI.WebControls.LinkButton btnExportToExcel;
 
         /// <summary>
+        /// drpProjects control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drpProjects;
+
+        /// <summary>
+        /// btnSetProject control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSetProject;
+
+        /// <summary>
         /// Loadidnum control.
         /// </summary>
         /// <remarks>
@@ -220,6 +238,15 @@ namespace CommitmentLettersApp
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnImportFromExcel;
+
+        /// <summary>
+        /// drpFiles control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drpFiles;
 
         /// <summary>
         /// btnConfirm control.

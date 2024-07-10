@@ -11,20 +11,21 @@ namespace DrLogy.CommitmentLettersUtils
     {
         public Subject() { }
 
-        public Subject(string nameInFile, string name, int hours = 0, bool grouped = false) 
+        public Subject(int subjectId , string nameInFile, string nameInDB, int hours = 0, bool grouped = false) 
         { 
+            this.SubjectId = subjectId; 
             this.NameInFile = nameInFile; 
-            this.Name= name; 
+            this.NameInDB = nameInDB; 
             this.Grouped = grouped;
             this.Hours = hours;
         }
-
+        public int SubjectId { get; set; }
         public string NameInFile
         {
             get;set;
         }
 
-        public string Name
+        public string NameInDB
         {
             get; set;
         }

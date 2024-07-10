@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 namespace DrLogy.CommitmentLettersUtils
@@ -20,21 +21,22 @@ namespace DrLogy.CommitmentLettersUtils
     }
     [Serializable]
     public class SubjectData     {
+        public int SubjectId { get; set; }
+
         public bool? IsNew { get; set; }
         public bool Updated { get; set; }
 
-        public string Project { get; set; }
+        public int ProjectId { get; set; }
 
         public string Branch { get; set; }
 
-        public string SubjectFile { get; set; }
+        public string SubjectInFile { get; set; }
 
         public string SubjectInDB { get; set; }
+
         public decimal Hours { get; set; }
 
         public StudentStatus Status { get; set; }
-
-        public string CurrSubjectFile { get; set; }
 
         public DateTime? CurrStartDate { get; set; }
         public DateTime? CurrEndDate { get; set; }

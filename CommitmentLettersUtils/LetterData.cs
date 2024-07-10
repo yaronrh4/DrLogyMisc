@@ -15,7 +15,7 @@ namespace DrLogy.CommitmentLettersUtils
         public string Phone { get; set; }
         public string SocialWorker { get; set; }
 
-        public string Project { get; set; }
+        public int ProjectId { get; set; }
 
         public string Branch { get; set; }
 

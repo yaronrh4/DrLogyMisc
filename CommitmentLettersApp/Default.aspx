@@ -300,8 +300,12 @@
     </style>
     <script>
         var subjectsFile = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.NameInFile).ToArray()) %>'.split(',');
-        var subjectsDB = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.Name).ToArray()) %>'.split(',');
-
+        var subjectsDB = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.NameInDB).ToArray()) %>'.split(',');
+        function downloadTemplate ()
+        {
+            var selFile = $("#drpFiles").val();
+            window.location.href = "ImportTemplates\\"+ selFile;
+        }
         function ddmmyyyyToDate(value) {
             var dateObject = null;
 
@@ -753,7 +757,7 @@
                                     </tr>
                                     <asp:Repeater runat="server" DataSource='<%# Eval("Subjects") %>'>
                                         <ItemTemplate>
-                                            <tr class="subjectdatarow" stsubidx="<%#((RepeaterItem)(Container.Parent.Parent)).ItemIndex %>" subjectidx="<%# Container.ItemIndex %>" subjectfile="<%#Eval("SubjectFile")%>" hours="<%#Eval("Hours")%>" startdate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.StartDate" , "{0:dd/MM/yyyy}") %>" enddate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.EndDate" , "{0:dd/MM/yyyy}") %>" currhours="<%#Eval("CurrHours")%>" currstartdate="<%#Eval("CurrStartDate", "{0:dd/MM/yyyy}") %>" currenddate="<%#Eval("CurrEndDate", "{0:dd/MM/yyyy}") %>" />
+                                            <tr class="subjectdatarow" stsubidx="<%#((RepeaterItem)(Container.Parent.Parent)).ItemIndex %>" subjectidx="<%# Container.ItemIndex %>" subjectfile="<%#Eval("SubjectInFile")%>" hours="<%#Eval("Hours")%>" startdate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.StartDate" , "{0:dd/MM/yyyy}") %>" enddate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.EndDate" , "{0:dd/MM/yyyy}") %>" currhours="<%#Eval("CurrHours")%>" currstartdate="<%#Eval("CurrStartDate", "{0:dd/MM/yyyy}") %>" currenddate="<%#Eval("CurrEndDate", "{0:dd/MM/yyyy}") %>" />
                                             <td>
                                                 <%--                                    <span class="custom-checkbox">--%>
                                                 <%--                                        <label for="checkbox1"></label>--%>
@@ -767,13 +771,13 @@
                                             <td></td>
                                             <td><span class="small text-info">(<%#Eval("CurrStartDate", "{0:dd/MM/yyyy}")%>)</span></td>
                                             <td><span class="small text-info">(<%#Eval("CurrEndDate", "{0:dd/MM/yyyy}")%>)</span></td>
-                                            <td><%#Eval("SubjectFile")%></td>
+                                            <td><%#Eval("SubjectInFile")%></td>
                                             <td><%#Eval("Hours")%>
                                                 <span class="small text-info">(<%#Eval("CurrHours")%>)</span>
                                             </td>
                                             <td></td>
                                             <td>
-                                                <a title="עריכת הנגשה" onclick="editSubject(this)" href="#editSubjectModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" >&#xE254;</i></a>
+                                                <a title="עריכת הנגשה" onclick="editSubject(this)" href="#editSubjectModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip">&#xE254;</i></a>
                                                 <%--                                                <a href="#confirmModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>--%>
                                             </td>
                                             </tr>
@@ -790,23 +794,32 @@
                 </div>
                 <div class="table-wrapper">
 
-                <div class="table-title">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <button id="btnSave" title="שמירה" disabled="disabled" type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmModal"><i class="material-icons">&#xF233;</i> <span>שמירה</span></></button>
-                            <button id="btnSendMails" title="שליחת מיילים" disabled="disabled" type="button" class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שליחת מיילים</span></button>
-                            <asp:LinkButton ToolTip="יצוא לאקסל" runat="server" OnClick="btnExportToExcel_Click" ID="btnExportToExcel" CssClass="btn btn-success"><i class="material-icons">&#xE159;</i> <span>יצוא לאקסל</span></asp:LinkButton>
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <button id="btnSave" title="שמירה" disabled="disabled" type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmModal"><i class="material-icons">&#xF233;</i> <span>שמירה</span></></button>
+                                <button id="btnSendMails" title="שליחת מיילים" disabled="disabled" type="button" class="btn btn-success"><i class="material-icons">&#xE159;</i> <span>שליחת מיילים</span></button>
+                                <asp:LinkButton ToolTip="יצוא לאקסל" runat="server" OnClick="btnExportToExcel_Click" ID="btnExportToExcel" CssClass="btn btn-success"><i class="material-icons">&#xE159;</i> <span>יצוא לאקסל</span></asp:LinkButton>
+                            </div>
+                            <div class="col-lg-5">
+                                <a title="עריכת תבניות מייל" href="EditMail.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE161;</i> <span>עריכת תבניות מייל</span></a>
+                            </div>
+                            <div class="col-lg-1">
+                                <a title="התנתקות" href="logout.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE9BA;</i> <span></span></a>
+                            </div>
                         </div>
-                        <div class="col-lg-5">
-                            <a title="עריכת תבניות מייל" href="EditMail.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE161;</i> <span>עריכת תבניות מייל</span></a>
-                        </div>
-                        <div class="col-lg-1">
-                            <a title="התנתקות" href="logout.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE9BA;</i> <span></span></a>
-                        </div>
+
+                    </div>
+                                        <div class="row">
+                            <div class="col-lg-6 text-right">פרוייקט
+                                <asp:DropDownList runat="server" ID="drpProjects" AutoPostBack="true" OnSelectedIndexChanged="drpProjects_SelectedIndexChanged" ></asp:DropDownList>
+                            <asp:Button runat="server" ID="btnSetProject" ToolTip="שמור כברירת מחדל" CssClass="" Text="שמור כברירת מחדל" OnClick="btnSetProject_Click" />
+
+                            </div>
                     </div>
 
                 </div>
-                </div>
+
             </div>
 
             <div id="loadStudentModal" dir="rtl" class="modal fade">
@@ -832,44 +845,44 @@
                                 <div class="col-lg-10">
                                     <input runat="server" id="Loadidnum" type="text" class="form-control" />
                                 </div>
-                                                     <div class="col-lg-2">
-                         <label>תאריך התחלה</label>
-                     </div>
-                     <div class="col-lg-10">
-                         <input runat="server" id="Loadstartdate" class="form-control datepicker" />
-                     </div>
-                     <div class="col-md-2">
-                         <label>
-                             תאריך סיום<br />
+                                <div class="col-lg-2">
+                                    <label>תאריך התחלה</label>
+                                </div>
+                                <div class="col-lg-10">
+                                    <input runat="server" id="Loadstartdate" class="form-control datepicker" />
+                                </div>
+                                <div class="col-md-2">
+                                    <label>
+                                        תאריך סיום<br />
+                                        <br />
+                                    </label>
+                                </div>
+                                <div class="col-md-10">
+                                    <input runat="server" id="Loadenddate" class="form-control datepicker" />
+                                </div>
+                                <div class="col-lg-2">
+                                    <label>
+                                        הנגשות
                              <br />
-                         </label>
-                     </div>
-                     <div class="col-md-10">
-                         <input runat="server" id="Loadenddate" class="form-control datepicker" />
-                     </div>
-                            <div class="col-lg-2">
-                             <label>
-                                 הנגשות
-                             <br />
-                                 <br />
-                             </label>
-                         </div>
-                            <div class="col-lg-10">
+                                        <br />
+                                    </label>
+                                </div>
+                                <div class="col-lg-10">
 
-                                <asp:CheckBoxList ID="chklstSubjects" runat="server" chk1="">
-                                </asp:CheckBoxList>
+                                    <asp:CheckBoxList ID="chklstSubjects" runat="server" chk1="">
+                                    </asp:CheckBoxList>
+                                </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <asp:Button ToolTip="טעינה" runat="server" ID="btnLoadStudent" OnClick="btnLoadStudent_Click" CssClass="btn btn-success" Text="טעינה" />
-                            <input  title="ביטול" type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                        </div>
+                            <div class="modal-footer">
+                                <asp:Button ToolTip="טעינה" runat="server" ID="btnLoadStudent" OnClick="btnLoadStudent_Click" CssClass="btn btn-success" Text="טעינה" />
+                                <input title="ביטול" type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
+                            </div>
 
-                        <%--                </form>--%>
+                            <%--                </form>--%>
+                        </div>
                     </div>
                 </div>
             </div>
-                </div>
 
             <!-- Add PDF HTML -->
             <div id="addPdfsModal" dir="rtl" class="modal fade">
@@ -914,10 +927,18 @@
                                 <label>בחירת קובץ</label>
                                 <asp:FileUpload ID="fuExcel" runat="server" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" CssClass="form-control" AllowMultiple="false" />
                             </div>
+
                         </div>
                         <div class="modal-footer">
                             <asp:Button title="הוספה" runat="server" ID="btnImportFromExcel" OnClick="btnImportFromExcel_Click" CssClass="btn btn-success" Text="יבוא" />
                             <input type="button" title="ביטול" class="btn btn-default" data-dismiss="modal" value="ביטול" />
+                        
+                            <div class="form-group">
+                                <label>הורדת קובץ תבנית</label>
+                                <asp:DropDownList runat="server" ID="drpFiles" ClientIDMode="Static">
+                                </asp:DropDownList>
+                                <input type="button" title="הורד" value="הורד" onclick="downloadTemplate()" />
+                            </div>
                         </div>
 
                         <%--                </form>--%>
