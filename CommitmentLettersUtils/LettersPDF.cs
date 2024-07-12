@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -113,7 +114,7 @@ namespace DrLogy.CommitmentLettersUtils
             var excel = new ExcelCreator();
 
             DataTable dt = excel.ExcelToDatatable(filename);
-
+            
             var sorted = dt.AsEnumerable().OrderBy(x => x["ת.ז"]);
             DataTable badDt = dt.Clone();
             //todo validation

@@ -362,20 +362,26 @@ namespace CommitmentLettersApp
                     datachanged.Value = "";
                     var arc = new FileArchive();
                     string prevFileName = "";
-
                     foreach (var res in _lettersPDF.Results)
                     {
-                        if (!string.IsNullOrWhiteSpace(res.FileName) && prevFileName != res.FileName)
+                        try
                         {
-                            prevFileName = res.FileName; 
-                            if (res.FileName.ToLower().EndsWith(".xlsx") || res.FileName.ToLower().EndsWith(".xls"))
+                            if (!string.IsNullOrWhiteSpace(res.FileName) && prevFileName != res.FileName)
                             {
-                                arc.UploadArchive(1, res.FileName, 0, new string[] {  "PRJ" }, new string[] { res.ProjectId.ToString()});
+                                prevFileName = res.FileName;
+                                if (res.FileName.ToLower().EndsWith(".xlsx") || res.FileName.ToLower().EndsWith(".xls"))
+                                {
+                                    arc.UploadArchive(1, res.FileName, 0, new string[] { "PRJ" }, new string[] { res.ProjectId.ToString() });
+                                }
+                                else //PDF
+                                {
+                                    arc.UploadArchive(1, res.FileName, 0, new string[] { "ZEHUT", "PRJ", "START_DATE", "END_DATE" }, new string[] { res.IdNum, res.ProjectId.ToString(), Utils.DateToString(res.StartDate), Utils.DateToString(res.EndDate) });
+                                }
                             }
-                            else //PDF
-                            {
-                                arc.UploadArchive(1, res.FileName, 0, new string[] { "ZEHUT", "PRJ" , "START_DATE" , "END_DATE"}, new string[] { res.IdNum, res.ProjectId.ToString() ,Utils.DateToString (res.StartDate), Utils.DateToString (res.EndDate)});
-                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            errorhidden.Value = "שגיאה בהעלאת קובץ ההתחייבות לארכיון";
                         }
                     }
                 }
@@ -518,11 +524,11 @@ namespace CommitmentLettersApp
         {
             _lettersPDF.Options.ProjectId = int.Parse(drpProjects.SelectedValue);
             _lettersPDF.Options.LoadSubjectsFromDb(_lettersPDF.Options.ProjectId, this.Connection);
+            chklstSubjects.Items.Clear();
             foreach (var z in _lettersPDF.Options.Subjects)
             {
                 chklstSubjects.Items.Add(z.NameInFile);
-            }
-
+            }      
         }
     }
 }
