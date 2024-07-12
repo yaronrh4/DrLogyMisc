@@ -299,8 +299,8 @@
         }
     </style>
     <script>
-        var subjectsFile = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.NameInFile).ToArray()) %>'.split(',');
-        var subjectsDB = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.NameInDB).ToArray()) %>'.split(',');
+        var subjectsFile = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.NameInFile).ToArray()).Replace ("'", "\\'") %>'.split(',');
+        var subjectsDB = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.NameInDB).ToArray()).Replace ("'", "\\'") %>'.split(',');
         function downloadTemplate ()
         {
             var selFile = $("#drpFiles").val();
@@ -423,7 +423,7 @@
             if (stid == 0 && edited != "1")
                 copyStudentDataFromPdf();
         }
-
+        3
         function addSubject(e) {
 
             $("#editSubjectModal").find(".modal-title").html("הוספת הנגשה");
@@ -688,7 +688,7 @@
                             </div>
                             <div class="col-lg-9">
 
-                                <button type="button" title="טעינת קבצי PDF" class="btn btn-success" data-toggle="modal" data-target="#addPdfsModal"><i class="material-icons">&#xE147;</i> <span>טעינת קבצי PDF</span></button>
+                                <button type="button" title="טעינת קבצי PDF" <%= AllowLoadPDF() %> class="btn btn-success" data-toggle="modal" data-target="#addPdfsModal"><i class="material-icons">&#xE147;</i> <span>טעינת קבצי PDF</span></button>
                                 <button type="button" title="טעינת תלמיד" class="btn btn-success" data-toggle="modal" data-target="#loadStudentModal"><i class="material-icons">&#xE7FD;</i> <span>טעינת תלמיד</span></button>
                                 <button onclick="addStudent(this)" title="הוספת תלמיד" type="button" class="btn btn-success" data-toggle="modal" data-target="#editStudentModal"><i class="material-icons" data-toggle="tooltip" title="הוספת תלמיד">&#xE7FE;</i> <span>הוספת תלמיד</span></button>
                                 <button type="button" title="יבוא מאקסל" class="btn btn-success" data-toggle="modal" data-target="#excelImportModal"><i class="material-icons">&#xEAF3;</i> <span>יבוא מאקסל</span></button>

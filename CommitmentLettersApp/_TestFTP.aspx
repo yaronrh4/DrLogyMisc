@@ -9,14 +9,14 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            url<asp:TextBox runat="server" ID="txtURL" Text="ftp://node617.namehero.net/yaron/" ></asp:TextBox> <br /><br />
-            username<asp:TextBox runat="server" ID="txtUserName" Text="test@dr-logyvault.com" ></asp:TextBox> <br /><br />
-            password<asp:TextBox runat="server" ID="txtPassword" Text="MaccabiZona!123" ></asp:TextBox> <br /><br />
+            url<asp:TextBox runat="server" ID="txtURL" Text="ftp://ftp.node617.namehero.net/" ></asp:TextBox> <br /><br />
+            username<asp:TextBox runat="server" ID="txtUserName" Text="arc1@dr-logyvault.com" ></asp:TextBox> <br /><br />
+            password<asp:TextBox runat="server" ID="txtPassword" Text="MaccabiZona!123arc1" ></asp:TextBox> <br /><br />
             <asp:FileUpload runat="server" ID="fu1" /> <br /><br />
 
             <asp:Button runat="server" ID="btnGo" Text="Go" OnClick="btnGo_Click" /> <br /><br />
             
-            <asp:Button runat="server" ID="btnArchive" Text="Archive" OnClick="btnArchive_Click" />
+            <asp:Button runat="server" ID="btnArchive" Text="Archive" OnClick="btnArchive_Click" Visible="false" />
         </div>
     </form>
 </body>

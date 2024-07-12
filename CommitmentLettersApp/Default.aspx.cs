@@ -25,7 +25,7 @@ namespace CommitmentLettersApp
         private const string OPTIONS_FILENAME = "letteroptions.xml";
         private LettersPDF _lettersPDF = null;
         private LettersPDFOptions _options = null;
-        private int ProjectId
+        protected int ProjectId
         {
             set
             {
@@ -529,6 +529,14 @@ namespace CommitmentLettersApp
             {
                 chklstSubjects.Items.Add(z.NameInFile);
             }      
+        }
+        protected string AllowLoadPDF()
+        {
+            string allow = " disabled='disabled'";
+            if (drpProjects.SelectedValue == "304")
+                allow = "";
+
+            return allow;
         }
     }
 }

@@ -63,8 +63,8 @@ namespace DrLogy.CommitmentLettersUtils
                 data.Branch = row["ST_CITY"].ToString();
                 data.Phone = row["ST_PHONE1"].ToString();
                 data.Email = row["ST_EMAIL"].ToString();
-                data.NewKey =   row["ST_EMAIL"].ToString();
-                data.ClassName = row["CLS_NAME"].ToString();
+                data.NewKey = row["ST_EMAIL"].ToString();
+                data.ClassName = row["ST_CLASSNAME"].ToString();
                 data.Age = row["ST_AGE"].ToString();
                 data.Address = row["ST_ADDRESS"].ToString();
                 data.Mikud = row["ST_MIKUD"].ToString();
@@ -180,9 +180,9 @@ namespace DrLogy.CommitmentLettersUtils
                 }
                 newSubject.Hours = row["מכסת שעות"] is DBNull ? 0 : decimal.Parse(row["מכסת שעות"].ToString());
                 newSubject.IsNew = null; //ברירת מחדל
-                if (row.Table.Columns.Contains ("תלמיד חדש") && row["תלמיד חדש"].ToString() == "כן")
+                if (row.Table.Columns.Contains ("תלמיד חדש למייל") && row["תלמיד חדש למייל"].ToString() == "כן")
                     newSubject.IsNew = true;
-                else if (row["תלמיד חדש"].ToString() == "לא")
+                else if (row["תלמיד חדש למייל"].ToString() == "לא")
                     newSubject.IsNew = false;
 
                 data.Subjects.Add(newSubject);
