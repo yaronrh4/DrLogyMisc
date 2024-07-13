@@ -9,6 +9,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -31,7 +33,7 @@ namespace DrLogy.CommitmentLettersUtils
             get { return _options; }
         }
 
-        public void LoadStudent(string idNum, string[] subjects, DateTime startDate , DateTime endDate, string connectionString, int projectId , string defaultCoordinatorName)
+        public void LoadStudent(string idNum, string[] subjects, DateTime startDate, DateTime endDate, string connectionString, int projectId, string defaultCoordinatorName)
         {
             PDFUtils utils = new PDFUtils();
             LetterData data = new LetterData();
@@ -51,7 +53,7 @@ namespace DrLogy.CommitmentLettersUtils
             DrLogy.DrLogyUtils.DbUtils.ConStr = connectionString;
 
             //בדיקה אם קיים תלמיד בפרוייקט הספציפי בהנגשה הנוכחית עם נתונים אחרים
-            DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_USER", new string[] { "zehut", "prj_id"}, new object[] { idNum, projectId });
+            DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_USER", new string[] { "zehut", "prj_id" }, new object[] { idNum, projectId });
             if (dt.Rows.Count > 0)
             {
                 DataRow row = dt.Rows[dt.Rows.Count - 1];
@@ -91,7 +93,7 @@ namespace DrLogy.CommitmentLettersUtils
             }
 
             _results.Add(data);
-            
+
             for (int i = 0; i < Results.Count; i++)
                 for (int j = 0; j < Results[i].Subjects.Count; j++)
                     GetDataFromDB(i, j, connectionString);
@@ -101,12 +103,244 @@ namespace DrLogy.CommitmentLettersUtils
                 subject.Hours = subject.CurrHours.GetValueOrDefault();
             }
 
-            for (int i=0; i < Results[Results.Count-1].Subjects.Count; i++)
+            for (int i = 0; i < Results[Results.Count - 1].Subjects.Count; i++)
             {
                 RefreshStatus(Results.Count - 1, i);
             }
         }
+        private string ValidateRequiredFieldsOnInsert(DataTable dt, string keyField, string[] fields)
+        {
+            string fldsErr = "";
+            for (int i=0; i <dt.Rows.Count; i++ )
+            {
+                DataRow r = dt.Rows[i];
+                string zehut = r[keyField].ToString();
+                int exists = (int)DbUtils.ExecSP("SPMISC_ZEHUT_EXISTS", new string[] { "zehut" }, new object[] { zehut });
 
+                //new student
+                if (exists==0)
+                {
+                    string s = ValidateRequiredFields(dt, fields, i);
+                    if (s != "")
+                    {
+                        if (fldsErr != "")
+                            fldsErr += " , ";
+                        fldsErr +=$" שורה {i} : {s}";
+                    }
+                }
+            }
+
+            return fldsErr; 
+        }
+
+        private string ValidateRequiredFields(DataTable dt, string[] fields , int rowIndex=-1)
+        {
+            string fldsErr = "";
+
+            foreach (string fld in fields)
+            {
+                List<int> emptyLst = new List<int>();
+                bool empty = false;
+
+                if (!dt.Columns.Contains(fld))
+                    empty = true;
+                else
+                {
+                    if (rowIndex == -1)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            if (dt.Rows[i][fld] is DBNull)
+                                emptyLst.Add(i + 1);
+                        }
+                    }
+                    else if (dt.Rows[rowIndex][fld] is DBNull)
+                        empty = true;
+                }
+
+                if (empty || emptyLst.Count > 0)
+                {
+                    if (fldsErr != "")
+                        fldsErr += ",";
+                    fldsErr += fld;
+                    if (emptyLst.Count > 0)
+                        fldsErr += (emptyLst.Count == 1 ? " שורה " : " שורות ") + string.Join(",", emptyLst.ToArray());
+                }
+            }
+            return fldsErr;
+        }
+
+        private string ValidateExcel(DataTable dt)
+        {
+            //check required fields
+            string[] reqFields = { "מכסת שעות" , "ת.ז" , "תאריך התחלה", "תאריך סיום", "הנגשה" };
+            string fldsErr = "";
+
+            fldsErr = ValidateRequiredFields(dt, reqFields);
+
+            if (fldsErr != "")
+                return $"שדות חובה לא קיימים בקובץ האקסל: {fldsErr}";
+
+            //בדיקת שדות חובה בהוספה
+            string[] reqFieldsOnInsert = { "שם פרטי" , "שם משפחה" , "טלפון" , "מייל" };
+            fldsErr =  ValidateRequiredFieldsOnInsert (dt, "ת.ז", reqFieldsOnInsert) ;
+            if (fldsErr != "")
+                return $"שדות חובה בהוספת תלמיד לא קיימים בקובץ האקסל: {fldsErr}";
+
+            if (fldsErr != "")
+                return $"שדות חובה לא קיימים בקובץ האקסל: {fldsErr}";
+
+            //field types
+            string[] intFields = { "ת.ז" , "מספר פנימי" };
+            string[] dateFields = { "תאריך התחלה" , "תאריך סיום" , "תאריך קליטה" };
+
+            fldsErr = ValidateColumnType(dt, intFields, typeof (int) );
+            if (fldsErr != "")
+            {
+                return $"הערכים בשדות הבאים אינם מספרים שלמים  : {fldsErr}";
+            }
+
+            fldsErr = ValidateColumnType(dt, dateFields, typeof(DateTime));
+
+            if (fldsErr != "")
+            {
+                return $"הערכים בשדות הבאים אינם תאריכים  : {fldsErr}";
+            }
+
+            fldsErr = ValidateProject(dt);
+            if (fldsErr != "")
+            {
+                return fldsErr;
+            }
+
+
+            fldsErr = ValidateSubjects(dt);
+            if (fldsErr != "")
+            {
+                return fldsErr;
+            }
+
+            return "";
+        }
+
+        private string ValidateSubjects(DataTable dt)
+        {
+            //בדיקת הנגשות
+            string prj = "";
+            if (dt.Columns.Contains("הנגשה"))
+            {
+                foreach (DataRow r in dt.Rows)
+                {
+                    if (!(r["הנגשה"] is DBNull))
+                    {
+                        prj = r["הנגשה"].ToString();
+
+                        if (_options.Subjects.FirstOrDefault(p => p.NameInFile == prj) == null)
+                        {
+                            return $"ההנגשה {prj} לא נתמכת בפרוייקט";
+                        }
+                    }
+
+                }
+            }
+            
+            return "";
+        }
+
+
+        private string ValidateProject (DataTable dt)
+        {
+            //בדיקת פרוייקט
+            string prj = "";
+            if (dt.Columns.Contains("פרוייקט"))
+            {
+                string lastPrj = "";
+                foreach (DataRow r in dt.Rows)
+                {
+                    if (!(r["פרוייקט"] is DBNull))
+                    {
+                        prj = r["פרוייקט"].ToString();
+                        if (prj != lastPrj && lastPrj != "")
+                        {
+                            return "ניתן לייבא תלמידים רק מפרוייקט אחד בקובץ";
+                        }
+                    }
+                }
+            }
+            if (prj != "")
+            {
+                int prjId = (int)DbUtils.ExecSP("SPMISC_GET_PROJECT_ID", new string[] { "project" }, new object[] { prj });
+                if (prjId == 0)
+                    return $"הפרוייקט {prj} לא נתמך באפליקציה";
+                else
+                {
+                    if (prjId != this.Options.ProjectId)
+                    {
+                        return $"חובה לבחור את הפרוייקט  {prj} באפליקציה לפני ביצוע יבוא";
+                    }
+                }
+            }
+
+            return "";
+        }
+        private string ValidateColumnType(DataTable dt , string[] fields , Type dataType)
+        {
+            string fldsErr = "";
+            foreach (string fld in fields)
+            {
+                if (dt.Columns.Contains(fld))
+                {
+                    int errors = 0;
+                    string rowsError = "";
+                    Type typ = dt.Columns[fld].DataType;
+                    if (typ != dataType)
+                    {
+                        int tmpInt;
+                        decimal tmpDecimal; 
+                        DateTime tmpDateTime;
+                        for (int i = 0; i < dt.Rows.Count && errors < 10; i++)
+                        {
+                            DataRow row = dt.Rows[i];
+                            if (!(row[fld] is DBNull) )
+                            {
+                                bool ok = true;
+
+                                if (dataType == typeof(int))
+                                    ok = int.TryParse(row[fld].ToString(), out tmpInt);
+                                if (dataType == typeof(decimal))
+                                    ok = decimal.TryParse(row[fld].ToString(), out tmpDecimal);
+                                if (dataType == typeof(DateTime))
+                                    ok = DateTime.TryParse(row[fld].ToString(), out tmpDateTime);
+
+                                if (!ok)
+                                {
+
+                                    errors++;
+                                    rowsError += (errors > 1) ? "," : "";
+
+                                    if (errors >= 10)
+                                        rowsError += "...";
+                                    else
+                                        rowsError += $"{i + 1}";
+                                }
+                            }
+                        }
+                    }
+                    if (errors > 0)
+                    {
+                        if (fldsErr != "")
+                            fldsErr += ",";
+                        fldsErr += fld;
+
+                        fldsErr += ((errors == 1) ? " שורה " : " שורות ") + rowsError;
+                    }
+                }
+            }
+
+
+
+            return fldsErr; 
+        }
         public string ImportFromExcel(string filename, string connectionString, string defaultCoordinatorName)
         {
             _results.Clear();
@@ -114,10 +348,13 @@ namespace DrLogy.CommitmentLettersUtils
             var excel = new ExcelCreator();
 
             DataTable dt = excel.ExcelToDatatable(filename);
-            
+
+            string err = ValidateExcel(dt);
+            if (err != "")
+                return err;
+
             var sorted = dt.AsEnumerable().OrderBy(x => x["ת.ז"]);
             DataTable badDt = dt.Clone();
-            //todo validation
 
             int idNum = -1;
             LetterData data = null;
@@ -132,29 +369,29 @@ namespace DrLogy.CommitmentLettersUtils
                     data.IdNum = currIdNum.ToString();
 
                     data.FileName = filename;
-                    if (!(row["פרוייקט"] is DBNull))
-                        data.ProjectId = (int)DbUtils.ExecSP("SPMISC_GET_PROJECT_ID", new string[] { "project" }, new object[] { row["פרוייקט"] });
-                    else
-                        data.ProjectId = _options.ProjectId;
+                    //if (!(row["פרוייקט"] is DBNull))
+                    //    data.ProjectId = (int)DbUtils.ExecSP("SPMISC_GET_PROJECT_ID", new string[] { "project" }, new object[] { row["פרוייקט"] });
+                    //else
+                    //    data.ProjectId = _options.ProjectId;
 
-                    data.CreateDate = row["תאריך קליטה"] is DBNull ? DateTime.Now : (DateTime)row["תאריך קליטה"]; ;
+                    data.CreateDate = dt.Columns.Contains("תאריך קליטה") && row["תאריך קליטה"] is DBNull ? DateTime.Now : (DateTime)row["תאריך קליטה"]; ;
 
                     data.StartDate = (DateTime)row["תאריך התחלה"];
                     data.EndDate = (DateTime)row["תאריך סיום"];
 
-                    data.Email = data.CurrEmail = row["מייל"] is DBNull ? "" : (string)row["מייל"];
-                    data.CoordinatorName = data.CurrCoordinatorName = row["רכז תלמיד"] is DBNull ? "" : (string)row["רכז תלמיד"].ToString();
-                    data.FirstName = data.CurrFirstName = row["שם פרטי"] is DBNull ? "" : row["שם פרטי"].ToString();
-                    data.LastName = data.CurrLastName = row["שם משפחה"] is DBNull ? "" : row["שם משפחה"].ToString();
-                    data.SocialWorker = data.CurrSocialWorker = row["עו\"ס"] is DBNull ? "" : row["עו\"ס"].ToString();
-                    data.Branch = data.CurrBranch = row["עיר"] is DBNull ? "" : row["עיר"].ToString();
-                    data.Phone = data.CurrPhone = row["טלפון"] is DBNull ? "" : row["טלפון"].ToString();
+                    data.Email = data.CurrEmail = dt.Columns.Contains("מייל") && row["מייל"] is DBNull ? "" : (string)row["מייל"];
+                    data.CoordinatorName = data.CurrCoordinatorName = dt.Columns.Contains("תלמיד") && row["רכז תלמיד"] is DBNull ? "" : (string)row["רכז תלמיד"].ToString();
+                    data.FirstName = data.CurrFirstName = dt.Columns.Contains("שם פרטי") && row["שם פרטי"] is DBNull ? "" : row["שם פרטי"].ToString();
+                    data.LastName = data.CurrLastName = dt.Columns.Contains("שם משפחה") && row["שם משפחה"] is DBNull ? "" : row["שם משפחה"].ToString();
+                    data.SocialWorker = data.CurrSocialWorker = dt.Columns.Contains("עו\"ס") && row["עו\"ס"] is DBNull ? "" : row["עו\"ס"].ToString();
+                    data.Branch = data.CurrBranch = dt.Columns.Contains("עיר") && row["עיר"] is DBNull ? "" : row["עיר"].ToString();
+                    data.Phone = data.CurrPhone = dt.Columns.Contains("טלפון") && row["טלפון"]  is DBNull ? "" : row["טלפון"].ToString();
 
-                    data.NewKey = data.CurrNewKey = row["מספר פנימי"] is DBNull ? "" : row["מספר פנימי"].ToString();
-                    data.ClassName = data.CurrClassName = row["כיתה"] is DBNull ? "" : row["כיתה"].ToString();
-                    data.Age = data.CurrAge = row["גיל"] is DBNull ? "" : row["גיל"].ToString();
-                    data.Address = data.CurrAddress = row["כתובת"] is DBNull ? "" : row["כתובת"].ToString();
-                    data.Mikud = data.CurrMikud = row["מיקוד"] is DBNull ? "" : row["מיקוד"].ToString();
+                    data.NewKey = data.CurrNewKey = dt.Columns.Contains("מספר פנימי") && row["מספר פנימי"] is DBNull ? "" : row["מספר פנימי"].ToString();
+                    data.ClassName = data.CurrClassName = dt.Columns.Contains("כיתה") && row["כיתה"] is DBNull ? "" : row["כיתה"].ToString();
+                    data.Age = data.CurrAge = dt.Columns.Contains("גיל") && row["גיל"] is DBNull ? "" : row["גיל"].ToString();
+                    data.Address = data.CurrAddress = dt.Columns.Contains("כתובת") && row["כתובת"] is DBNull ? "" : row["כתובת"].ToString();
+                    data.Mikud = data.CurrMikud = dt.Columns.Contains("מיקוד") && row["מיקוד"] is DBNull ? "" : row["מיקוד"].ToString();
 
                     if (!string.IsNullOrEmpty (data.SocialWorker) && data.SocialWorker.IndexOf("עוס") < 0 && data.SocialWorker.IndexOf("עו\"ס") < 0)
                         data.SocialWorker = "עו\"ס " + data.SocialWorker;

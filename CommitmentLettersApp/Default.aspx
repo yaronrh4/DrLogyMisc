@@ -608,10 +608,14 @@
                 }
             });
 
-            var q = $("#datachanged").val();
+            let q = $("#datachanged").val();
             $("#btnSave").prop('disabled', (q != "1"));
             $("#btnSendMails").prop('disabled', $(".subjectdatarow").length == 0);
             $("#btnExportToExcel").prop('disabled', $(".subjectdatarow").length == 0);
+
+            q = $("#allowchangeproject").val();
+            $("#drpProjects").prop('disabled', (q != "1"));
+            $("#btnSetProject").prop('disabled', (q != "1"));
 
             $("#btnSave").on("click", function () {
                 confirmModal(
@@ -659,6 +663,7 @@
         <input runat="server" type="hidden" id="confirmaction" value="" />
         <input runat="server" type="hidden" id="datachanged" value="" />
         <input runat="server" type="hidden" id="defcoordinator" value="" />
+        <input runat="server" type="hidden" id="allowchangeproject" value="1" />
 
         <input runat="server" id="stid" type="hidden" />
         <input runat="server" id="stidx" type="hidden" />
@@ -812,8 +817,8 @@
                     </div>
                                         <div class="row">
                             <div class="col-lg-6 text-right">פרוייקט
-                                <asp:DropDownList runat="server" ID="drpProjects" AutoPostBack="true" OnSelectedIndexChanged="drpProjects_SelectedIndexChanged" ></asp:DropDownList>
-                            <asp:Button runat="server" ID="btnSetProject" ToolTip="שמור כברירת מחדל" CssClass="" Text="שמור כברירת מחדל" OnClick="btnSetProject_Click" />
+                                <asp:DropDownList runat="server" ClientIDMode="Static" ID="drpProjects" AutoPostBack="true" OnSelectedIndexChanged="drpProjects_SelectedIndexChanged" ></asp:DropDownList>
+                            <asp:Button runat="server" ClientIDMode="Static"  ID="btnSetProject" ToolTip="שמור כברירת מחדל" CssClass="" Text="שמור כברירת מחדל" OnClick="btnSetProject_Click" />
 
                             </div>
                     </div>

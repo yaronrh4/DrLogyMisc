@@ -882,6 +882,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
+    <Folder Include="Archive\" />
     <Folder Include="Temp\" />
   </ItemGroup>
   <ItemGroup>

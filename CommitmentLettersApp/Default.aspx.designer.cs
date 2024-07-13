@@ -69,6 +69,15 @@ namespace CommitmentLettersApp
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden defcoordinator;
 
         /// <summary>
+        /// allowchangeproject control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden allowchangeproject;
+
+        /// <summary>
         /// stid control.
         /// </summary>
         /// <remarks>

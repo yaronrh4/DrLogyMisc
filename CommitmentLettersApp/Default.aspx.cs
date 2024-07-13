@@ -85,6 +85,8 @@ namespace CommitmentLettersApp
         protected void Page_Load(object sender, EventArgs e)
         {
             datachanged.Value = "";
+            allowchangeproject.Value = "1";
+
             if (!Page.IsPostBack)
             {
                 if (UserManager.UserId == 0)
@@ -201,49 +203,54 @@ namespace CommitmentLettersApp
         {
             if (UserManager.UserId == 0)
                 Response.Redirect("Login.aspx");
-
-            LetterData r = _lettersPDF.Results[int.Parse(stsubidx.Value)];
-            SubjectData s = null;
-            if (int.Parse(subjectidx.Value) >= 0)
-                s = r.Subjects[int.Parse(subjectidx.Value)];
-            else
+            try
             {
-                s = new SubjectData();
-                r.Subjects.Add(s);
-                s.SubjectInFile = subjectname.Value;
-                s.SubjectInDB = lettersPDF.Options.Subjects.Where(z => z.NameInFile == s.SubjectInFile).Select(q => q.NameInDB).First();
-                s.SubjectId = lettersPDF.Options.Subjects.Where(z => z.NameInFile == s.SubjectInFile).Select(q => q.SubjectId).First();
-                DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_SUBJECT", new string[] { "zehut", "prj_id", "sub_id" }, new object[] { r.IdNum, r.ProjectId, s.SubjectId });
-
-                if (dt.Rows.Count > 0)
-                {
-                    var row = dt.Rows[0];
-                    s.CurrHours = (decimal?)row["ST_MAX_HOURS"];
-                    s.CurrStartDate = (DateTime?)row["ST_SIGNDATE"];
-                    s.CurrEndDate = (DateTime?)row["ST_DATEEND"];
-                    s.IsNew = false;
-                }
+                LetterData r = _lettersPDF.Results[int.Parse(stsubidx.Value)];
+                SubjectData s = null;
+                if (int.Parse(subjectidx.Value) >= 0)
+                    s = r.Subjects[int.Parse(subjectidx.Value)];
                 else
-                    s.IsNew = true;
+                {
+                    s = new SubjectData();
+                    r.Subjects.Add(s);
+                    s.SubjectInFile = subjectname.Value;
+                    s.SubjectInDB = lettersPDF.Options.Subjects.Where(z => z.NameInFile == s.SubjectInFile).Select(q => q.NameInDB).First();
+                    s.SubjectId = lettersPDF.Options.Subjects.Where(z => z.NameInFile == s.SubjectInFile).Select(q => q.SubjectId).First();
+                    DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_SUBJECT", new string[] { "zehut", "prj_id", "sub_id" }, new object[] { r.IdNum, r.ProjectId, s.SubjectId });
 
+                    if (dt.Rows.Count > 0)
+                    {
+                        var row = dt.Rows[0];
+                        s.CurrHours = (decimal?)row["ST_MAX_HOURS"];
+                        s.CurrStartDate = (DateTime?)row["ST_SIGNDATE"];
+                        s.CurrEndDate = (DateTime?)row["ST_DATEEND"];
+                        s.IsNew = false;
+                    }
+                    else
+                        s.IsNew = true;
+
+                }
+
+                r.StartDate = DateTime.ParseExact(startdate.Value.Trim(), "dd/MM/yyyy", null);
+                r.EndDate = DateTime.ParseExact(enddate.Value.Trim(), "dd/MM/yyyy", null);
+
+                s.Hours = decimal.Parse(hours.Value);
+
+                if (int.Parse(subjectidx.Value) >= 0)
+                    _lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), int.Parse(subjectidx.Value));
+                else
+                    _lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), r.Subjects.Count - 1);
+                RefreshData();
             }
-
-            r.StartDate = DateTime.ParseExact(startdate.Value.Trim(), "dd/MM/yyyy", null);
-            r.EndDate = DateTime.ParseExact(enddate.Value.Trim(), "dd/MM/yyyy", null);
-
-            s.Hours = decimal.Parse(hours.Value);
-
-            if (int.Parse(subjectidx.Value) >= 0)
-                _lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), int.Parse(subjectidx.Value));
-            else
-                _lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), r.Subjects.Count - 1);
-            RefreshData();
+            catch (Exception ex)
+            {
+                errorhidden.Value = $"שגיאה בשמירה {ex.Message}";
+            }
         }
         protected void btnAddPdf_Click(object sender, EventArgs e)
         {
             if (UserManager.UserId == 0)
                 Response.Redirect("Login.aspx");
-
             try
             {
                 string tempDir = Utils.GetAppSetting("TempDir", "");
@@ -258,10 +265,11 @@ namespace CommitmentLettersApp
 
 
                 RefreshData();
+                allowchangeproject.Value = "0";
             }
             catch (Exception ex)
             {
-                errorhidden.Value = ex.Message;
+                errorhidden.Value = $"שגיאה בטעינת קובץ {ex.Message}";
             }
         }
 
@@ -275,56 +283,67 @@ namespace CommitmentLettersApp
                 if (_lettersPDF.Results[i].Edited)
                 {
                     datachanged.Value = "1";
-
+                    allowchangeproject.Value = "0";
                 }
                 else
                 {
                     foreach (var sub in _lettersPDF.Results[i].Subjects)
                         if (sub.Status == StudentStatus.NoStudent || sub.Status == StudentStatus.NoSubject || sub.Status == StudentStatus.NotUpdated)
+                        {
                             datachanged.Value = "1";
+                            allowchangeproject.Value = "0";
+                        }
                 }
             }
         }
 
         protected void btnSaveStudent_Click(object sender, EventArgs e)
         {
-            if (UserManager.UserId == 0)
-                Response.Redirect("Login.aspx");
-
-            LetterData r = null;
-            int stIdx = int.Parse(stidx.Value);
-            if (stIdx >= 0)
+            try
             {
-                r = _lettersPDF.Results[int.Parse(stidx.Value)];
+                if (UserManager.UserId == 0)
+                    Response.Redirect("Login.aspx");
+
+                LetterData r = null;
+                int stIdx = int.Parse(stidx.Value);
+                if (stIdx >= 0)
+                {
+                    r = _lettersPDF.Results[int.Parse(stidx.Value)];
+                }
+                else
+                {
+                    r = new LetterData();
+                    r.ProjectId = this.ProjectId;
+                    r.Subjects = new List<SubjectData>();
+                    lettersPDF.Results.Add(r);
+                }
+
+                r.Id = (int)DrLogy.DrLogyUtils.DbUtils.ExecSP("SPMISC_GET_STID_BY_ZEHUT", new string[] { "zehut" }, new object[] { idnum.Value.Trim() }, true);
+                r.IdNum = idnum.Value.Trim();
+                r.CurrFirstName = firstname.Value;
+                r.CurrLastName = lastname.Value;
+                r.CurrPhone = phone.Value;
+                r.CurrEmail = email.Value;
+                r.CoordinatorName = coordinatorname.SelectedValue;
+                r.CurrBranch = branch.Value;
+                r.CurrSocialWorker = socialworker.Value;
+                r.CreateDate = DateTime.ParseExact(createdate.Value.Trim(), "dd/MM/yyyy", null);
+                r.IsNewStudent = isnewstudent.Checked;
+                r.Comments = comments.Value;
+
+                //_lettersPDF.UpdateStudent(int.Parse(stidx.Value) , _connection);
+
+                //_lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), int.Parse(subjectidx.Value));
+
+                //force opening the edit popup with the current values
+                r.Edited = true;
+                RefreshData();
             }
-            else
+            catch (Exception ex)
             {
-                r = new LetterData();
-                r.ProjectId = this.ProjectId;
-                r.Subjects = new List<SubjectData>();
-                lettersPDF.Results.Add(r);
+                errorhidden.Value = $"שגיאה בשמירת נתונים סטודנט {ex.Message}";
+
             }
-
-            r.Id = (int)DrLogy.DrLogyUtils.DbUtils.ExecSP("SPMISC_GET_STID_BY_ZEHUT", new string[] { "zehut" }, new object[] { idnum.Value.Trim() },true);
-            r.IdNum = idnum.Value.Trim();
-            r.CurrFirstName = firstname.Value;
-            r.CurrLastName = lastname.Value;
-            r.CurrPhone = phone.Value;
-            r.CurrEmail = email.Value;
-            r.CoordinatorName = coordinatorname.SelectedValue;
-            r.CurrBranch = branch.Value;
-            r.CurrSocialWorker = socialworker.Value;
-            r.CreateDate = DateTime.ParseExact(createdate.Value.Trim(), "dd/MM/yyyy", null);
-            r.IsNewStudent = isnewstudent.Checked;
-            r.Comments = comments.Value;
-
-            //_lettersPDF.UpdateStudent(int.Parse(stidx.Value) , _connection);
-
-            //_lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), int.Parse(subjectidx.Value));
-
-            //force opening the edit popup with the current values
-            r.Edited = true;
-            RefreshData();
         }
 
         protected void btnConfirm_Click(object sender, EventArgs e)
@@ -335,60 +354,69 @@ namespace CommitmentLettersApp
             string rc = "";
             if (confirmaction.Value == "save")
             {
-
-                string userName = System.Configuration.ConfigurationManager.AppSettings["AuditUserName"].ToString() + " " + UserManager.UserName;
-                string addHours = System.Configuration.ConfigurationManager.AppSettings["AuditAddHours"].ToString();
-                if (string.IsNullOrEmpty(addHours))
-                    addHours = "0"; 
-                DbUtils.ExecSP ("SP_AUDIT" , new string[] { "UserName" , "AddHours"} , new object[] {userName, int.Parse(addHours)} );
-                for (int i = 0; i < _lettersPDF.Results.Count && rc == ""; i++)
+                try
                 {
-                    rc = _lettersPDF.UpdateStudent(i, Connection);
-                    if (rc != "")
-                        errorhidden.Value = rc;
-                }
-
-                for (int i = 0; i < _lettersPDF.Results.Count && rc == ""; i++)
-                    for (int j = 0; j < _lettersPDF.Results[i].Subjects.Count && rc == ""; j++)
+                    string userName = System.Configuration.ConfigurationManager.AppSettings["AuditUserName"].ToString() + " " + UserManager.UserName;
+                    string addHours = System.Configuration.ConfigurationManager.AppSettings["AuditAddHours"].ToString();
+                    if (string.IsNullOrEmpty(addHours))
+                        addHours = "0";
+                    DbUtils.ExecSP("SP_AUDIT", new string[] { "UserName", "AddHours" }, new object[] { userName, int.Parse(addHours) });
+                    for (int i = 0; i < _lettersPDF.Results.Count && rc == ""; i++)
                     {
-                        rc = _lettersPDF.UpdateSubject(i, j);
+                        rc = _lettersPDF.UpdateStudent(i, Connection);
                         if (rc != "")
                             errorhidden.Value = rc;
                     }
 
-                if (rc == "")
-                {
-                    successhidden.Value = "השמירה בוצעה בהצלחה";
-                    datachanged.Value = "";
-                    var arc = new FileArchive();
-                    string prevFileName = "";
-                    foreach (var res in _lettersPDF.Results)
-                    {
-                        try
+                    for (int i = 0; i < _lettersPDF.Results.Count && rc == ""; i++)
+                        for (int j = 0; j < _lettersPDF.Results[i].Subjects.Count && rc == ""; j++)
                         {
-                            if (!string.IsNullOrWhiteSpace(res.FileName) && prevFileName != res.FileName)
+                            rc = _lettersPDF.UpdateSubject(i, j);
+                            if (rc != "")
+                                errorhidden.Value = rc;
+                        }
+
+                    if (rc == "")
+                    {
+                        successhidden.Value = "השמירה בוצעה בהצלחה";
+                        datachanged.Value = "";
+                        var arc = new FileArchive();
+                        string prevFileName = "";
+                        foreach (var res in _lettersPDF.Results)
+                        {
+                            try
                             {
-                                prevFileName = res.FileName;
-                                if (res.FileName.ToLower().EndsWith(".xlsx") || res.FileName.ToLower().EndsWith(".xls"))
+                                if (!string.IsNullOrWhiteSpace(res.FileName) && prevFileName != res.FileName)
                                 {
-                                    arc.UploadArchive(1, res.FileName, 0, new string[] { "PRJ" }, new string[] { res.ProjectId.ToString() });
-                                }
-                                else //PDF
-                                {
-                                    arc.UploadArchive(1, res.FileName, 0, new string[] { "ZEHUT", "PRJ", "START_DATE", "END_DATE" }, new string[] { res.IdNum, res.ProjectId.ToString(), Utils.DateToString(res.StartDate), Utils.DateToString(res.EndDate) });
+                                    prevFileName = res.FileName;
+                                    if (res.FileName.ToLower().EndsWith(".xlsx") || res.FileName.ToLower().EndsWith(".xls"))
+                                    {
+                                        arc.UploadArchive(1, res.FileName, 0, new string[] { "PRJ" }, new string[] { res.ProjectId.ToString() });
+                                    }
+                                    else //PDF
+                                    {
+                                        arc.UploadArchive(1, res.FileName, 0, new string[] { "ZEHUT", "PRJ", "START_DATE", "END_DATE" }, new string[] { res.IdNum, res.ProjectId.ToString(), Utils.DateToString(res.StartDate), Utils.DateToString(res.EndDate) });
+                                    }
                                 }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            errorhidden.Value = "שגיאה בהעלאת קובץ ההתחייבות לארכיון";
+                            catch (Exception ex)
+                            {
+                                errorhidden.Value = "שגיאה בהעלאת קובץ ההתחייבות לארכיון";
+                            }
                         }
                     }
-                }
-                else
-                    datachanged.Value = "1";
+                    else
+                    {
+                        datachanged.Value = "1";
+                        allowchangeproject.Value = "0";
+                    }
 
-                RefreshData();
+                    RefreshData();
+                }
+                catch (Exception ex)
+                {
+                    errorhidden.Value = $"שגיאה בשמירה {ex.Message}";
+                }
             }
         }
 
@@ -419,6 +447,7 @@ namespace CommitmentLettersApp
                 Response.Redirect("Login.aspx");
 
             _lettersPDF.Results.Clear();
+            allowchangeproject.Value = "1";
             RefreshData();
         }
 
@@ -441,10 +470,17 @@ namespace CommitmentLettersApp
             if (UserManager.UserId == 0)
                 Response.Redirect("Login.aspx");
 
-            if (_lettersPDF.Results.Count > 0)
+            try
             {
-                SaveToExcel($"letters");
-                successhidden.Value = "השמירה בוצעה בהצלחה";
+                if (_lettersPDF.Results.Count > 0)
+                {
+                    SaveToExcel($"letters");
+                    successhidden.Value = "השמירה בוצעה בהצלחה";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorhidden.Value = $"שגיאה ביצוא לאקסל {ex.Message}";
             }
 
         }
@@ -453,44 +489,65 @@ namespace CommitmentLettersApp
         {
             if (UserManager.UserId == 0)
                 Response.Redirect("Login.aspx");
-
-            List<string> subjects = new List<string>();
-
-            for (int i = 0; i < chklstSubjects.Items.Count; i++)
+            try
             {
-                if (chklstSubjects.Items[i].Selected)
+                List<string> subjects = new List<string>();
+
+                for (int i = 0; i < chklstSubjects.Items.Count; i++)
                 {
-                    subjects.Add(chklstSubjects.Items[i].Value);
+                    if (chklstSubjects.Items[i].Selected)
+                    {
+                        subjects.Add(chklstSubjects.Items[i].Value);
+                    }
                 }
+
+                DateTime startDate = DateTime.ParseExact(Loadstartdate.Value.Trim(), "dd/MM/yyyy", null);
+                DateTime endDate = DateTime.ParseExact(Loadenddate.Value.Trim(), "dd/MM/yyyy", null);
+
+                _lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, Connection, this.ProjectId, DefaultCoordinatorName);
+
+                Loadidnum.Value = "";
+                Loadstartdate.Value = "";
+                Loadenddate.Value = "";
+                chklstSubjects.ClearSelection();
+
+                RefreshData();
+                allowchangeproject.Value = "0";
             }
-
-            DateTime startDate = DateTime.ParseExact(Loadstartdate.Value.Trim(), "dd/MM/yyyy", null);
-            DateTime endDate = DateTime.ParseExact(Loadenddate.Value.Trim(), "dd/MM/yyyy", null);
-
-            _lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, Connection, this.ProjectId , DefaultCoordinatorName );
-
-            Loadidnum.Value = "";
-            Loadstartdate.Value = "";
-            Loadenddate.Value = "";
-            chklstSubjects.ClearSelection();
-
-            RefreshData();
+            catch (Exception ex)
+            {
+                errorhidden.Value = ex.Message;
+            }
 
         }
 
         protected void btnImportFromExcel_Click(object sender, EventArgs e)
         {
-            string tempDir = Utils.GetAppSetting("TempDir", "");
-            tempDir = Server.MapPath(tempDir);
-
-            string filename = $"{tempDir}\\{fuExcel.PostedFile.FileName}";
-            fuExcel.PostedFile.SaveAs(filename);
-            string rc = lettersPDF.ImportFromExcel(filename, Connection, DefaultCoordinatorName);
-        
-            if (string.IsNullOrEmpty(rc))
+            try
             {
-                datachanged.Value = "1";
-                RefreshData();
+                string tempDir = Utils.GetAppSetting("TempDir", "");
+                tempDir = Server.MapPath(tempDir);
+
+                string filename = $"{tempDir}\\{fuExcel.PostedFile.FileName}";
+                fuExcel.PostedFile.SaveAs(filename);
+                string rc = lettersPDF.ImportFromExcel(filename, Connection, DefaultCoordinatorName);
+
+                if (string.IsNullOrEmpty(rc))
+                {
+                    datachanged.Value = "1";
+                    allowchangeproject.Value = "0";
+                    RefreshData();
+                }
+                else
+                {
+                    errorhidden.Value = rc;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                errorhidden.Value = $"שגיאה ביבוא קובץ אקסל {ex.Message}";
             }
         }
 
@@ -517,7 +574,14 @@ namespace CommitmentLettersApp
 
         protected void btnSetProject_Click(object sender, EventArgs e)
         {
-            DbUtils.ExecSP("SPMISC_SET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE", "TEMPLATE_VALUE","CDATE" }, new object[] { UserManager.UserId,3, int.Parse(drpProjects.SelectedValue),Utils.DateTimeNow() }, true);
+            try
+            {
+                DbUtils.ExecSP("SPMISC_SET_USER_TEMPLATE", new string[] { "TEACHER_ID", "TEMPLATE_TYPE", "TEMPLATE_VALUE", "CDATE" }, new object[] { UserManager.UserId, 3, int.Parse(drpProjects.SelectedValue), Utils.DateTimeNow() }, true);
+            }
+            catch (Exception ex)
+            {
+                errorhidden.Value = $"שגיאה בהחלפת פרוייקט {ex.Message}";
+            }
         }
 
         protected void drpProjects_SelectedIndexChanged(object sender, EventArgs e)
