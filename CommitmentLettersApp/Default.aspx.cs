@@ -260,7 +260,7 @@ namespace CommitmentLettersApp
                 {
                     string filename = $"{tempDir}\\{file.FileName}";
                     file.SaveAs(filename);
-                    _lettersPDF.Process(filename, Connection, this.ProjectId, DefaultCoordinatorName);
+                    _lettersPDF.Process(filename, Connection, DefaultCoordinatorName);
                 }
 
 
@@ -504,7 +504,7 @@ namespace CommitmentLettersApp
                 DateTime startDate = DateTime.ParseExact(Loadstartdate.Value.Trim(), "dd/MM/yyyy", null);
                 DateTime endDate = DateTime.ParseExact(Loadenddate.Value.Trim(), "dd/MM/yyyy", null);
 
-                _lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, Connection, this.ProjectId, DefaultCoordinatorName);
+                _lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, Connection, DefaultCoordinatorName);
 
                 Loadidnum.Value = "";
                 Loadstartdate.Value = "";
@@ -586,7 +586,8 @@ namespace CommitmentLettersApp
 
         protected void drpProjects_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _lettersPDF.Options.ProjectId = int.Parse(drpProjects.SelectedValue);
+
+            _lettersPDF.Options.ProjectId = this.ProjectId = int.Parse(drpProjects.SelectedValue);
             _lettersPDF.Options.LoadSubjectsFromDb(_lettersPDF.Options.ProjectId, this.Connection);
             chklstSubjects.Items.Clear();
             foreach (var z in _lettersPDF.Options.Subjects)

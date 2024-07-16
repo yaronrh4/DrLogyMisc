@@ -33,14 +33,14 @@ namespace DrLogy.CommitmentLettersUtils
             get { return _options; }
         }
 
-        public void LoadStudent(string idNum, string[] subjects, DateTime startDate, DateTime endDate, string connectionString, int projectId, string defaultCoordinatorName)
+        public void LoadStudent(string idNum, string[] subjects, DateTime startDate, DateTime endDate, string connectionString, string defaultCoordinatorName)
         {
             PDFUtils utils = new PDFUtils();
             LetterData data = new LetterData();
 
             data.PageNumber = 1;
             data.FileName = "";
-            data.ProjectId = projectId;
+            data.ProjectId = Options.ProjectId;
             data.CoordinatorName = defaultCoordinatorName;
             data.CreateDate = DateTime.Now.Date;
             if (data.CoordinatorName == "")
@@ -53,7 +53,7 @@ namespace DrLogy.CommitmentLettersUtils
             DrLogy.DrLogyUtils.DbUtils.ConStr = connectionString;
 
             //בדיקה אם קיים תלמיד בפרוייקט הספציפי בהנגשה הנוכחית עם נתונים אחרים
-            DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_USER", new string[] { "zehut", "prj_id" }, new object[] { idNum, projectId });
+            DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_USER", new string[] { "zehut", "prj_id" }, new object[] { idNum, Options.ProjectId });
             if (dt.Rows.Count > 0)
             {
                 DataRow row = dt.Rows[dt.Rows.Count - 1];
@@ -441,7 +441,7 @@ namespace DrLogy.CommitmentLettersUtils
 
             return "";
         }
-        public void Process(string filename, string connectionString, int projectId, string defaultCoordinatorName)
+        public void Process(string filename, string connectionString, string defaultCoordinatorName)
         {
             RemoveOld(filename);
 
@@ -451,7 +451,7 @@ namespace DrLogy.CommitmentLettersUtils
 
             data.PageNumber = 1;
             data.FileName = filename;
-            data.ProjectId = projectId;
+            data.ProjectId = Options.ProjectId;
             data.CoordinatorName = defaultCoordinatorName;
             data.CreateDate = DateTime.Now.Date;
             if (data.CoordinatorName == "")
@@ -850,12 +850,12 @@ namespace DrLogy.CommitmentLettersUtils
 
                     if (subject.Status == StudentStatus.NotUpdated)
                     {
-                        DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "st_zehut", "prj_id", "sub_id", "rakaz", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, _results[rowIndex].IdNum ,  _results[rowIndex].ProjectId, subject.SubjectId, rakazId, r.StartDate, r.EndDate, subject.Hours }, true);
+                        DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "st_zehut", "prj_id", "sub_id", "rakaz", "start_date", "end_date", "hours" , "parentname" }, new object[] { _results[rowIndex].Id, _results[rowIndex].IdNum ,  _results[rowIndex].ProjectId, subject.SubjectId, rakazId, r.StartDate, r.EndDate, subject.Hours , r.CurrSocialWorker }, true);
                         subject.Updated = true;
                     }
                     else if (subject.Status == StudentStatus.NoSubject || subject.Status == StudentStatus.NoStudent)
                     {
-                        DbUtils.ExecSP("SPMISC_INSERT_SUBJECT", new string[] { "st_id", "prj_id", "sub_id", "rakaz", "start_date", "end_date", "hours" }, new object[] { _results[rowIndex].Id, r.ProjectId, subject.SubjectId, rakazId, r.StartDate, r.EndDate, subject.Hours } ,true);
+                        DbUtils.ExecSP("SPMISC_INSERT_SUBJECT", new string[] { "st_id", "prj_id", "sub_id", "rakaz", "start_date", "end_date", "hours" , "parentname" }, new object[] { _results[rowIndex].Id, r.ProjectId, subject.SubjectId, rakazId, r.StartDate, r.EndDate, subject.Hours ,r.CurrSocialWorker} ,true);
                         subject.Updated = true;
                     }
                     else
