@@ -123,7 +123,6 @@ namespace CommitmentLettersApp
                 drpProjects.DataValueField = "PRJ_ID";
                 drpProjects.DataBind();
                 drpProjects.SelectedValue = projectId;
-
                 this.DefaultCoordinatorName = (string)dtDefaultCoordinator.Rows[0]["ACT_VALUE"];
 
                 defcoordinator.Value = this.DefaultCoordinatorName;
@@ -148,6 +147,8 @@ namespace CommitmentLettersApp
                 _options = (LettersPDFOptions)Utils.DeSerializeObjectUTF(path + "\\" + OPTIONS_FILENAME, typeof(LettersPDFOptions));
                 _options.LoadSubjectsFromDb(this.ProjectId, this.Connection);
                 _options.Coordinators = LoadCoordinators();
+                _options.ProjectId = int.Parse(projectId);
+
                 _lettersPDF = new LettersPDF(_options);
 
                 foreach (var z in _lettersPDF.Options.Subjects)
@@ -224,17 +225,16 @@ namespace CommitmentLettersApp
                         s.CurrHours = (decimal?)row["ST_MAX_HOURS"];
                         s.CurrStartDate = (DateTime?)row["ST_SIGNDATE"];
                         s.CurrEndDate = (DateTime?)row["ST_DATEEND"];
-                        s.IsNew = false;
                     }
-                    else
-                        s.IsNew = true;
-
                 }
 
                 r.StartDate = DateTime.ParseExact(startdate.Value.Trim(), "dd/MM/yyyy", null);
                 r.EndDate = DateTime.ParseExact(enddate.Value.Trim(), "dd/MM/yyyy", null);
 
-                s.Hours = decimal.Parse(hours.Value);
+                if (!string.IsNullOrEmpty(hours.Value))
+                    s.Hours = decimal.Parse(hours.Value);
+                else
+                    s.Hours = null;
 
                 if (int.Parse(subjectidx.Value) >= 0)
                     _lettersPDF.RefreshStatus(int.Parse(stsubidx.Value), int.Parse(subjectidx.Value));
@@ -408,7 +408,6 @@ namespace CommitmentLettersApp
                     else
                     {
                         datachanged.Value = "1";
-                        allowchangeproject.Value = "0";
                     }
 
                     RefreshData();

@@ -1,690 +1,710 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <MailerOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <EditOptions>
-    <PDFReplaceOption>
-      <Search />
-      <Replace />
-      <Rec>
-        <Location>
-          <X>480</X>
-          <Y>193</Y>
-        </Location>
-        <Size>
-          <Width>96</Width>
-          <Height>30</Height>
-        </Size>
-        <X>480</X>
-        <Y>193</Y>
-        <Width>96</Width>
-        <Height>30</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search />
-      <Replace>תשלום מרצים</Replace>
-      <Rec>
-        <Location>
-          <X>484</X>
-          <Y>200</Y>
-        </Location>
-        <Size>
-          <Width>90</Width>
-          <Height>13</Height>
-        </Size>
-        <X>484</X>
-        <Y>200</Y>
-        <Width>90</Width>
-        <Height>13</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>אינפורמטיבי - שכר מינימום לחודש</Search>
-      <Replace>אינפורמטיבי - תשלום מינימום לחודש</Replace>
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>אינפורמטיבי - שכר מינימום לשעה</Search>
-      <Replace>אינפורמטיבי - תשלום מינימום לשעה</Replace>
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>שכר שווה כסף</Search>
-      <Replace>תשלום שווה כסף</Replace>
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>שכר ל</Search>
-      <Replace>תשלום ל</Replace>
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>שכר נטו</Search>
-      <Replace>תשלום ל</Replace>
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>תלוש משכורת</Search>
-      <Replace>פירוט חשבונית</Replace>
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>קה"ל</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>מעביד</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>מעסיק</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>קופ"ג</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>עבודה</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>שכר מינימום</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>וותק</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>פיצויים</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>דמי חבר/טיפול</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>חופש</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>ניהול העדרויות</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>צבירת מחלה</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>תעריף</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>ימי תקן</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>שעות תקן</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>גמל 35 %</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>ק.השתלמות %</Search>
-      <Replace />
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search>ח ו ד ש י ע ב ו ד ה</Search>
-      <Replace>ח ו ד ש י פ ע י ל ו ת</Replace>
-      <Rec>
-        <Location>
-          <X>0</X>
-          <Y>0</Y>
-        </Location>
-        <Size>
-          <Width>0</Width>
-          <Height>0</Height>
-        </Size>
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0</Width>
-        <Height>0</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-    <PDFReplaceOption>
-      <Search />
-      <Replace />
-      <Rec>
-        <Location>
-          <X>335</X>
-          <Y>735</Y>
-        </Location>
-        <Size>
-          <Width>38</Width>
-          <Height>22</Height>
-        </Size>
-        <X>335</X>
-        <Y>735</Y>
-        <Width>38</Width>
-        <Height>22</Height>
-      </Rec>
-      <Color />
-      <BackColor />
-      <FontName>Arial</FontName>
-      <FontSize>14</FontSize>
-      <FontStyle>Regular</FontStyle>
-      <Rotate>true</Rotate>
-    </PDFReplaceOption>
-  </EditOptions>
-  <IDFieldName>TEC_ID</IDFieldName>
-  <EmptyKeyValue>0</EmptyKeyValue>
-  <EmptyRectangle>
-    <Location>
-      <X>25</X>
-      <Y>625</Y>
-    </Location>
-    <Size>
-      <Width>60</Width>
-      <Height>13</Height>
-    </Size>
-    <X>25</X>
-    <Y>625</Y>
-    <Width>60</Width>
-    <Height>13</Height>
-  </EmptyRectangle>
-  <EmptyKeyType>Number</EmptyKeyType>
-  <KeyRectangle>
-    <Location>
-      <X>256</X>
-      <Y>137</Y>
-    </Location>
-    <Size>
-      <Width>78</Width>
-      <Height>15</Height>
-    </Size>
-    <X>256</X>
-    <Y>137</Y>
-    <Width>78</Width>
-    <Height>15</Height>
-  </KeyRectangle>
-  <KeyFieldName>TEC_ZEHUT</KeyFieldName>
-  <KeyType>Number</KeyType>
-  <TableName>TBL_TEACHERS</TableName>
-  <Filter>tec_status = 1</Filter>
-  <EmailFieldName>TEC_MESSAGE_EMAIL</EmailFieldName>
-  <NameFieldName>TEC_FNAME + ' ' + TEC_LNAME</NameFieldName>
+	<EditOptions>
+		<PDFReplaceOption>
+			<Search />
+			<Replace />
+			<Rec>
+				<Location>
+					<X>480</X>
+					<Y>193</Y>
+				</Location>
+				<Size>
+					<Width>96</Width>
+					<Height>30</Height>
+				</Size>
+				<X>480</X>
+				<Y>193</Y>
+				<Width>96</Width>
+				<Height>30</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search />
+			<Replace>תשלום מרצים</Replace>
+			<Rec>
+				<Location>
+					<X>484</X>
+					<Y>200</Y>
+				</Location>
+				<Size>
+					<Width>90</Width>
+					<Height>13</Height>
+				</Size>
+				<X>484</X>
+				<Y>200</Y>
+				<Width>90</Width>
+				<Height>13</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>אינפורמטיבי - שכר מינימום לחודש</Search>
+			<Replace>אינפורמטיבי - תשלום מינימום לחודש</Replace>
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>אינפורמטיבי - שכר מינימום לשעה</Search>
+			<Replace>אינפורמטיבי - תשלום מינימום לשעה</Replace>
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>שכר שווה כסף</Search>
+			<Replace>תשלום שווה כסף</Replace>
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>שכר ל</Search>
+			<Replace>תשלום ל</Replace>
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>שכר נטו</Search>
+			<Replace>תשלום ל</Replace>
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>תלוש משכורת</Search>
+			<Replace>פירוט חשבונית</Replace>
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>קה"ל</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>מעביד</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>מעסיק</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>קופ"ג</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>עבודה</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>שכר מינימום</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>וותק</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>פיצויים</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>דמי חבר/טיפול</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>חופש</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>ניהול העדרויות</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>צבירת מחלה</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>תעריף</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>ימי תקן</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>שעות תקן</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>גמל 35 %</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>ק.השתלמות %</Search>
+			<Replace />
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search>ח ו ד ש י ע ב ו ד ה</Search>
+			<Replace>ח ו ד ש י פ ע י ל ו ת</Replace>
+			<Rec>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+				<Size>
+					<Width>0</Width>
+					<Height>0</Height>
+				</Size>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>0</Width>
+				<Height>0</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+		<PDFReplaceOption>
+			<Search />
+			<Replace />
+			<Rec>
+				<Location>
+					<X>335</X>
+					<Y>735</Y>
+				</Location>
+				<Size>
+					<Width>38</Width>
+					<Height>22</Height>
+				</Size>
+				<X>335</X>
+				<Y>735</Y>
+				<Width>38</Width>
+				<Height>22</Height>
+			</Rec>
+			<Color />
+			<BackColor />
+			<FontName>Arial</FontName>
+			<FontSize>14</FontSize>
+			<FontStyle>Regular</FontStyle>
+			<Rotate>true</Rotate>
+		</PDFReplaceOption>
+	</EditOptions>
+	<IDFieldName>TEC_ID</IDFieldName>
+	<EmptyKeyValue>0</EmptyKeyValue>
+	<EmptyRectangle>
+		<Location>
+			<X>25</X>
+			<Y>625</Y>
+		</Location>
+		<Size>
+			<Width>60</Width>
+			<Height>13</Height>
+		</Size>
+		<X>25</X>
+		<Y>625</Y>
+		<Width>60</Width>
+		<Height>13</Height>
+	</EmptyRectangle>
+	<EmptyKeyType>Number</EmptyKeyType>
+	<KeyRectangle>
+		<Location>
+			<X>256</X>
+			<Y>137</Y>
+		</Location>
+		<Size>
+			<Width>78</Width>
+			<Height>15</Height>
+		</Size>
+		<X>256</X>
+		<Y>137</Y>
+		<Width>78</Width>
+		<Height>15</Height>
+	</KeyRectangle>
+	<KeyFieldName>TEC_ZEHUT</KeyFieldName>
+	<ArchiveKeyRectangles>
+		<RectangleF>
+			<Location>
+				<X>170</X>
+				<Y>90</Y>
+			</Location>
+			<Size>
+				<Width>90</Width>
+				<Height>15</Height>
+			</Size>
+			<X>170</X>
+			<Y>90</Y>
+			<Width>90</Width>
+			<Height>15</Height>
+		</RectangleF>
+	</ArchiveKeyRectangles>
+	<ArchiveKeyNames>
+		<string>MONTH</string>
+		<string>IDNUM_ZEHUT</string>
+	</ArchiveKeyNames>
+	<KeyType>Number</KeyType>
+	<TableName>TBL_TEACHERS</TableName>
+	<Filter>tec_status = 1</Filter>
+	<EmailFieldName>TEC_MESSAGE_EMAIL</EmailFieldName>
+	<NameFieldName>TEC_FNAME + ' ' + TEC_LNAME</NameFieldName>
 </MailerOptions>

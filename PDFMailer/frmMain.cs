@@ -272,7 +272,13 @@ namespace PDFMailer
                 else
                     mailerOptions.KeyType = PDFKeyType.Number;
 
-                _processor.ProcessPDF(mailerOptions, txtSource.Text, txtDestFolder.Text, GetConnectionString(), txtYear.Text, fromPage, toPage);
+                int arcId = int.Parse(Utils.GetAppSetting("ArchiveId", "0"));
+                if (arcId ==0)
+                {
+                    WriteToLog("לא מוגדר ארכיון בקובץ ההגדרות");
+                    return;
+                }
+                _processor.ProcessPDF(mailerOptions, txtSource.Text, txtDestFolder.Text, GetConnectionString(), txtYear.Text, fromPage, toPage, arcId, new string[] {"FILE_TYPE"}, new string[] {cmbPDFType.Text});
 
                 ShowData();
 

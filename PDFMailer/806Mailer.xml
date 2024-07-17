@@ -56,6 +56,10 @@
     <Width>100</Width>
     <Height>15</Height>
   </KeyRectangle>
+	<ArchiveKeyNames>
+		<string>PARAM_YEAR</string>
+		<string>IDNUM_ZEHUT</string>
+	</ArchiveKeyNames>
   <KeyFieldName>TEC_ZEHUT</KeyFieldName>
   <KeyType>PDFNumber</KeyType>
   <TableName>TBL_TEACHERS</TableName>

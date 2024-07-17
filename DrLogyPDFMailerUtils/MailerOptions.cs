@@ -28,6 +28,8 @@ namespace DrLogy.DrLogyPDFMailerUtils
         public PDFKeyType EmptyKeyType = PDFKeyType.Number;
 
         public RectangleF KeyRectangle;
+        public RectangleF[] ArchiveKeyRectangles;
+        public string[] ArchiveKeyNames;
         public string KeyFieldName;
         public PDFKeyType KeyType = PDFKeyType.Number;
 
@@ -35,5 +37,6 @@ namespace DrLogy.DrLogyPDFMailerUtils
         public string EmailFieldName;
         public string NameFieldName;
         public string Filter;
+
     }
 }

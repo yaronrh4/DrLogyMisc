@@ -22,8 +22,7 @@ namespace DrLogy.CommitmentLettersUtils
     [Serializable]
     public class SubjectData     {
         public int SubjectId { get; set; }
-
-        public bool? IsNew { get; set; }
+        public bool Exists { get; set; } = true;
         public bool Updated { get; set; }
 
         public int ProjectId { get; set; }
@@ -34,7 +33,7 @@ namespace DrLogy.CommitmentLettersUtils
 
         public string SubjectInDB { get; set; }
 
-        public decimal Hours { get; set; }
+        public decimal? Hours { get; set; }
 
         public StudentStatus Status { get; set; }
 

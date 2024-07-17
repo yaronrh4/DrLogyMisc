@@ -20,5 +20,9 @@ namespace DrLogy.DrLogyPDFMailerUtils
         public DateTime? SentDate { get; set; }
         public bool MailError { get; set; }
         public int Id { get; set; }
+
+        public string[] ArchiveKeyNames { get; set; }
+        public string[] ArchiveKeyValues { get; set; }
+
     }
 }

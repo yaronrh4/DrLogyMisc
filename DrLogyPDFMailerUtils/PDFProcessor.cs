@@ -3,8 +3,10 @@ using DrLogy.DrLogyUtils;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,7 +61,7 @@ namespace DrLogy.DrLogyPDFMailerUtils
             return new BasePDFProperties();
         }
 
-        protected virtual BasePDFProperties ProcessPDFPage(MailerOptions options,string connectionString,string parameter, int pageNumber)
+        protected virtual BasePDFProperties ProcessPDFPage(MailerOptions options,string connectionString,string parameter, int pageNumber, string[] extraArchiveKeys, string[] extraArchiveValues)
         {
             BasePDFProperties prop = CreatePDFProperties();
 
@@ -77,6 +79,50 @@ namespace DrLogy.DrLogyPDFMailerUtils
             prop.FileName = _utils.Filename;
             prop.IsEmpty = false;
 
+            if ((extraArchiveKeys != null && extraArchiveKeys.Length > 0) || (options.ArchiveKeyNames != null && options.ArchiveKeyNames.Length > 0))
+            {
+                List<string> ArchiveKeys = new List<string>();
+                List<string> ArchiveValues = new List<string>();
+
+                if (extraArchiveKeys != null)
+                    for (int i = 0; i < extraArchiveKeys.Length; i++)
+                    {
+                        ArchiveKeys.Add(extraArchiveKeys[i]);
+                        ArchiveValues.Add(extraArchiveValues[i]);
+                    }
+
+                if (options.ArchiveKeyNames != null)
+                {
+                    for (int i = 0; i < options.ArchiveKeyNames.Length; i++)
+                    {
+                        string keyName = options.ArchiveKeyNames[i];
+                        string val = "";
+
+                        if (keyName.ToUpper().StartsWith("PARAM_"))
+                        {
+                            val = parameter;
+                            keyName = keyName.Substring(6);
+                        }
+                        else if (keyName.ToUpper().StartsWith("IDNUM_"))
+                        {
+                            val = prop.IdNum;
+                            keyName = keyName.Substring(6);
+                        }
+                        else
+                        {
+                            var rec = options.ArchiveKeyRectangles[i];
+                            val = _utils.ExtractText(rec, pageNumber);
+                            val = CleanValue(val);
+                        }
+                        ArchiveKeys.Add(keyName);
+                        ArchiveValues.Add(val);
+                    }
+                }
+                prop.ArchiveKeyValues = ArchiveValues.ToArray();
+                prop.ArchiveKeyNames = ArchiveKeys.ToArray();
+
+                System.Windows.Forms.Application.DoEvents();
+            }
             if (prop.IdNum != "")
             {
                 DataTable dt = GetInfoFromDB(options, connectionString, prop.IdNum);
@@ -123,7 +169,7 @@ namespace DrLogy.DrLogyPDFMailerUtils
         {
         }
 
-        public void ProcessPDF(MailerOptions options, string sourceFile, string destinationFolder, string connectionString, string parameter, int fromPage, int toPage)
+        public void ProcessPDF(MailerOptions options, string sourceFile, string destinationFolder, string connectionString, string parameter, int fromPage, int toPage , int archiveId, string[] extraArchiveKeys, string[] extraArchiveValues)
         {
             _results = new List<BasePDFProperties>();
             _utils = new PDFUtils();
@@ -143,7 +189,7 @@ namespace DrLogy.DrLogyPDFMailerUtils
             for (int i = fromPage; i <= toPage && (!_cancel); i++)
             {
                 WriteToLog($"מעבד עמוד {i}... " , i-fromPage +1);
-                BasePDFProperties prop = ProcessPDFPage(options,connectionString, parameter,i);
+                BasePDFProperties prop = ProcessPDFPage(options,connectionString, parameter,i , extraArchiveKeys, extraArchiveValues);
 
                 if (prop != null)
                 _results.Add(prop);
@@ -153,6 +199,7 @@ namespace DrLogy.DrLogyPDFMailerUtils
             }
             _utils.ClosePdf();
             RenameFilesToIdNum();
+            UploadFilesToArchive(archiveId);
             if (Cancel)
             {
                 WriteToLog("הפעולה בוטלה");
@@ -223,6 +270,35 @@ namespace DrLogy.DrLogyPDFMailerUtils
                 }
             }
 
+        }
+
+        private void UploadFilesToArchive(int archiveId)
+        {
+            if (archiveId <= 0)
+                return;
+            WriteToLog($"מעלה קבצים  לארכיון");
+            int i = 0;
+            int cnt = _results.Count;
+            try
+            {
+                var arc = new FileArchive();
+
+                foreach (var p in _results)
+                {
+                    i++;
+                    WriteToLog($"מעלה קובץ {i} מתוך {cnt}") ;
+
+                    if (!p.IsEmpty)
+                    {
+                        arc.UploadArchive(archiveId, p.FileName, 0, p.ArchiveKeyNames, p.ArchiveKeyValues);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteToLog($"העלאה לארכיון נכשלה בקובץ ");
+            }
         }
         public void DeleteEmpty()
         {

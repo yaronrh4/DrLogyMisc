@@ -12,9 +12,9 @@ namespace PDFMailer
 {
     public class PDFProcessor806 : PDFProcessor
     {
-        protected override BasePDFProperties ProcessPDFPage(MailerOptions options, string connectionString, string parameter, int pageNumber)
+        protected override BasePDFProperties ProcessPDFPage(MailerOptions options, string connectionString, string parameter, int pageNumber , string[] extraArchiveKeys , string[] extraArchiveValues)
         {
-            BasePDFProperties props = base.ProcessPDFPage(options, connectionString, parameter,pageNumber );
+            BasePDFProperties props = base.ProcessPDFPage(options, connectionString, parameter,pageNumber ,extraArchiveKeys ,extraArchiveValues);
             DrLogy.DrLogyUtils.DbUtils.ConStr = connectionString;
             string sql = $"SELECT TEACMONTH_MONTH FROM TEACHER_MONTH_SUMS WHERE TEACMONTH_TEACHER = {props.Id} AND TEACMONTH_YEAR = {parameter} AND ISNULL (TEACMONTH_SALARY,0) > 0";
             System.Data.DataTable dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData(sql, null, null, CommandType.Text);

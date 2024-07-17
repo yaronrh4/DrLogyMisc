@@ -48,7 +48,7 @@ namespace CommitmentLettersApp
         {
             string name = "";
             List<string> subjects = null;
-            List<decimal> subjectHours = null;
+            List<decimal?> subjectHours = null;
 
             string comments = "";
             string rakazName = "";
@@ -77,7 +77,7 @@ namespace CommitmentLettersApp
 
                     subjects = new List<string>();
 
-                    subjectHours = new List<decimal>();
+                    subjectHours = new List<decimal?>();
                     startDate = r.StartDate;
                     endDate = r.EndDate;
                     comments = "";

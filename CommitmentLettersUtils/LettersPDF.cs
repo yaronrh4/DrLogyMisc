@@ -1,6 +1,7 @@
 ﻿using DrLogy.DrLogyPDFUtils;
 using DrLogy.DrLogyUtils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -87,7 +88,6 @@ namespace DrLogy.CommitmentLettersUtils
                     newSubject.SubjectInFile = subject.NameInFile;
                     //newSubject.SubjectInDB = subject.Name;
                     newSubject.Hours = 1; //dummy value would be updated letter
-                    newSubject.IsNew = false; //default value
                     data.Subjects.Add(newSubject);
                 }
             }
@@ -100,7 +100,7 @@ namespace DrLogy.CommitmentLettersUtils
 
             foreach (var subject in data.Subjects)
             {
-                subject.Hours = subject.CurrHours.GetValueOrDefault();
+                subject.Hours = subject.CurrHours;
             }
 
             for (int i = 0; i < Results[Results.Count - 1].Subjects.Count; i++)
@@ -132,6 +132,26 @@ namespace DrLogy.CommitmentLettersUtils
 
             return fldsErr; 
         }
+
+        private string ValidateMinValue(DataTable dt, string field, int minValue , bool includeValue)
+        {
+            string fldsErr = "";
+            List<int> err = new List<int>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                var row = dt.Rows[i];
+                if (dt.Columns.Contains(field) && !(row[field] is DBNull) &&  ((decimal.Parse(row[field].ToString()) < minValue) || (includeValue && decimal.Parse(row[field].ToString()) <= minValue)))
+                    err.Add(i+1);
+            }
+
+            if (err.Count > 0) {
+                fldsErr = field; 
+                fldsErr += (err.Count == 1 ? " שורה " : " שורות ") + string.Join(",", err.ToArray());
+            }
+
+            return fldsErr;
+        }
+
 
         private string ValidateRequiredFields(DataTable dt, string[] fields , int rowIndex=-1)
         {
@@ -173,7 +193,7 @@ namespace DrLogy.CommitmentLettersUtils
         private string ValidateExcel(DataTable dt)
         {
             //check required fields
-            string[] reqFields = { "מכסת שעות" , "ת.ז" , "תאריך התחלה", "תאריך סיום", "הנגשה" };
+            string[] reqFields = { "ת.ז" , "תאריך התחלה", "תאריך סיום", "הנגשה" };
             string fldsErr = "";
 
             fldsErr = ValidateRequiredFields(dt, reqFields);
@@ -205,6 +225,22 @@ namespace DrLogy.CommitmentLettersUtils
             if (fldsErr != "")
             {
                 return $"הערכים בשדות הבאים אינם תאריכים  : {fldsErr}";
+            }
+
+            string[] decimalFields = { "מכסת שעות" };
+
+            fldsErr = ValidateColumnType(dt, decimalFields, typeof(Decimal));
+
+            if (fldsErr != "")
+            {
+                return $"הערכים בשדות הבאים אינם מספרים  : {fldsErr}";
+            }
+
+            fldsErr = ValidateMinValue(dt, "מכסת שעות", 0 , true);
+
+            if (fldsErr != "")
+            {
+                return $"הערכים לא תקינים בשדה : {fldsErr}";
             }
 
             fldsErr = ValidateProject(dt);
@@ -264,6 +300,7 @@ namespace DrLogy.CommitmentLettersUtils
                         {
                             return "ניתן לייבא תלמידים רק מפרוייקט אחד בקובץ";
                         }
+                        lastPrj = prj;
                     }
                 }
             }
@@ -369,10 +406,10 @@ namespace DrLogy.CommitmentLettersUtils
                     data.IdNum = currIdNum.ToString();
 
                     data.FileName = filename;
-                    //if (!(row["פרוייקט"] is DBNull))
-                    //    data.ProjectId = (int)DbUtils.ExecSP("SPMISC_GET_PROJECT_ID", new string[] { "project" }, new object[] { row["פרוייקט"] });
-                    //else
-                    //    data.ProjectId = _options.ProjectId;
+                    if (dt.Columns.Contains ("פרוייקט") &&  !(row["פרוייקט"] is DBNull))
+                        data.ProjectId = (int)DbUtils.ExecSP("SPMISC_GET_PROJECT_ID", new string[] { "project" }, new object[] { row["פרוייקט"] });
+                    else
+                        data.ProjectId = _options.ProjectId;
 
                     data.CreateDate = dt.Columns.Contains("תאריך קליטה") && row["תאריך קליטה"] is DBNull ? DateTime.Now : (DateTime)row["תאריך קליטה"]; ;
 
@@ -415,12 +452,14 @@ namespace DrLogy.CommitmentLettersUtils
                     newSubject.SubjectId = (int)DbUtils.ExecSP("SPMISC_GET_SUBJECT_ID", new string[] { "subject" }, new object[] { subName });
                     newSubject.SubjectInDB = newSubject.SubjectInFile = subName;
                 }
-                newSubject.Hours = row["מכסת שעות"] is DBNull ? 0 : decimal.Parse(row["מכסת שעות"].ToString());
-                newSubject.IsNew = null; //ברירת מחדל
+                if (row.Table.Columns.Contains("מכסת שעות") && !string.IsNullOrEmpty(row["מכסת שעות"].ToString()))
+                    newSubject.Hours = decimal.Parse(row["מכסת שעות"].ToString());
+                else
+                    newSubject.Hours = null;
                 if (row.Table.Columns.Contains ("תלמיד חדש למייל") && row["תלמיד חדש למייל"].ToString() == "כן")
-                    newSubject.IsNew = true;
+                    data.IsNewStudent = true;
                 else if (row["תלמיד חדש למייל"].ToString() == "לא")
-                    newSubject.IsNew = false;
+                    data.IsNewStudent = false;
 
                 data.Subjects.Add(newSubject);
             }
@@ -430,12 +469,11 @@ namespace DrLogy.CommitmentLettersUtils
                 for (int j = 0; j < Results[i].Subjects.Count; j++)
                 {
                     GetDataFromDB(i, j, connectionString);
-                    RefreshStatus(i,j);
-                    //שינוי סטטוס לחדש אם סטטוס הוא ברירת מחדל והתלמיד חדש
-                    if (!Results[i].Subjects[j].IsNew.HasValue)
-                        Results[i].Subjects[j].IsNew = (Results[i].Subjects[j].Status == StudentStatus.NoStudent);
 
                 }
+                //שינוי סטטוס לחדש אם סטטוס הוא ברירת מחדל והתלמיד חדש
+                if (!Results[i].IsNewStudent && Results[i].Subjects[0].Status == StudentStatus.NoStudent)
+                    Results[i].IsNewStudent = true;
 
             }
 
@@ -575,7 +613,10 @@ namespace DrLogy.CommitmentLettersUtils
 
                     subject.CurrStartDate = (DateTime)row["ST_SIGNDATE"];
                     subject.CurrEndDate = (DateTime)row["ST_DATEEND"];
-                    subject.CurrHours = (decimal)row["ST_MAX_HOURS"];
+                    if (!(row["ST_MAX_HOURS"] is DBNull))
+                        subject.CurrHours = decimal.Parse(row["ST_MAX_HOURS"].ToString());
+                    else
+                        subject.CurrHours = null;
                 }
             
                 
@@ -604,8 +645,9 @@ namespace DrLogy.CommitmentLettersUtils
                 {
                     //בדיקה אם קיים תלמיד עם ת.ז  הנוכחית - בפרוייקט אחר / הנגשה אחרת
                     dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_USER", new string[] { "zehut" }, new object[] { r.IdNum });
-                    if (subject.IsNew.HasValue)
-                        subject.IsNew = true;
+                    if (dt.Rows.Count > 0 )
+                        subject.Exists = false;
+
                 }
 
                 //עדכון כתובת ושם התלמיד מבסיס הנתונים - במידה וקיים
@@ -745,7 +787,7 @@ namespace DrLogy.CommitmentLettersUtils
             if (r.Id > 0)
             {
 
-                if (!subject.IsNew.GetValueOrDefault())
+                if (subject.Exists)
                 {
                     if (subject.Hours == subject.CurrHours && r.StartDate == subject.CurrStartDate && r.EndDate == subject.CurrEndDate)
                         subject.Status = StudentStatus.Updated;
@@ -857,6 +899,7 @@ namespace DrLogy.CommitmentLettersUtils
                     {
                         DbUtils.ExecSP("SPMISC_INSERT_SUBJECT", new string[] { "st_id", "prj_id", "sub_id", "rakaz", "start_date", "end_date", "hours" , "parentname" }, new object[] { _results[rowIndex].Id, r.ProjectId, subject.SubjectId, rakazId, r.StartDate, r.EndDate, subject.Hours ,r.CurrSocialWorker} ,true);
                         subject.Updated = true;
+                        subject.Exists = true;
                     }
                     else
                     {
@@ -873,7 +916,6 @@ namespace DrLogy.CommitmentLettersUtils
                     subject.CurrHours = subject.Hours;
                     subject.CurrStartDate = r.StartDate;
                     subject.CurrEndDate = r.EndDate;
-                    subject.IsNew = false;
                     RefreshStatus(rowIndex, subjectIndex);
                 }
             }
@@ -897,7 +939,7 @@ namespace DrLogy.CommitmentLettersUtils
             public string Email { get; set; }
             public DateTime? StartDate { get; set; }
             public DateTime? EndDate { get; set; }
-            public Decimal Hours { get; set; }
+            public Decimal? Hours { get; set; }
             public string SocialWorker { get; set; }
         }   
         public void ExportToExcel(string filename)

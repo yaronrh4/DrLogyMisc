@@ -584,7 +584,6 @@
                     },
                     hours: {
                         number: true,
-                        required: true
                     },
                     startdate: {
                         required: true
@@ -1128,7 +1127,7 @@
                                     </label>
                                 </div>
                                 <div class="col-lg-10">
-                                    <input runat="server" id="hours" type="text" class="form-control" />
+                                    <input runat="server" id="hours" type="number" step="1" min="1" class="form-control" />
                                     <span class="small text-info" id="currhours"></span>
 
                                 </div>
