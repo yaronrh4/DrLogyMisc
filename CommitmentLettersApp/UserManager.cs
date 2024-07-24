@@ -46,10 +46,8 @@ namespace CommitmentLettersApp
                 }
                 else
                 {
-                    if (UserId > 0 )
-                    {
-
-                    }
+                    string userName = Utils.GetCookie("UserName");
+                    return userName;
                 }
                 return "";
             }
