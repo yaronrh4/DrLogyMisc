@@ -46,14 +46,17 @@
             this.btnBrowse = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(204, 425);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button1.Location = new System.Drawing.Point(136, 276);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(112, 35);
+            this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
@@ -61,10 +64,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(488, 268);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button2.Location = new System.Drawing.Point(325, 174);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(112, 35);
+            this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 3;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
@@ -72,28 +74,25 @@
             // 
             // txtSource
             // 
-            this.txtSource.Location = new System.Drawing.Point(240, 85);
-            this.txtSource.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtSource.Location = new System.Drawing.Point(160, 55);
             this.txtSource.Name = "txtSource";
-            this.txtSource.Size = new System.Drawing.Size(148, 26);
+            this.txtSource.Size = new System.Drawing.Size(100, 20);
             this.txtSource.TabIndex = 4;
             this.txtSource.Text = "C:\\_a\\1.pdf";
             // 
             // txtDest
             // 
-            this.txtDest.Location = new System.Drawing.Point(240, 138);
-            this.txtDest.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtDest.Location = new System.Drawing.Point(160, 90);
             this.txtDest.Name = "txtDest";
-            this.txtDest.Size = new System.Drawing.Size(148, 26);
+            this.txtDest.Size = new System.Drawing.Size(100, 20);
             this.txtDest.TabIndex = 5;
             this.txtDest.Text = "c:\\_a\\output.pdf";
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(488, 354);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button3.Location = new System.Drawing.Point(325, 230);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(112, 35);
+            this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 6;
             this.button3.Text = "button3";
             this.button3.UseVisualStyleBackColor = true;
@@ -101,46 +100,41 @@
             // 
             // textBoxX
             // 
-            this.textBoxX.Location = new System.Drawing.Point(760, 63);
-            this.textBoxX.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxX.Location = new System.Drawing.Point(507, 41);
             this.textBoxX.Name = "textBoxX";
-            this.textBoxX.Size = new System.Drawing.Size(148, 26);
+            this.textBoxX.Size = new System.Drawing.Size(100, 20);
             this.textBoxX.TabIndex = 7;
-            this.textBoxX.Text = "62";
+            this.textBoxX.Text = "448";
             // 
             // textBoxH
             // 
-            this.textBoxH.Location = new System.Drawing.Point(945, 123);
-            this.textBoxH.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxH.Location = new System.Drawing.Point(655, 80);
             this.textBoxH.Name = "textBoxH";
-            this.textBoxH.Size = new System.Drawing.Size(148, 26);
+            this.textBoxH.Size = new System.Drawing.Size(100, 20);
             this.textBoxH.TabIndex = 8;
-            this.textBoxH.Text = "13";
+            this.textBoxH.Text = "15";
             // 
             // textBoxY
             // 
-            this.textBoxY.Location = new System.Drawing.Point(945, 63);
-            this.textBoxY.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxY.Location = new System.Drawing.Point(655, 41);
             this.textBoxY.Name = "textBoxY";
-            this.textBoxY.Size = new System.Drawing.Size(148, 26);
+            this.textBoxY.Size = new System.Drawing.Size(100, 20);
             this.textBoxY.TabIndex = 9;
-            this.textBoxY.Text = "625";
+            this.textBoxY.Text = "314";
             // 
             // textBoxW
             // 
-            this.textBoxW.Location = new System.Drawing.Point(760, 123);
-            this.textBoxW.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxW.Location = new System.Drawing.Point(507, 80);
             this.textBoxW.Name = "textBoxW";
-            this.textBoxW.Size = new System.Drawing.Size(148, 26);
+            this.textBoxW.Size = new System.Drawing.Size(100, 20);
             this.textBoxW.TabIndex = 10;
-            this.textBoxW.Text = "90";
+            this.textBoxW.Text = "100";
             // 
             // btnHighlight
             // 
-            this.btnHighlight.Location = new System.Drawing.Point(861, 303);
-            this.btnHighlight.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnHighlight.Location = new System.Drawing.Point(574, 197);
             this.btnHighlight.Name = "btnHighlight";
-            this.btnHighlight.Size = new System.Drawing.Size(112, 35);
+            this.btnHighlight.Size = new System.Drawing.Size(75, 23);
             this.btnHighlight.TabIndex = 11;
             this.btnHighlight.Text = "Highlight";
             this.btnHighlight.UseVisualStyleBackColor = true;
@@ -148,19 +142,17 @@
             // 
             // txtHighlightFile
             // 
-            this.txtHighlightFile.Location = new System.Drawing.Point(824, 189);
-            this.txtHighlightFile.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtHighlightFile.Location = new System.Drawing.Point(549, 123);
             this.txtHighlightFile.Name = "txtHighlightFile";
-            this.txtHighlightFile.Size = new System.Drawing.Size(148, 26);
+            this.txtHighlightFile.Size = new System.Drawing.Size(100, 20);
             this.txtHighlightFile.TabIndex = 12;
             this.txtHighlightFile.Text = "c:\\_a\\output.pdf";
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(488, 443);
-            this.button4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button4.Location = new System.Drawing.Point(325, 288);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(112, 35);
+            this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 14;
             this.button4.Text = "button4";
             this.button4.UseVisualStyleBackColor = true;
@@ -168,20 +160,18 @@
             // 
             // txtHighlightSearch
             // 
-            this.txtHighlightSearch.Location = new System.Drawing.Point(824, 357);
-            this.txtHighlightSearch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtHighlightSearch.Location = new System.Drawing.Point(549, 232);
             this.txtHighlightSearch.Multiline = true;
             this.txtHighlightSearch.Name = "txtHighlightSearch";
             this.txtHighlightSearch.ReadOnly = true;
-            this.txtHighlightSearch.Size = new System.Drawing.Size(223, 119);
+            this.txtHighlightSearch.Size = new System.Drawing.Size(150, 79);
             this.txtHighlightSearch.TabIndex = 15;
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(999, 303);
-            this.button5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button5.Location = new System.Drawing.Point(666, 197);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(112, 35);
+            this.button5.Size = new System.Drawing.Size(75, 23);
             this.button5.TabIndex = 16;
             this.button5.Text = "Copy";
             this.button5.UseVisualStyleBackColor = true;
@@ -189,10 +179,9 @@
             // 
             // btnResetIndex
             // 
-            this.btnResetIndex.Location = new System.Drawing.Point(740, 303);
-            this.btnResetIndex.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnResetIndex.Location = new System.Drawing.Point(493, 197);
             this.btnResetIndex.Name = "btnResetIndex";
-            this.btnResetIndex.Size = new System.Drawing.Size(112, 35);
+            this.btnResetIndex.Size = new System.Drawing.Size(75, 23);
             this.btnResetIndex.TabIndex = 17;
             this.btnResetIndex.Text = "Reset Index";
             this.btnResetIndex.UseVisualStyleBackColor = true;
@@ -200,10 +189,9 @@
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(982, 189);
-            this.btnBrowse.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnBrowse.Location = new System.Drawing.Point(655, 123);
             this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(112, 35);
+            this.btnBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnBrowse.TabIndex = 18;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.UseVisualStyleBackColor = true;
@@ -211,28 +199,66 @@
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(760, 18);
-            this.txtSearch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtSearch.Location = new System.Drawing.Point(507, 12);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(211, 26);
+            this.txtSearch.Size = new System.Drawing.Size(142, 20);
             this.txtSearch.TabIndex = 19;
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(982, 14);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSearch.Location = new System.Drawing.Point(655, 9);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(112, 35);
+            this.btnSearch.Size = new System.Drawing.Size(75, 23);
             this.btnSearch.TabIndex = 20;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(466, 44);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(14, 13);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "X";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(613, 44);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(14, 13);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "Y";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(466, 83);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.TabIndex = 23;
+            this.label3.Text = "Width";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(613, 83);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(38, 13);
+            this.label4.TabIndex = 24;
+            this.label4.Text = "Height";
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1200, 692);
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.btnBrowse);
@@ -251,7 +277,6 @@
             this.Controls.Add(this.txtSource);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
@@ -281,6 +306,10 @@
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }
 

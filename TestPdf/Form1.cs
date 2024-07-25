@@ -195,7 +195,7 @@ namespace TestPdf
             XGraphics gfx = XGraphics.FromPdfPage(page);
 
             // Create a font
-            XFont font = new XFont("Arial", 10, XFontStyle.BoldItalic);
+            XFont font = new XFont("Arial", 10,  XFontStyleEx.BoldItalic );
 
             //484, 193, 90, 13
             // Draw the text

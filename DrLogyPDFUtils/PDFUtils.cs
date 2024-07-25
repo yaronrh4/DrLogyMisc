@@ -59,7 +59,16 @@ namespace DrLogy.DrLogyPDFUtils
                         _spireSplittedDoc.SaveToFile(this.Filename);
                         _spireSplittedDoc.Close();
                     }
-                _sharpDoc.Close();
+                try
+                {
+                    _sharpDoc.Dispose();
+                }
+                catch { }
+                try
+                {
+                    _sharpDoc.Close();
+                }
+                catch { }
             }
 
             _sharpDoc = null;
