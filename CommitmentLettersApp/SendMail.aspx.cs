@@ -81,7 +81,7 @@ namespace CommitmentLettersApp
                     startDate = r.StartDate;
                     endDate = r.EndDate;
                     comments = "";
-                    mailType = r.IsNewStudent ? 1 : 2;
+                    mailType = r.IsNewStudent.GetValueOrDefault() ? 1 : 2;
                     rakazName = r.CoordinatorName;
                     rakazPhone = lettersPDF.Options.Coordinators.First(x => x.Name == rakazName).Phone;
                     rakazEmail = lettersPDF.Options.Coordinators.First(x => x.Name == rakazName).Email;

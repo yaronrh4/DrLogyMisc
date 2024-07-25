@@ -111,12 +111,17 @@ namespace DrLogy.CommitmentLettersUtils
         private string ValidateRequiredFieldsOnInsert(DataTable dt, string keyField, string[] fields)
         {
             string fldsErr = "";
+            string prevId = "";
             for (int i=0; i <dt.Rows.Count; i++ )
             {
                 DataRow r = dt.Rows[i];
                 string zehut = r[keyField].ToString();
-                int exists = (int)DbUtils.ExecSP("SPMISC_ZEHUT_EXISTS", new string[] { "zehut" }, new object[] { zehut });
-
+                int exists = 0;
+                if (prevId == zehut)
+                    exists = 1;
+                else
+                    exists = (int)DbUtils.ExecSP("SPMISC_ZEHUT_EXISTS", new string[] { "zehut" }, new object[] { zehut });
+                prevId = zehut; 
                 //new student
                 if (exists==0)
                 {
@@ -125,7 +130,7 @@ namespace DrLogy.CommitmentLettersUtils
                     {
                         if (fldsErr != "")
                             fldsErr += " , ";
-                        fldsErr +=$" שורה {i} : {s}";
+                        fldsErr +=$" שורה {i+1} : {s}";
                     }
                 }
             }
@@ -374,8 +379,6 @@ namespace DrLogy.CommitmentLettersUtils
                 }
             }
 
-
-
             return fldsErr; 
         }
         public string ImportFromExcel(string filename, string connectionString, string defaultCoordinatorName)
@@ -384,7 +387,7 @@ namespace DrLogy.CommitmentLettersUtils
 
             var excel = new ExcelCreator();
 
-            DataTable dt = excel.ExcelToDatatable(filename);
+            DataTable dt = excel.ExcelToDatatable(filename , "" , true);
 
             string err = ValidateExcel(dt);
             if (err != "")
@@ -411,10 +414,10 @@ namespace DrLogy.CommitmentLettersUtils
                     else
                         data.ProjectId = _options.ProjectId;
 
-                    data.CreateDate = dt.Columns.Contains("תאריך קליטה") && row["תאריך קליטה"] is DBNull ? DateTime.Now : (DateTime)row["תאריך קליטה"]; ;
+                    data.CreateDate = dt.Columns.Contains("תאריך קליטה") && row["תאריך קליטה"] is DBNull ? DateTime.Now.Date : Convert.ToDateTime( row["תאריך קליטה"]).Date; ;
 
-                    data.StartDate = (DateTime)row["תאריך התחלה"];
-                    data.EndDate = (DateTime)row["תאריך סיום"];
+                    data.StartDate = Convert.ToDateTime(row["תאריך התחלה"]);
+                    data.EndDate = Convert.ToDateTime(row["תאריך סיום"]);
 
                     data.Email = data.CurrEmail = dt.Columns.Contains("מייל") && row["מייל"] is DBNull ? "" : (string)row["מייל"];
                     data.CoordinatorName = data.CurrCoordinatorName = dt.Columns.Contains("תלמיד") && row["רכז תלמיד"] is DBNull ? "" : (string)row["רכז תלמיד"].ToString();
@@ -429,7 +432,7 @@ namespace DrLogy.CommitmentLettersUtils
                     data.Age = data.CurrAge = dt.Columns.Contains("גיל") && row["גיל"] is DBNull ? "" : row["גיל"].ToString();
                     data.Address = data.CurrAddress = dt.Columns.Contains("כתובת") && row["כתובת"] is DBNull ? "" : row["כתובת"].ToString();
                     data.Mikud = data.CurrMikud = dt.Columns.Contains("מיקוד") && row["מיקוד"] is DBNull ? "" : row["מיקוד"].ToString();
-
+                    data.Comments = dt.Columns.Contains("הערות") && row["הערות"] is DBNull ? "" : row["הערות"].ToString();
                     if (!string.IsNullOrEmpty (data.SocialWorker) && data.SocialWorker.IndexOf("עוס") < 0 && data.SocialWorker.IndexOf("עו\"ס") < 0)
                         data.SocialWorker = "עו\"ס " + data.SocialWorker;
                     data.CurrSocialWorker = data.SocialWorker;
@@ -472,9 +475,11 @@ namespace DrLogy.CommitmentLettersUtils
 
                 }
                 //שינוי סטטוס לחדש אם סטטוס הוא ברירת מחדל והתלמיד חדש
-                if (!Results[i].IsNewStudent && Results[i].Subjects[0].Status == StudentStatus.NoStudent)
+                if  (Results[i].IsNewStudent == null  && Results[i].Subjects[0].Status == StudentStatus.NoStudent)
                     Results[i].IsNewStudent = true;
-
+                else
+                    if (Results[i].IsNewStudent ==null)
+                        Results[i].IsNewStudent = false;
             }
 
             return "";

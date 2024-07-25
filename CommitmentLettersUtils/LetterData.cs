@@ -43,7 +43,7 @@ namespace DrLogy.CommitmentLettersUtils
 
         public DateTime CreateDate { get; set; }
 
-        public bool IsNewStudent { get; set; } = true;
+        public bool? IsNewStudent { get; set; } = null;
 
         public bool Edited { get; set; } = false;
 
