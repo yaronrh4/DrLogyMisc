@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime;
 using System.Security.Cryptography;
+using System.Threading;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.UI;
@@ -457,10 +458,13 @@ namespace CommitmentLettersApp
             {
                 _lettersPDF.ExportToExcel(fileName);
             }
-            catch (Exception ex)
+            catch (ThreadAbortException ex)
             {
                 //WriteToLog("שגיאה בשמירת לוג");
-                throw;
+                //throw;
+            }
+            catch (Exception ex2)
+            {
             }
         }
 
@@ -474,7 +478,7 @@ namespace CommitmentLettersApp
                 if (_lettersPDF.Results.Count > 0)
                 {
                     SaveToExcel($"letters");
-                    successhidden.Value = "השמירה בוצעה בהצלחה";
+                    Response.End();
                 }
             }
             catch (Exception ex)
@@ -503,8 +507,11 @@ namespace CommitmentLettersApp
                 DateTime startDate = DateTime.ParseExact(Loadstartdate.Value.Trim(), "dd/MM/yyyy", null);
                 DateTime endDate = DateTime.ParseExact(Loadenddate.Value.Trim(), "dd/MM/yyyy", null);
 
-                _lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, Connection, DefaultCoordinatorName);
-
+                if (!_lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, Connection, DefaultCoordinatorName))
+                { 
+                    errorhidden.Value = "לא נמצאו תלמידים עם הת.ז המבוקשת. לצורך הוספת תלמיד חדש יש ללחוץ על הוספת תלמיד ";
+                    return;
+                }
                 Loadidnum.Value = "";
                 Loadstartdate.Value = "";
                 Loadenddate.Value = "";

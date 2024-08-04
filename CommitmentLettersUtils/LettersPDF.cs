@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -34,7 +35,7 @@ namespace DrLogy.CommitmentLettersUtils
             get { return _options; }
         }
 
-        public void LoadStudent(string idNum, string[] subjects, DateTime startDate, DateTime endDate, string connectionString, string defaultCoordinatorName)
+        public bool LoadStudent(string idNum, string[] subjects, DateTime startDate, DateTime endDate, string connectionString, string defaultCoordinatorName)
         {
             PDFUtils utils = new PDFUtils();
             LetterData data = new LetterData();
@@ -93,20 +94,25 @@ namespace DrLogy.CommitmentLettersUtils
             }
 
             _results.Add(data);
-
-            for (int i = 0; i < Results.Count; i++)
-                for (int j = 0; j < Results[i].Subjects.Count; j++)
-                    GetDataFromDB(i, j, connectionString);
+            int i = Results.Count() - 1;
+            for (int j = 0; j < Results[i].Subjects.Count; j++)
+                if (!GetDataFromDB(i, j, connectionString))
+                {
+                    Results.RemoveAt(i);
+                    return false;
+                }
 
             foreach (var subject in data.Subjects)
             {
                 subject.Hours = subject.CurrHours;
             }
 
-            for (int i = 0; i < Results[Results.Count - 1].Subjects.Count; i++)
+            for (i = 0; i < Results[Results.Count - 1].Subjects.Count; i++)
             {
                 RefreshStatus(Results.Count - 1, i);
             }
+
+            return true;
         }
         private string ValidateRequiredFieldsOnInsert(DataTable dt, string keyField, string[] fields)
         {
@@ -592,8 +598,9 @@ namespace DrLogy.CommitmentLettersUtils
             return subject;
         }
 
-        public void GetDataFromDB(int index, int subjectIndex, string connectionString, bool overrideDetails = false)
+        public bool GetDataFromDB(int index, int subjectIndex, string connectionString, bool overrideDetails = false)
         {
+            bool rc = false;
             LetterData r = Results[index];
             SubjectData subject = r.Subjects[subjectIndex];
             //data.CurrName = null;
@@ -610,6 +617,7 @@ namespace DrLogy.CommitmentLettersUtils
             //בדיקה אם קיים התלמיד בפרוייקט ובהתנגשה הספציפיים
             if (subject.SubjectId > 0 && r.StartDate.HasValue && r.EndDate.HasValue /*&& subject.Hours > 0*/)
             {
+                rc = true;
                 dt = DrLogy.DrLogyUtils.DbUtils.GetSQLData("SPMISC_GET_USER", new string[] { "zehut", "prj_id", "sub_id", "hours", "start_date", "end_date" }, new object[] { r.IdNum, r.ProjectId, subject.SubjectId, subject.Hours, r.StartDate.Value, r.EndDate.Value });
 
                 if (dt.Rows.Count > 0)
@@ -696,9 +704,15 @@ namespace DrLogy.CommitmentLettersUtils
                         r.Mikud = r.CurrMikud;
                     }
                 }
+                else
+                {
+                    rc = false;
+                }
 
-                RefreshStatus(index, subjectIndex);
+                if (rc)
+                    RefreshStatus(index, subjectIndex);
             }
+            return rc;
         }
 
 
