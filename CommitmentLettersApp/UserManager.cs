@@ -21,7 +21,7 @@ namespace CommitmentLettersApp
                 }
                 else
                 {
-                    string user = Utils.GetCookie("UserId");
+                    string user = DrLogyCookies.CookielessUtils.GetCookie("UserId");
                     if (!string.IsNullOrEmpty(user))
                     {
                         UserId  = int.Parse(user);
@@ -46,7 +46,7 @@ namespace CommitmentLettersApp
                 }
                 else
                 {
-                    string userName = Utils.GetCookie("UserName");
+                    string userName = DrLogyCookies.CookielessUtils.GetCookie("UserName");
                     return userName;
                 }
                 return "";
@@ -58,8 +58,8 @@ namespace CommitmentLettersApp
         }
         public static void SetUserCookie()
         {
-            Utils.SetCookie("UserId", UserId.ToString());
-            Utils.SetCookie("UserName", UserName);
+            DrLogyCookies.CookielessUtils.SetCookie("UserId", UserId.ToString());
+            DrLogyCookies.CookielessUtils.SetCookie("UserName", UserName);
         }
 
         public static void Logout ()

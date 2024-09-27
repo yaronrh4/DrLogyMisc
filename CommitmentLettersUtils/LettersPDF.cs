@@ -707,10 +707,10 @@ namespace DrLogy.CommitmentLettersUtils
                 else
                 {
                     rc = false;
+                    r.IsNewStudent = true;
                 }
 
-                if (rc)
-                    RefreshStatus(index, subjectIndex);
+                RefreshStatus(index, subjectIndex);
             }
             return rc;
         }

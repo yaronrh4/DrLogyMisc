@@ -732,25 +732,25 @@
                                 <HeaderTemplate>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <tr class="studentdatarow" stidx="<%# Container.ItemIndex %>" stid="<%#Eval("Id")%>" firstname="<%#AttrEval("CurrFirstName")%>" lastname="<%#AttrEval("CurrLastName")%>" idnum="<%#AttrEval("IdNum")%>" phone="<%#AttrEval("CurrPhone")%>" email="<%#AttrEval("CurrEmail")%>" socialworker="<%#AttrEval("CurrSocialWorker")%>" branch="<%#AttrEval("CurrBranch")%>" coordinatorname="<%#AttrEval("CoordinatorName")%>" startdate="<%#Eval("StartDate" , "{0:dd/MM/yyyy}")%>" enddate="<%#Eval("EndDate", "{0:dd/MM/yyyy}") %>" currfirstname="<%#StudentAttrEval("FirstName")%>" currlastname="<%#StudentAttrEval("LastName")%>" currphone="<%#StudentAttrEval("Phone")%>" curremail="<%#StudentAttrEval("Email")%>" currbranch="<%#StudentAttrEval("Branch")%>" currcoordinatorname="<%#StudentAttrEval("CoordinatorName")%>" currsocialworker="<%#StudentAttrEval("SocialWorker")%>" createdate="<%#Eval("CreateDate" , "{0:dd/MM/yyyy}")%>" isnewstudent="<%#(bool)Eval("IsNewStudent") ? "1" : "0"%>" comments="<%#AttrEval("Comments")%>" edited="<%#(bool)Eval("Edited") ? 1 : 0%>">
+                                    <tr class="studentdatarow" stidx="<%# Container.ItemIndex %>" stid="<%#Eval2("Id")%>" firstname="<%#AttrEval("CurrFirstName")%>" lastname="<%#AttrEval("CurrLastName")%>" idnum="<%#AttrEval("IdNum")%>" phone="<%#AttrEval("CurrPhone")%>" email="<%#AttrEval("CurrEmail")%>" socialworker="<%#AttrEval("CurrSocialWorker")%>" branch="<%#AttrEval("CurrBranch")%>" coordinatorname="<%#AttrEval("CoordinatorName")%>" startdate="<%#Eval2("StartDate" , "{0:dd/MM/yyyy}")%>" enddate="<%#Eval2("EndDate", "{0:dd/MM/yyyy}") %>" currfirstname="<%#StudentAttrEval("FirstName")%>" currlastname="<%#StudentAttrEval("LastName")%>" currphone="<%#StudentAttrEval("Phone")%>" curremail="<%#StudentAttrEval("Email")%>" currbranch="<%#StudentAttrEval("Branch")%>" currcoordinatorname="<%#StudentAttrEval("CoordinatorName")%>" currsocialworker="<%#StudentAttrEval("SocialWorker")%>" createdate="<%#Eval2("CreateDate" , "{0:dd/MM/yyyy}")%>" isnewstudent="<%#Eval2("IsNewStudent").ToString() == "" || !((bool)Eval2("IsNewStudent")) ? "0" : "1"%>" comments="<%#AttrEval("Comments")%>" edited="<%#(bool)Eval2("Edited") ? 1 : 0%>">
                                         <td></td>
                                         <td></td>
-                                        <td><%#Eval("Id") %></td>
-                                        <td><%#Eval("FirstName")%><br />
-                                            <span class="small text-info">(<%#Eval("CurrFirstName")%>)</span>
+                                        <td><%#Eval2("Id") %></td>
+                                        <td><%#Eval2("FirstName")%><br />
+                                            <span class="small text-info">(<%#Eval2("CurrFirstName")%>)</span>
                                         </td>
-                                        <td><%#Eval("LastName")%><br />
-                                            <span class="small text-info">(<%#Eval("CurrLastName")%>)</span>
+                                        <td><%#Eval2("LastName")%><br />
+                                            <span class="small text-info">(<%#Eval2("CurrLastName")%>)</span>
                                         </td>
-                                        <td><%#Eval("IdNum") %></td>
-                                        <td><%#Eval("Email")%><br />
-                                            <span class="small text-info">(<%#Eval("CurrEmail")%>)</span>
+                                        <td><%#Eval2("IdNum") %></td>
+                                        <td><%#Eval2("Email")%><br />
+                                            <span class="small text-info">(<%#Eval2("CurrEmail")%>)</span>
                                         </td>
-                                        <td><%#Eval("StartDate", "{0:dd/MM/yyyy}")%></td>
-                                        <td><%#Eval("EndDate", "{0:dd/MM/yyyy}")%></td>
+                                        <td><%#Eval2("StartDate", "{0:dd/MM/yyyy}")%></td>
+                                        <td><%#Eval2("EndDate", "{0:dd/MM/yyyy}")%></td>
                                         <td></td>
                                         <td></td>
-                                        <td><%#Eval("Comments")%>
+                                        <td><%#Eval2("Comments")%>
                                         </td>
 
                                         <td>
@@ -759,25 +759,25 @@
                                             <%--                                            <a href="#confirmModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>--%>
                                         </td>
                                     </tr>
-                                    <asp:Repeater runat="server" DataSource='<%# Eval("Subjects") %>'>
+                                    <asp:Repeater runat="server" DataSource='<%# Eval2("Subjects") %>'>
                                         <ItemTemplate>
-                                            <tr class="subjectdatarow" stsubidx="<%#((RepeaterItem)(Container.Parent.Parent)).ItemIndex %>" subjectidx="<%# Container.ItemIndex %>" subjectfile="<%#Eval("SubjectInFile")%>" hours="<%#Eval("Hours")%>" startdate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.StartDate" , "{0:dd/MM/yyyy}") %>" enddate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.EndDate" , "{0:dd/MM/yyyy}") %>" currhours="<%#Eval("CurrHours")%>" currstartdate="<%#Eval("CurrStartDate", "{0:dd/MM/yyyy}") %>" currenddate="<%#Eval("CurrEndDate", "{0:dd/MM/yyyy}") %>" />
+                                            <tr class="subjectdatarow" stsubidx="<%#((RepeaterItem)(Container.Parent.Parent)).ItemIndex %>" subjectidx="<%# Container.ItemIndex %>" subjectfile="<%#Eval2("SubjectInFile")%>" hours="<%#Eval2("Hours")%>" startdate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.StartDate" , "{0:dd/MM/yyyy}") %>" enddate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.EndDate" , "{0:dd/MM/yyyy}") %>" currhours="<%#Eval2("CurrHours")%>" currstartdate="<%#Eval2("CurrStartDate", "{0:dd/MM/yyyy}") %>" currenddate="<%#Eval2("CurrEndDate", "{0:dd/MM/yyyy}") %>" />
                                             <td>
                                                 <%--                                    <span class="custom-checkbox">--%>
                                                 <%--                                        <label for="checkbox1"></label>--%>
                                                 <%--                                    </span>--%>
                                             </td>
-                                            <td><%#GetEnumDescription (Eval("Status") as Enum)%></td>
+                                            <td><%#GetEnumDescription (Eval2("Status") as Enum)%></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td><span class="small text-info">(<%#Eval("CurrStartDate", "{0:dd/MM/yyyy}")%>)</span></td>
-                                            <td><span class="small text-info">(<%#Eval("CurrEndDate", "{0:dd/MM/yyyy}")%>)</span></td>
-                                            <td><%#Eval("SubjectInFile")%></td>
-                                            <td><%#Eval("Hours")%>
-                                                <span class="small text-info">(<%#Eval("CurrHours")%>)</span>
+                                            <td><span class="small text-info">(<%#Eval2("CurrStartDate", "{0:dd/MM/yyyy}")%>)</span></td>
+                                            <td><span class="small text-info">(<%#Eval2("CurrEndDate", "{0:dd/MM/yyyy}")%>)</span></td>
+                                            <td><%#Eval2("SubjectInFile")%></td>
+                                            <td><%#Eval2("Hours")%>
+                                                <span class="small text-info">(<%#Eval2("CurrHours")%>)</span>
                                             </td>
                                             <td></td>
                                             <td>

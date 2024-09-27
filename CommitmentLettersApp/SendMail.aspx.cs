@@ -1,4 +1,5 @@
-﻿using DrLogy.CommitmentLettersUtils;
+﻿using DocumentFormat.OpenXml.Drawing;
+using DrLogy.CommitmentLettersUtils;
 using DrLogy.DrLogyUtils;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace CommitmentLettersApp
         [Serializable]
         private class mailitem
         {
+            public int StId { get; set; }
             public string MailSubject { get; set; }
             public string MailBody { get; set; }
             public string MailAddress { get; set; }
@@ -139,6 +141,7 @@ namespace CommitmentLettersApp
 
                     mailitem m = new mailitem()
                     {
+                        StId = r.Id,
                         MailAddress = email,
                         MailBody = html,
                         MailSubject = subject,
@@ -189,7 +192,7 @@ namespace CommitmentLettersApp
             {
                 cnt++;
                 string mailAddress = txtTestEmail.Text != "" ? txtTestEmail.Text : m.MailAddress;
-                eml.SendEmail(mailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc , m.RakazEmail);
+                eml.SendEmail(m.StId,mailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc , m.RakazEmail);
             }
             successhidden.Value = $"{cnt} מיילים נשלחו בהצלחה";
 
@@ -210,7 +213,7 @@ namespace CommitmentLettersApp
                     mailitem m = _mails[i];
                     cnt++;
                     string mailAddress = txtTestEmail.Text != "" ? txtTestEmail.Text : m.MailAddress;
-                    eml.SendEmail(mailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc , m.RakazEmail);
+                    eml.SendEmail(m.StId,mailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc , m.RakazEmail);
                 }
             }
             successhidden.Value = $"{cnt} מיילים נשלחו בהצלחה";

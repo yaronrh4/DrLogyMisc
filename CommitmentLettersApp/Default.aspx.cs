@@ -420,9 +420,24 @@ namespace CommitmentLettersApp
             }
         }
 
+        public object Eval2(string r , string format = null , object defaultValue =null)
+        {
+            if (defaultValue == null)
+                defaultValue = "";
+            var obj = format == null ? Eval(r) : Eval(r, format);
+            if (obj == null)
+                obj = defaultValue;
+            return obj;
+        }
+
         public object AttrEval(string r)
         {
             object rc = Eval(r);
+
+            if (rc==null)
+            {
+                rc = "";
+            }
             if (rc is string)
                 rc = (rc as string).Replace("\"", "&quot;");
             return rc;
