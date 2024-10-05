@@ -901,7 +901,7 @@
   <ItemGroup>
     <Content Include="ImportTemplates\תבנית יבוא התחיבויות.xlsx" />
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\CommitmentLettersAppUK - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\DrLogyCommitments - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
