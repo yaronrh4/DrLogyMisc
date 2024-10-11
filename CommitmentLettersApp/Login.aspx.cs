@@ -37,23 +37,33 @@ namespace CommitmentLettersApp
             DrLogy.DrLogyUtils.DbUtils.ConStr = connection;
             UserManager.Logout();
 
-            DataTable dt =  DbUtils.GetSPData ("SPMISC_LOGIN", new string[] { "UserNameOrZehut", "Pass" }, new object[] { inputUsername.Value, inputPassword.Value });
-            int rc = (int)dt.Rows[0]["user_id"];
-            string username = "";
-            if (rc == 0)
+            DataTable dt =  DbUtils.GetSPData ("SPAPP_LOGIN_TEACHER", new string[] { "USERNAME", "ZEHUT" ,"PASSWORD" , "CDATE" }, new object[] { inputUsername.Value, inputUsername.Value, inputPassword.Value , Utils.DateTimeNow() });
+
+            int rc = 0;
+
+            if (dt.Rows.Count > 0)
             {
-                loginerror.Value = "שגיאה בהתחברות";
+                rc = (int)dt.Rows[0]["tec_id"];
             }
-            else
-            {
-                username = (string)dt.Rows[0]["user_name"];
+
+            string username = "";
+            if (rc != 0)
+            { 
+                username = (string)dt.Rows[0]["tec_username"];
                 bool sec = ((int)DbUtils.ExecSP("SPAPP_CHECK_TEACHER_PERMISSION", new string[] { "teacherid", "zoneid" }, new object[] { rc, 145 }) > 0);
 
+                loginerror.Value = "שגיאה בהתחברות";
                 if (!sec)
                 {
                     loginerror.Value = "למשתמש אין הרשאות גישה לאפליקציה";
                     rc = 0;
                 }
+            }
+
+            if (rc > 0 && (int)dt.Rows[0]["tec_status"] != 1)
+            {
+                loginerror.Value = "המשתמש חסום, נא לפנות לרכז";
+                rc = 0;
             }
 
             if (rc != 0)
