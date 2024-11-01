@@ -297,7 +297,7 @@ namespace DrLogy.DrLogyPDFMailerUtils
             }
             catch (Exception ex)
             {
-                WriteToLog($"העלאה לארכיון נכשלה בקובץ ");
+                WriteToLog($"העלאה לארכיון נכשלה בקובץ : {ex.Message}");
             }
         }
         public void DeleteEmpty()

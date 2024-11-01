@@ -402,7 +402,7 @@ namespace CommitmentLettersApp
                             }
                             catch (Exception ex)
                             {
-                                errorhidden.Value = "שגיאה בהעלאת קובץ ההתחייבות לארכיון";
+                                errorhidden.Value = $"שגיאה בהעלאת קובץ ההתחייבות לארכיון: {ex.Message}";
                             }
                         }
                     }

@@ -1,4 +1,4 @@
-﻿V<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="TeacherStart.aspx.cs" Inherits="CommitmentLettersApp.TeacherStart" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="TeacherStart.aspx.cs" Inherits="CommitmentLettersApp.TeacherStart" %>
 
 <!DOCTYPE html>
 
