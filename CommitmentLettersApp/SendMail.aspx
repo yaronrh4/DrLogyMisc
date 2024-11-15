@@ -347,7 +347,6 @@
 
             $("#selectAll").click(function () {
                 var ck = this.checked;
-                //alert($("").length);
                 $("input[name$='chk1']").each(function () { this.checked = ck; })
             });
 
@@ -365,7 +364,21 @@
             //});
         });
 
+        function copyToClipboard(div) {
+            var range = document.createRange();
+            range.selectNode(div);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
 
+            try {
+                document.execCommand('copy');
+                window.getSelection().removeAllRanges();
+                console.log('Content copied to clipboard');
+            } catch (err) {
+                console.log('Unable to copy to clipboard');
+            }
+        }
+      
     </script>
 </head>
 <body>
@@ -418,10 +431,23 @@
                                     <tr class="datarow">
                                         <td width="20px">
                                             <asp:CheckBox runat="server" ID="chk1" class="chk1" />
+                                            <br />
                                         </td>
-                                        <td width="20px"><%#Eval("MailSubject") %></td>
-                                        <td width="100%">
-                                            <iframe runat="server" style="width: 100%; height: 200px" srcdoc='<%#Eval("MailBody") %>'></iframe>
+                                        <td width="20px"><%#Eval("MailSubject") %>
+                                            <br />
+                                            <br />
+                                            <asp:PlaceHolder runat="server" Visible='<%#(Eval("WhatsappPhone") != null)%>'></asp:PlaceHolder>
+                                            <a href='<%# "https://wa.me/"+Eval("WhatsappPhone").ToString()%>' " onclick="return copyToClipboard(this.parentElement.nextElementSibling.children[0]);" target="_blank"><div class="btn btn-success"><span>שליחה בוואטסאפ</span></div></a>
+
+                                        </td>
+                                        <td width="100%" >
+                                            <div dir="rtl" style="text-align:right">
+                                            <%#(string)Eval("MailBody")%>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
                                         </td>
                                     </tr>
                                 </ItemTemplate>

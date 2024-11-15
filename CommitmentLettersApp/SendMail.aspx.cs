@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime;
 using System.Security.Authentication.ExtendedProtection;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -33,6 +34,7 @@ namespace CommitmentLettersApp
             public string MailSubject { get; set; }
             public string MailBody { get; set; }
             public string MailAddress { get; set; }
+            public string WhatsappPhone { get; set; }
             public string RakazEmail { get; set; }
             public bool Sent { get; set; }
         }
@@ -56,6 +58,7 @@ namespace CommitmentLettersApp
             string rakazName = "";
             string rakazPhone = "";
             string email = "";
+            string phone = "";
             string rakazEmail = "";
             DateTime? startDate = null;
             DateTime? endDate = null;
@@ -95,6 +98,8 @@ namespace CommitmentLettersApp
                         email = string.IsNullOrEmpty(testEmail) ? r.CurrEmail : testEmail;
                         if (string.IsNullOrEmpty(email))
                             email = r.Email;
+
+                        phone = r.CurrPhone;
                         subjects.Add(_lettersPDF.Options.Subjects.First(x => x.NameInFile == s.SubjectInFile).NameInDB);
                         subjectHours.Add(s.Hours);
                     }
@@ -143,6 +148,7 @@ namespace CommitmentLettersApp
                     {
                         StId = r.Id,
                         MailAddress = email,
+                        WhatsappPhone = Utils.CleanPhoneNumber(phone, "+972"),
                         MailBody = html,
                         MailSubject = subject,
                         RakazEmail = rakazEmail
@@ -219,5 +225,14 @@ namespace CommitmentLettersApp
             successhidden.Value = $"{cnt} מיילים נשלחו בהצלחה";
 
         }
+
+        public static string EscapeHtml(string html)
+        {
+            string escaped = System.Web.HttpUtility.HtmlEncode(html);
+
+
+            return escaped;
+        }
+
     }
 }
