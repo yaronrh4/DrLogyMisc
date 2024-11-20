@@ -480,6 +480,7 @@ namespace CommitmentLettersApp
             }
             catch (Exception ex2)
             {
+                throw;
             }
         }
 
