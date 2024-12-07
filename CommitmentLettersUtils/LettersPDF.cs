@@ -707,6 +707,19 @@ namespace DrLogy.CommitmentLettersUtils
                 else
                 {
                     rc = false;
+                    r.CurrFirstName = r.FirstName;
+                    r.CurrLastName = r.LastName;
+                    r.CurrBranch = r.Branch;
+                    r.CurrEmail = r.Email;
+                    r.CurrPhone = r.Phone; 
+                    r.CurrBranch = r.Branch;
+                    r.CurrSocialWorker = r.SocialWorker;
+                    r.CurrNewKey = r.NewKey;
+                    r.CurrClassName = r.ClassName;
+                    r.CurrAge = r.Age;
+                    r.CurrAddress = r.Address;
+                    r.CurrMikud = r.Mikud;
+
                     r.IsNewStudent = true;
                 }
 
