@@ -924,7 +924,7 @@ namespace DrLogy.CommitmentLettersUtils
 
                     if (subject.Status == StudentStatus.NotUpdated)
                     {
-                        DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "st_zehut", "prj_id", "sub_id", "rakaz", "start_date", "end_date", "hours" , "parentname" }, new object[] { _results[rowIndex].Id, _results[rowIndex].IdNum ,  _results[rowIndex].ProjectId, subject.SubjectId, rakazId, r.StartDate, r.EndDate, subject.Hours , r.CurrSocialWorker }, true);
+                        DbUtils.ExecSP("SPMISC_UPDATE_SUBJECT", new string[] { "st_id", "st_zehut", "prj_id", "sub_id", "rakaz", "start_date", "end_date", "hours" , "parentname" , "city"}, new object[] { _results[rowIndex].Id, _results[rowIndex].IdNum ,  _results[rowIndex].ProjectId, subject.SubjectId, rakazId, r.StartDate, r.EndDate, subject.Hours , r.CurrSocialWorker  , r.CurrBranch}, true);
                         subject.Updated = true;
                     }
                     else if (subject.Status == StudentStatus.NoSubject || subject.Status == StudentStatus.NoStudent)
