@@ -12,7 +12,7 @@
       <Value Profile="(Default)">פרודקשן</Value>
     </Setting>
     <Setting Name="Connection2Value" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Data Source=mssql2.websitelive.net;Initial Catalog=8156_drlogy_prod;Persist Security Info=True;User ID=8156_drlogy_prod;Password=q1W@xse311!!!</Value>
+      <Value Profile="(Default)">Data Source=mssql2.websitelive.net;Initial Catalog=8156_drlogy_prod;Persist Security Info=True;User ID=8156_drlogy_prod;Password=!q1W@xse311!!!!</Value>
     </Setting>
     <Setting Name="Connection3Name" Type="System.String" Scope="User">
 	    <Value Profile="(Default)">פיתוח</Value>
