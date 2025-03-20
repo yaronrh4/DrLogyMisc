@@ -100,10 +100,10 @@ namespace CommitmentLettersApp
                 //    cmbConnection.Items.Add(prop.DefaultValue);
                 //    i++;
                 //}
-                //cmbConnection.SelectedIndex = cmbConnection.FindString(Utils.GetAppSetting("Connection", "0"));
+                //cmbConnection.SelectedIndex = cmbConnection.FindString(Utils.Utils.GetAzureEnvironmentVariable("Connection"));
                 //if (cmbConnection.SelectedIndex == -1)
                 //    cmbConnection.SelectedIndex = 0;
-                this.Connection = Utils.GetAppSetting("Connection", "");
+                this.Connection = Utils.GetAzureEnvironmentVariable("Connection");
 
                 DrLogy.DrLogyUtils.DbUtils.ConStr = Connection;
 
@@ -134,9 +134,9 @@ namespace CommitmentLettersApp
                 string version = fvi.FileVersion;
                 this.Title += " " + version;
 
-                //txtProject.Text = Utils.GetAppSetting("Project", txtProject.Text);
-                //txtBCC.Text = Utils.GetAppSetting("BCC", txtBCC.Text);
-                //txtTestEmail.Text = Utils.GetAppSetting("TestEmail", txtTestEmail.Text);
+                //txtProject.Text = Utils.Utils.GetAzureEnvironmentVariable("Project", txtProject.Text);
+                //txtBCC.Text = Utils.Utils.GetAzureEnvironmentVariable("BCC", txtBCC.Text);
+                //txtTestEmail.Text = Utils.Utils.GetAzureEnvironmentVariable("TestEmail", txtTestEmail.Text);
 
 
 
@@ -254,7 +254,7 @@ namespace CommitmentLettersApp
                 Response.Redirect("Login.aspx");
             try
             {
-                string tempDir = Utils.GetAppSetting("TempDir", "");
+                string tempDir = Utils.GetAzureEnvironmentVariable("TempDir");
                 tempDir = Server.MapPath(tempDir);
 
                 foreach (var file in fuPdfs.PostedFiles)
@@ -357,8 +357,8 @@ namespace CommitmentLettersApp
             {
                 try
                 {
-                    string userName = System.Configuration.ConfigurationManager.AppSettings["AuditUserName"].ToString() + " " + UserManager.UserName;
-                    string addHours = System.Configuration.ConfigurationManager.AppSettings["AuditAddHours"].ToString();
+                    string userName = Utils.GetAzureEnvironmentVariable("AuditUserName") + " " + UserManager.UserName;
+                    string addHours = Utils.GetAzureEnvironmentVariable("AuditAddHours");
                     if (string.IsNullOrEmpty(addHours))
                         addHours = "0";
                     DbUtils.ExecSP("SP_AUDIT", new string[] { "UserName", "AddHours" }, new object[] { userName, int.Parse(addHours) });
@@ -547,7 +547,7 @@ namespace CommitmentLettersApp
         {
             try
             {
-                string tempDir = Utils.GetAppSetting("TempDir", "");
+                string tempDir = Utils.GetAzureEnvironmentVariable("TempDir");
                 tempDir = Server.MapPath(tempDir);
 
                 string filename = $"{tempDir}\\{fuExcel.PostedFile.FileName}";

@@ -32,7 +32,7 @@ namespace CommitmentLettersApp
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            string connection = Utils.GetAppSetting("Connection", "");
+            string connection = Utils.GetAzureEnvironmentVariable("Connection");
             loginerror.Value = "";
             DrLogy.DrLogyUtils.DbUtils.ConStr = connection;
             UserManager.Logout();

@@ -24,8 +24,8 @@ namespace DrLogyApp
         {
 
             string token = Utils.EncodeId(teacherId);
-            string appUrl = ConfigurationManager.AppSettings["AppUrl"];
-            string url = Utils.ReplaceTemplateString(ConfigurationManager.AppSettings["AppButtonTeacherLink"].ToString(), new string[] { "appurl", "token" }, new string[] { appUrl, token });
+            string appUrl = Utils.GetAzureEnvironmentVariable("CommitmentsURL");
+            string url = Utils.ReplaceTemplateString(Utils.GetAzureEnvironmentVariable("CommitmentsButtonTeacherLink"), new string[] { "appurl", "token" }, new string[] { appUrl, token });
 
             return url;
         }

@@ -15,7 +15,7 @@ namespace CommitmentLettersApp
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            string connection = Utils.GetAppSetting("Connection", "");
+            string connection = Utils.GetAzureEnvironmentVariable("Connection");
             DrLogy.DrLogyUtils.DbUtils.ConStr = connection;
 
             int tecid = Utils.DecodeId(Request["Token"].ToString());

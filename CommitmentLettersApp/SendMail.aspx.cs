@@ -167,7 +167,7 @@ namespace CommitmentLettersApp
         protected void Page_Load(object sender, EventArgs e)
         {
             _lettersPDF = Session["lettersPDF"] as LettersPDF;
-            _bcc = Utils.GetAppSetting("MailBcc", "");
+            _bcc = Utils.GetAzureEnvironmentVariable("MailBcc");
 
             if (!Page.IsPostBack)
             {

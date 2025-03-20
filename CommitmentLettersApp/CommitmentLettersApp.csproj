@@ -931,7 +931,9 @@
     <Content Include="ImportTemplates\תבנית יבוא התחיבויות שיעורי עזר למילואימניקים.xlsx" />
     <Content Include="ImportTemplates\תבנית יבוא התחיבויות שיקום ביטוח לאומי.xlsx" />
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\DevDrCommitments - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\DrLogyCommitments - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\TestDrCommitments - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
