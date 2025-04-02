@@ -835,6 +835,7 @@
     <Content Include="lib\bootstrap-datepicker\css\bootstrap-datepicker.standalone.min.css" />
     <Content Include="lib\bootstrap-datepicker\js\bootstrap-datepicker.min.js" />
     <Content Include="lib\bootstrap-datepicker\locales\bootstrap-datepicker.he.min.js" />
+    <Content Include="Temp\Readme.txt" />
     <Content Include="_TestFTP.aspx" />
   </ItemGroup>
   <ItemGroup>
@@ -913,7 +914,6 @@
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="Archive\" />
-    <Folder Include="Temp\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommitmentLettersUtils\CommitmentLettersUtils.csproj">
