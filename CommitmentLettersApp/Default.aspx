@@ -26,6 +26,43 @@
     <script src="lib/jquery-validation/dist/localization/messages_he.min.js"></script>
 
     <style>
+        /* Make the table container use full width */
+        .container-xl {
+            width: 100%;
+            max-width: 100%;
+            padding: 0 10px;
+        }
+
+        /* Table wrapper should be full width */
+        .table-wrapper {
+            min-width: auto !important;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* Make table expand to fill the wrapper */
+        table.table {
+            width: 100%;
+        }
+
+            /* Set specific width for the email column only */
+            table.table td:nth-child(7) { /* Email column */
+                max-width: 150px;
+                white-space: normal;
+                word-break: break-all;
+            }
+
+            /* All other columns should auto-size */
+            table.table th, table.table td {
+                white-space: nowrap;
+            }
+
+                /* Just for the email column header */
+                table.table th:nth-child(7) {
+                    width: 150px;
+                }
+
+
         body {
             direction: rtl;
             color: #566787;
@@ -301,10 +338,9 @@
     <script>
         var subjectsFile = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.NameInFile).ToArray()).Replace ("'", "\\'") %>'.split(',');
         var subjectsDB = '<%= string.Join(",", lettersPDF.Options.Subjects.Select(t => t.NameInDB).ToArray()).Replace ("'", "\\'") %>'.split(',');
-        function downloadTemplate ()
-        {
+        function downloadTemplate() {
             var selFile = $("#drpFiles").val();
-            window.location.href = "ImportTemplates\\"+ selFile;
+            window.location.href = "ImportTemplates\\" + selFile;
         }
         function ddmmyyyyToDate(value) {
             var dateObject = null;
@@ -323,7 +359,7 @@
             function (value, element, params) {
                 var date1 = ddmmyyyyToDate(value);
                 var date2 = ddmmyyyyToDate($(params).val())
-      
+
 
                 return date1 > date2;
             }, 'הערך חייב להיות גדול מתאריך התחלה.');
@@ -390,6 +426,7 @@
         }
 
         function editStudent(e) {
+
             var stid = $(e).parent().parent().attr("stid");
             var edited = $(e).parent().parent().attr("edited");
             $("#editStudentModal").find(".modal-title").html("עריכת תלמיד");
@@ -423,7 +460,7 @@
             if (stid == 0 && edited != "1")
                 copyStudentDataFromPdf();
         }
-        3
+
         function addSubject(e) {
 
             $("#editSubjectModal").find(".modal-title").html("הוספת הנגשה");
@@ -510,6 +547,7 @@
             $("#subjectidx").val($(e).parent().parent().attr("subjectidx"));
             $("#editSubjectModal").find("#subjectfile").val($(e).parent().parent().attr("subjectfile"));
             $("#editSubjectModal").find("#subjectfile").prop("disabled", "disabled");
+
             $("#editSubjectModal").find("#hours").val($(e).parent().parent().attr("hours"));
             $("#editSubjectModal").find("#startdate").val($(e).parent().parent().attr("startdate"));
             $("#editSubjectModal").find("#enddate").val($(e).parent().parent().attr("enddate"));
@@ -522,7 +560,6 @@
             $(".datepicker").each(function () {
                 $(this).datepicker('setDate', $(this).val());
             });
-
         }
 
         function showAlert(msg, cssClass) {
@@ -743,8 +780,11 @@
                                             <span class="small text-info">(<%#Eval2("CurrLastName")%>)</span>
                                         </td>
                                         <td><%#Eval2("IdNum") %></td>
-                                        <td><%#Eval2("Email")%><br />
-                                            <span class="small text-info">(<%#Eval2("CurrEmail")%>)</span>
+                                        <td>
+                                            <div style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                <%#Eval2("Email")%>
+                                            </div>
+                                            <span class="small text-info">(<%#Eval2("CurrEmail")%>)</span></span>
                                         </td>
                                         <td><%#Eval2("StartDate", "{0:dd/MM/yyyy}")%></td>
                                         <td><%#Eval2("EndDate", "{0:dd/MM/yyyy}")%></td>
@@ -755,35 +795,35 @@
 
                                         <td>
                                             <a onclick="editStudent(this)" href="#editStudentModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="עריכת תלמיד">&#xE254;</i></a>
-                                            <a onclick="addSubject(this)" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="הוסף הנגשה">&#xE145;</i></a>
+                                            <a onclick="addSubject(this)" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="הוספת הנגשה">&#xE145;</i></a>
                                             <%--                                            <a href="#confirmModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>--%>
                                         </td>
                                     </tr>
                                     <asp:Repeater runat="server" DataSource='<%# Eval2("Subjects") %>'>
                                         <ItemTemplate>
-                                            <tr class="subjectdatarow" stsubidx="<%#((RepeaterItem)(Container.Parent.Parent)).ItemIndex %>" subjectidx="<%# Container.ItemIndex %>" subjectfile="<%#Eval2("SubjectInFile")%>" hours="<%#Eval2("Hours")%>" startdate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.StartDate" , "{0:dd/MM/yyyy}") %>" enddate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.EndDate" , "{0:dd/MM/yyyy}") %>" currhours="<%#Eval2("CurrHours")%>" currstartdate="<%#Eval2("CurrStartDate", "{0:dd/MM/yyyy}") %>" currenddate="<%#Eval2("CurrEndDate", "{0:dd/MM/yyyy}") %>" />
-                                            <td>
-                                                <%--                                    <span class="custom-checkbox">--%>
-                                                <%--                                        <label for="checkbox1"></label>--%>
-                                                <%--                                    </span>--%>
-                                            </td>
-                                            <td><%#GetEnumDescription (Eval2("Status") as Enum)%></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><span class="small text-info">(<%#Eval2("CurrStartDate", "{0:dd/MM/yyyy}")%>)</span></td>
-                                            <td><span class="small text-info">(<%#Eval2("CurrEndDate", "{0:dd/MM/yyyy}")%>)</span></td>
-                                            <td><%#Eval2("SubjectInFile")%></td>
-                                            <td><%#Eval2("Hours")%>
-                                                <span class="small text-info">(<%#Eval2("CurrHours")%>)</span>
-                                            </td>
-                                            <td></td>
-                                            <td>
-                                                <a title="עריכת הנגשה" onclick="editSubject(this)" href="#editSubjectModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip">&#xE254;</i></a>
-                                                <%--                                                <a href="#confirmModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>--%>
-                                            </td>
+                                            <tr class="subjectdatarow" stsubidx="<%#((RepeaterItem)(Container.Parent.Parent)).ItemIndex %>" subjectidx="<%# Container.ItemIndex %>" subjectfile="<%#Eval2("SubjectInFile")%>" hours="<%#Eval2("Hours")%>" startdate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.StartDate" , "{0:dd/MM/yyyy}") %>" enddate="<%#DataBinder.Eval(Container.Parent.Parent, "DataItem.EndDate" , "{0:dd/MM/yyyy}") %>" currhours="<%#Eval2("CurrHours")%>" currstartdate="<%#Eval2("CurrStartDate", "{0:dd/MM/yyyy}") %>" currenddate="<%#Eval2("CurrEndDate", "{0:dd/MM/yyyy}") %>">
+                                                <td>
+                                                    <%--                                    <span class="custom-checkbox">--%>
+                                                    <%--                                        <label for="checkbox1"></label>--%>
+                                                    <%--                                    </span>--%>
+                                                </td>
+                                                <td><%#GetEnumDescription (Eval2("Status") as Enum)%></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><span class="small text-info">(<%#Eval2("CurrStartDate", "{0:dd/MM/yyyy}")%>)</span></td>
+                                                <td><span class="small text-info">(<%#Eval2("CurrEndDate", "{0:dd/MM/yyyy}")%>)</span></td>
+                                                <td><%#Eval2("SubjectInFile")%></td>
+                                                <td><%#Eval2("Hours")%>
+                                                    <span class="small text-info">(<%#Eval2("CurrHours")%>)</span>
+                                                </td>
+                                                <td></td>
+                                                <td>
+                                                    <a title="עריכת הנגשה" onclick="editSubject(this)" href="#editSubjectModal" class="edit" data-toggle="modal"><i title="עריכת הנגשה" class="material-icons" data-toggle="tooltip">&#xE254;</i></a>
+                                                    <%--                                                <a href="#confirmModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>--%>
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <%--      <SeparatorTemplate>,</SeparatorTemplate>--%>
@@ -814,12 +854,13 @@
                         </div>
 
                     </div>
-                                        <div class="row">
-                            <div class="col-lg-6 text-right">פרוייקט
-                                <asp:DropDownList runat="server" ClientIDMode="Static" ID="drpProjects" AutoPostBack="true" OnSelectedIndexChanged="drpProjects_SelectedIndexChanged" ></asp:DropDownList>
-                            <asp:Button runat="server" ClientIDMode="Static"  ID="btnSetProject" ToolTip="שמור כברירת מחדל" CssClass="" Text="שמור כברירת מחדל" OnClick="btnSetProject_Click" />
+                    <div class="row">
+                        <div class="col-lg-6 text-right">
+                            פרוייקט
+                                <asp:DropDownList runat="server" ClientIDMode="Static" ID="drpProjects" AutoPostBack="true" OnSelectedIndexChanged="drpProjects_SelectedIndexChanged"></asp:DropDownList>
+                            <asp:Button runat="server" ClientIDMode="Static" ID="btnSetProject" ToolTip="שמור כברירת מחדל" CssClass="" Text="שמור כברירת מחדל" OnClick="btnSetProject_Click" />
 
-                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -882,7 +923,6 @@
                                 <input title="ביטול" type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
                             </div>
 
-                            <%--                </form>--%>
                         </div>
                     </div>
                 </div>
@@ -910,7 +950,6 @@
                             <input type="button" title="ביטול" class="btn btn-default" data-dismiss="modal" value="ביטול" />
                         </div>
 
-                        <%--                </form>--%>
                     </div>
                 </div>
             </div>
@@ -936,7 +975,7 @@
                         <div class="modal-footer">
                             <asp:Button title="הוספה" runat="server" ID="btnImportFromExcel" OnClick="btnImportFromExcel_Click" CssClass="btn btn-success" Text="יבוא" />
                             <input type="button" title="ביטול" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                        
+
                             <div class="form-group">
                                 <label>הורדת קובץ תבנית</label>
                                 <asp:DropDownList runat="server" ID="drpFiles" ClientIDMode="Static">
@@ -945,7 +984,6 @@
                             </div>
                         </div>
 
-                        <%--                </form>--%>
                     </div>
                 </div>
             </div>
@@ -955,211 +993,225 @@
             <div id="confirmModal" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <%--                <form id="frm1">--%>
+                        <%--                <form id="frm2" runat="server">--%>
                         <div class="modal-header">
-                            <h4 class="modal-title" id="confirmtitle"></h4>
-                            <button type="button" title="סגירה" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <div>
+                                <button title="סגירה" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="confirmtitle"></h4>
+                            </div>
                         </div>
                         <div class="modal-body">
-                            <p id="confirmmessage"></p>
-                            <p class="text-warning"><small>הפעולה אינה הפיכה</small></p>
+                            <div class="form-group">
+                                <p id="confirmmessage"></p>
+                                <p class="text-warning"><small>הפעולה אינה הפיכה</small></p>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <asp:Button title="אישור" runat="server" ID="btnConfirm" CssClass="btn btn-danger" Text="אישור" OnClick="btnConfirm_Click" />
                             <input titlt="ביטול" type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
                         </div>
-                        <%--                </form>--%>
+
                     </div>
                 </div>
             </div>
 
-            <!-- Edit Student Modal HTML -->
-            <div id="editStudentModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">עריכת תלמיד</h4>
-                            <button title="סגירה" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-lg-2">
-                                    <label>שם פרטי</label>
+                <!-- Edit Student Modal HTML -->
+                <div id="editStudentModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <%--                <form id="frm2" runat="server">--%>
+                            <div class="modal-header">
+                                <div>
+                                    <button title="סגירה" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">עריכת תלמיד</h4>
                                 </div>
-                                <div class="col-lg-10">
-                                    <input runat="server" id="firstname" type="text" class="form-control" />
-                                    <span class="small text-info" id="currfirstname"></span>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <label>שם פרטי</label>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <input runat="server" id="firstname" type="text" class="form-control" />
+                                        <span class="small text-info" id="currfirstname"></span>
 
-                                </div>
-                                <div class="col-lg-2">
-                                    <label>שם משפחה</label>
-                                </div>
-                                <div class="col-lg-10">
-                                    <input runat="server" id="lastname" type="text" class="form-control" />
-                                    <span class="small text-info" id="currlastname"></span>
-                                </div>
-                                <div class="col-lg-2">
-                                    <label>
-                                        ת.ז
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <label>שם משפחה</label>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <input runat="server" id="lastname" type="text" class="form-control" />
+                                        <span class="small text-info" id="currlastname"></span>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <label>
+                                            ת.ז
                                     <br />
-                                        <br />
-                                    </label>
+                                            <br />
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <input runat="server" id="idnum" type="text" class="form-control" />
+                                        <span class="small text-info" id="curridnum"></span>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <label>
+                                            טלפון<br />
+                                            <br />
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <input runat="server" id="phone" type="text" class="form-control" />
+                                        <span class="small text-info" id="currphone"></span>
+                                    </div>
+                                    <div class="col-md-32">
+                                        <label>
+                                            מייל<br />
+                                            <br />
+                                        </label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input runat="server" id="email" type="text" class="form-control" />
+                                        <span class="small text-info" id="curremail"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>
+                                            עו"ס<br />
+                                            <br />
+                                        </label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input runat="server" id="socialworker" type="text" class="form-control" />
+                                        <span class="small text-info" id="currsocialworker"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>
+                                            סניף<br />
+                                            <br />
+                                        </label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input runat="server" id="branch" type="text" class="form-control" />
+                                        <span class="small text-info" id="currbranch"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>
+                                            רכז תלמיד<br />
+                                        </label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <asp:DropDownList runat="server" ID="coordinatorname" CssClass="form-control" />
+                                        <span class="small text-info" id="currcoordinatorname"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>
+                                            תאריך קליטה<br />
+                                            <br />
+                                        </label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input runat="server" id="createdate" class="form-control datepicker" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>
+                                            הערות<br />
+                                            <br />
+                                        </label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <textarea runat="server" id="comments" class="form-control" rows="3" />
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label>
+                                            תלמיד חדש<br />
+                                            <br />
+                                        </label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <asp:CheckBox runat="server" ID="isnewstudent" class="form-control" />
+                                    </div>
+
                                 </div>
-                                <div class="col-lg-10">
-                                    <input runat="server" id="idnum" type="text" class="form-control" />
-                                    <span class="small text-info" id="curridnum"></span>
-                                </div>
-                                <div class="col-lg-2">
-                                    <label>
-                                        טלפון<br />
-                                        <br />
-                                    </label>
-                                </div>
-                                <div class="col-lg-10">
-                                    <input runat="server" id="phone" type="text" class="form-control" />
-                                    <span class="small text-info" id="currphone"></span>
-                                </div>
-                                <div class="col-md-2">
-                                    <label>
-                                        מייל<br />
-                                        <br />
-                                    </label>
-                                </div>
-                                <div class="col-md-10">
-                                    <input runat="server" id="email" type="text" class="form-control" />
-                                    <span class="small text-info" id="curremail"></span>
-                                </div>
-                                <div class="col-md-2">
-                                    <label>
-                                        עו"ס<br />
-                                        <br />
-                                    </label>
-                                </div>
-                                <div class="col-md-10">
-                                    <input runat="server" id="socialworker" type="text" class="form-control" />
-                                    <span class="small text-info" id="currsocialworker"></span>
-                                </div>
-                                <div class="col-md-2">
-                                    <label>
-                                        סניף<br />
-                                        <br />
-                                    </label>
-                                </div>
-                                <div class="col-md-10">
-                                    <input runat="server" id="branch" type="text" class="form-control" />
-                                    <span class="small text-info" id="currbranch"></span>
-                                </div>
-                                <div class="col-md-2">
-                                    <label>
-                                        רכז תלמיד<br />
-                                    </label>
-                                </div>
-                                <div class="col-md-10">
-                                    <asp:DropDownList runat="server" ID="coordinatorname" CssClass="form-control" />
-                                    <span class="small text-info" id="currcoordinatorname"></span>
-                                </div>
-                                <div class="col-md-2">
-                                    <label>
-                                        תאריך קליטה<br />
-                                        <br />
-                                    </label>
-                                </div>
-                                <div class="col-md-10">
-                                    <input runat="server" id="createdate" class="form-control datepicker" />
-                                </div>
-                                <div class="col-md-2">
-                                    <label>
-                                        הערות<br />
-                                        <br />
-                                    </label>
-                                </div>
-                                <div class="col-md-10">
-                                    <textarea runat="server" id="comments" class="form-control" rows="3" />
+                                <div class="modal-footer">
+                                    <input title="ביטול" type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
+                                    <asp:Button ToolTip="שמירה" runat="server" ID="btnSaveStudent" OnClick="btnSaveStudent_Click" CssClass="btn btn-info" Text="שמירה" />
                                 </div>
 
-                                <div class="col-md-2">
-                                    <label>
-                                        תלמיד חדש<br />
-                                        <br />
-                                    </label>
-                                </div>
-                                <div class="col-md-10">
-                                    <asp:CheckBox runat="server" ID="isnewstudent" class="form-control" />
-                                </div>
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edit Subject Modal HTML -->
+                <div id="editSubjectModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <%--                <form id="frm2" runat="server">--%>
+                            <div class="modal-header">
+                                <div>
+                                    <button title="סגירה" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">עריכת הנגשה</h4>
+                                </div>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-2">
+                                            <label>
+                                                הנגשה<br />
+                                                <br />
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <select id="subjectfile" class="form-control">
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <label>
+                                                שעות<br />
+                                                <br />
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <input runat="server" id="hours" type="number" step="1" min="1" class="form-control" />
+                                            <span class="small text-info" id="currhours"></span>
+
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <label>תאריך התחלה</label>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <input runat="server" id="startdate" class="form-control datepicker" />
+                                            <span class="small text-info" id="currstartdate"></span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>
+                                                תאריך סיום<br />
+                                                <br />
+                                            </label>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <input runat="server" id="enddate" class="form-control datepicker" />
+                                            <span class="small text-info" id="currenddate"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input title="סגירה" type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
+                                <asp:Button ToolTip="שמירה" runat="server" ID="btnSaveSubject" OnClick="btnSaveSubject_Click" CssClass="btn btn-info" Text="שמירה" />
                             </div>
 
                         </div>
-                        <div class="modal-footer">
-                            <input title="ביטול" type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                            <asp:Button ToolTip="שמירה" runat="server" ID="btnSaveStudent" OnClick="btnSaveStudent_Click" CssClass="btn btn-info" Text="שמירה" />
-                        </div>
-
                     </div>
+
+
+
                 </div>
             </div>
-
-            <!-- Edit Subject Modal HTML -->
-            <div id="editSubjectModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <%--                <form id="Form1" runat="server">--%>
-                        <div class="modal-header">
-                            <h4 class="modal-title">עריכת הנגשה</h4>
-                            <button title="סגירה" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-lg-2">
-                                    <label>
-                                        הנגשה<br />
-                                        <br />
-                                    </label>
-                                </div>
-                                <div class="col-lg-10">
-                                    <select id="subjectfile" class="form-control">
-                                    </select>
-                                </div>
-                                <div class="col-lg-2">
-                                    <label>
-                                        שעות<br />
-                                        <br />
-                                    </label>
-                                </div>
-                                <div class="col-lg-10">
-                                    <input runat="server" id="hours" type="number" step="1" min="1" class="form-control" />
-                                    <span class="small text-info" id="currhours"></span>
-
-                                </div>
-                                <div class="col-lg-2">
-                                    <label>תאריך התחלה</label>
-                                </div>
-                                <div class="col-lg-10">
-                                    <input runat="server" id="startdate" class="form-control datepicker" />
-                                    <span class="small text-info" id="currstartdate"></span>
-                                </div>
-                                <div class="col-md-2">
-                                    <label>
-                                        תאריך סיום<br />
-                                        <br />
-                                    </label>
-                                </div>
-                                <div class="col-md-10">
-                                    <input runat="server" id="enddate" class="form-control datepicker" />
-                                    <span class="small text-info" id="currenddate"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input title="סגירה" type="button" class="btn btn-default" data-dismiss="modal" value="ביטול" />
-                            <asp:Button ToolTip="שמירה" runat="server" ID="btnSaveSubject" OnClick="btnSaveSubject_Click" CssClass="btn btn-info" Text="שמירה" />
-                        </div>
-                        <%--                </form>--%>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </form>
 
 </body>
