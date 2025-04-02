@@ -261,6 +261,8 @@ namespace CommitmentLettersApp
                 {
                     string filename = $"{tempDir}\\{file.FileName}";
                     file.SaveAs(filename);
+
+                    _lettersPDF.Results.Clear();
                     _lettersPDF.Process(filename, Connection, DefaultCoordinatorName);
                 }
 
@@ -313,6 +315,7 @@ namespace CommitmentLettersApp
                 }
                 else
                 {
+                    _lettersPDF.Results.Clear();
                     r = new LetterData();
                     r.ProjectId = this.ProjectId;
                     r.Subjects = new List<SubjectData>();
@@ -522,6 +525,7 @@ namespace CommitmentLettersApp
 
                 DateTime startDate = DateTime.ParseExact(Loadstartdate.Value.Trim(), "dd/MM/yyyy", null);
                 DateTime endDate = DateTime.ParseExact(Loadenddate.Value.Trim(), "dd/MM/yyyy", null);
+                _lettersPDF.Results.Clear();
 
                 if (!_lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, Connection, DefaultCoordinatorName))
                 { 
