@@ -64,8 +64,10 @@ namespace CommitmentLettersApp
 
         public static void Logout ()
         {
-            UserId = 0;
-            SetUserCookie();
+            HttpContext.Current.Session["UserId"] = null;
+            HttpContext.Current.Session["UserName"] = null;
+            DrLogyCookies.CookielessUtils.DeleteCookie("UserId");
+            DrLogyCookies.CookielessUtils.DeleteCookie("UserName");
         }
     }
 }
