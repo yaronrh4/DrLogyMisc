@@ -64,10 +64,10 @@
       <HintPath>..\packages\DocumentFormat.OpenXml.Framework.3.2.0\lib\net46\DocumentFormat.OpenXml.Framework.dll</HintPath>
     </Reference>
     <Reference Include="DrLogyUtils">
-      <HintPath>..\..\DrLogyWS\DrLogyApp\bin\DrLogyUtils.dll</HintPath>
+      <HintPath>..\..\‏‏DrLogyWS\DrLogyApp\bin\DrLogyUtils.dll</HintPath>
     </Reference>
     <Reference Include="DrLogyUtils.Excel">
-      <HintPath>..\..\DrLogyWS\DrLogyApp\bin\DrLogyUtils.Excel.dll</HintPath>
+      <HintPath>..\..\‏‏DrLogyWS\DrLogyApp\bin\DrLogyUtils.Excel.dll</HintPath>
     </Reference>
     <Reference Include="Irony, Version=1.5.3.0, Culture=neutral, PublicKeyToken=ca48ace7223ead47, processorArchitecture=MSIL">
       <HintPath>..\packages\Irony.1.5.3\lib\netstandard2.0\Irony.dll</HintPath>
