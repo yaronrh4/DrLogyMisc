@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("DrLogyPDFMailerUtils")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DrLogy")]
+[assembly: AssemblyCompany("Dr. Logy")]
 [assembly: AssemblyProduct("DrLogyPDFMailerUtils")]
 [assembly: AssemblyCopyright("Copyright © DrLogy 2023")]
 [assembly: AssemblyTrademark("")]

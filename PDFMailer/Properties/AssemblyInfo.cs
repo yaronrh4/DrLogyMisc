@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("PDFMailer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DrLogy")]
+[assembly: AssemblyCompany("Dr. Logy")]
 [assembly: AssemblyProduct("PDFMailer")]
-[assembly: AssemblyCopyright("Copyright © DrLogy 2024")]
+[assembly: AssemblyCopyright("Copyright © 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
