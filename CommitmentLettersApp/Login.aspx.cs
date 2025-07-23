@@ -73,6 +73,7 @@ namespace CommitmentLettersApp
                 if (chkRememberMe.Checked)
                 {
                     UserManager.SetUserCookie();
+
                 }
 
                 Response.Redirect("Default.aspx");
