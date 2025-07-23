@@ -1,4 +1,5 @@
-﻿using DrLogy.DrLogyUtils;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using DrLogy.DrLogyUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,13 @@ namespace CommitmentLettersApp
             }
             set
             {
+
                 HttpContext.Current.Session["UserId"] = value;
+                if (UserId> 0 )
+                {
+                    DbUtils.ExecSP("SP_ADD_ACTIVITY", new string[] { "TYPE_ID", "OBJ_ID", "USER_ID", "TEC_ID", "ST_ID", "CDATE" }, new object[] { 40 /*Login*/, 102 /*Commitments*/, UserId, UserId, 0, Utils.DateTimeNow() });
+
+                }
             }
         }
 

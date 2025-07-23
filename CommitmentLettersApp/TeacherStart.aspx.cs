@@ -36,7 +36,6 @@ namespace CommitmentLettersApp
                 return;
             }
 
-
             UserManager.UserId = tecid;
             UserManager.UserName = (string)userInfo.Rows[0]["username"];
             Response.Redirect("Default.aspx");
