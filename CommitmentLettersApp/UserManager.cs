@@ -37,7 +37,7 @@ namespace CommitmentLettersApp
                 HttpContext.Current.Session["UserId"] = value;
                 if (UserId> 0 )
                 {
-                    DbUtils.ExecSP("SP_ADD_ACTIVITY", new string[] { "TYPE_ID", "OBJ_ID", "USER_ID", "TEC_ID", "ST_ID", "CDATE" }, new object[] { 40 /*Login*/, 102 /*Commitments*/, UserId, UserId, 0, Utils.DateTimeNow() });
+                    DbUtils.LogActivity(40 /*Login*/, 102 /*Commitments*/, UserId,UserId, 0);
 
                 }
             }
@@ -74,7 +74,7 @@ namespace CommitmentLettersApp
             int lastUserId = UserId;
             if (lastUserId > 0)
             {
-                DbUtils.ExecSP("SP_ADD_ACTIVITY", new string[] { "TYPE_ID", "OBJ_ID", "USER_ID", "TEC_ID", "ST_ID", "CDATE" }, new object[] { 41 /*Logout*/, 102 /*Commitments*/, lastUserId, lastUserId, 0, Utils.DateTimeNow() });
+                DbUtils.LogActivity( 41 /*Logout*/, 102 /*Commitments*/, lastUserId, lastUserId, 0);
             }
             HttpContext.Current.Session["UserId"] = null;
             HttpContext.Current.Session["UserName"] = null;
