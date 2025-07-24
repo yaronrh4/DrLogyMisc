@@ -71,6 +71,11 @@ namespace CommitmentLettersApp
 
         public static void Logout ()
         {
+            int lastUserId = UserId;
+            if (lastUserId > 0)
+            {
+                DbUtils.ExecSP("SP_ADD_ACTIVITY", new string[] { "TYPE_ID", "OBJ_ID", "USER_ID", "TEC_ID", "ST_ID", "CDATE" }, new object[] { 41 /*Logout*/, 102 /*Commitments*/, lastUserId, lastUserId, 0, Utils.DateTimeNow() });
+            }
             HttpContext.Current.Session["UserId"] = null;
             HttpContext.Current.Session["UserName"] = null;
             DrLogyCookies.CookielessUtils.DeleteCookie("UserId");
