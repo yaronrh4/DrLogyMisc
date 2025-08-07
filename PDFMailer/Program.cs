@@ -16,6 +16,7 @@ namespace PDFMailer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            DrLogy.DrLogyUtils.Utils.IsAzure = false;
             Application.Run(new frmMain());
         }
     }

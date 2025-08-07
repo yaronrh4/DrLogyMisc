@@ -250,13 +250,13 @@
         "Entry"
         {
         "MsmKey" = "8:_2E68E63566EB5CEB7D2F337AE747351B"
-        "OwnerKey" = "8:_AB11FF5D9BA84F0AAC905E96BB3D1C45"
+        "OwnerKey" = "8:_F14099BC32B0386277B59CE6835E2929"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_2E68E63566EB5CEB7D2F337AE747351B"
-        "OwnerKey" = "8:_F14099BC32B0386277B59CE6835E2929"
+        "OwnerKey" = "8:_AB11FF5D9BA84F0AAC905E96BB3D1C45"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -766,13 +766,13 @@
         "Entry"
         {
         "MsmKey" = "8:_8FE5828298C91824E32E5C04AC9C4C50"
-        "OwnerKey" = "8:_AB11FF5D9BA84F0AAC905E96BB3D1C45"
+        "OwnerKey" = "8:_F14099BC32B0386277B59CE6835E2929"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_8FE5828298C91824E32E5C04AC9C4C50"
-        "OwnerKey" = "8:_F14099BC32B0386277B59CE6835E2929"
+        "OwnerKey" = "8:_AB11FF5D9BA84F0AAC905E96BB3D1C45"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1156,12 +1156,6 @@
         "Entry"
         {
         "MsmKey" = "8:_F14099BC32B0386277B59CE6835E2929"
-        "OwnerKey" = "8:_5A6EC17CDE2711A202A6EF12AA11C719"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F14099BC32B0386277B59CE6835E2929"
         "OwnerKey" = "8:_EEB1885D3D03312081F59172C8F44351"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1169,6 +1163,12 @@
         {
         "MsmKey" = "8:_F14099BC32B0386277B59CE6835E2929"
         "OwnerKey" = "8:_AB11FF5D9BA84F0AAC905E96BB3D1C45"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F14099BC32B0386277B59CE6835E2929"
+        "OwnerKey" = "8:_5A6EC17CDE2711A202A6EF12AA11C719"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1199,12 +1199,6 @@
         {
         "MsmKey" = "8:_FF5FDC768E16D11018B3995B3A20F8CF"
         "OwnerKey" = "8:_AB11FF5D9BA84F0AAC905E96BB3D1C45"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2E68E63566EB5CEB7D2F337AE747351B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1918,7 +1912,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8FE5828298C91824E32E5C04AC9C4C50"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_3F891181207D1350F344E578483B12DE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2E68E63566EB5CEB7D2F337AE747351B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2015,12 +2021,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_228D9CC82EAEE2947B34E30D800E6CB3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8FE5828298C91824E32E5C04AC9C4C50"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -2528,11 +2528,6 @@
             "AssemblyAsmDisplayName" = "8:Spire.Pdf, Version=8.6.1.0, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_11F0BEF9E06B3C40A0191ECC5B1F2CB2"
-                    {
-                    "Name" = "8:Spire.Pdf.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Spire.Pdf.dll"
             "TargetName" = "8:"
@@ -2931,11 +2926,6 @@
             "AssemblyAsmDisplayName" = "8:System.Diagnostics.DiagnosticSource, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_2D9908488294D314CDB5426BAB626556"
-                    {
-                    "Name" = "8:System.Diagnostics.DiagnosticSource.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Diagnostics.DiagnosticSource.dll"
             "TargetName" = "8:"
@@ -3396,11 +3386,6 @@
             "AssemblyAsmDisplayName" = "8:PdfSharp, Version=6.1.1.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_38DBE5EBA1A2FD54EAEA629804C3AB22"
-                    {
-                    "Name" = "8:PdfSharp.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:PdfSharp.dll"
             "TargetName" = "8:"
@@ -3706,11 +3691,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Extensions.Logging.Abstractions, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_458E7B720F433FDB95B4E702AD443ED0"
-                    {
-                    "Name" = "8:Microsoft.Extensions.Logging.Abstractions.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.Extensions.Logging.Abstractions.dll"
             "TargetName" = "8:"
@@ -3861,11 +3841,6 @@
             "AssemblyAsmDisplayName" = "8:PdfSharp.System, Version=6.1.1.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_5971EA36093EEC06C0AC88B816323B3A"
-                    {
-                    "Name" = "8:PdfSharp.System.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:PdfSharp.System.dll"
             "TargetName" = "8:"
@@ -3892,11 +3867,6 @@
             "AssemblyAsmDisplayName" = "8:DrLogyPDFMailerUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_5A6EC17CDE2711A202A6EF12AA11C719"
-                    {
-                    "Name" = "8:DrLogyPDFMailerUtils.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DrLogyPDFMailerUtils.dll"
             "TargetName" = "8:"
@@ -5318,11 +5288,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_B3C12B23828B7E7FB393D5D7385FC79E"
-                    {
-                    "Name" = "8:Microsoft.mshtml.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.mshtml.dll"
             "TargetName" = "8:"
@@ -5470,14 +5435,9 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:DrLogyPDFUtils, Version=1.11.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:DrLogyPDFUtils, Version=1.11.5.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_BAE8E7CDB0475A741E0A86D76A38BE16"
-                    {
-                    "Name" = "8:DrLogyPDFUtils.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DrLogyPDFUtils.dll"
             "TargetName" = "8:"
@@ -5628,11 +5588,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C2DE5F8F3E504D689AA91692B1997070"
-                    {
-                    "Name" = "8:Microsoft.Bcl.AsyncInterfaces.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.Bcl.AsyncInterfaces.dll"
             "TargetName" = "8:"
@@ -5659,11 +5614,6 @@
             "AssemblyAsmDisplayName" = "8:System.Threading.Tasks.Extensions, Version=4.2.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C3666DC03E65B56D4378C7FD8EB4A7CC"
-                    {
-                    "Name" = "8:System.Threading.Tasks.Extensions.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Threading.Tasks.Extensions.dll"
             "TargetName" = "8:"
@@ -6310,11 +6260,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Extensions.DependencyInjection.Abstractions, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F0341E93E54ECD626905E89C7C3DA8A3"
-                    {
-                    "Name" = "8:Microsoft.Extensions.DependencyInjection.Abstractions.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.Extensions.DependencyInjection.Abstractions.dll"
             "TargetName" = "8:"
@@ -6587,15 +6532,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PDFMailer"
-        "ProductCode" = "8:{6C7DEB1B-5DEF-4F5E-BB0F-FF940180D801}"
-        "PackageCode" = "8:{FE444CC3-D9B2-475F-B39C-2E79F8A0EBBC}"
+        "ProductCode" = "8:{00AD8E8C-6024-4AC4-A29C-4EC4C804DF0F}"
+        "PackageCode" = "8:{AF67D71C-B864-490E-9C78-EB25D32FEB51}"
         "UpgradeCode" = "8:{7694B0E5-7A68-4733-8930-064694815388}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.1.4"
+        "ProductVersion" = "8:1.1.7"
         "Manufacturer" = "8:DrLogy"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
