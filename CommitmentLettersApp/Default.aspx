@@ -678,6 +678,11 @@
                 $("#errorhidden").val("");
             }
 
+            if ($("#warninghidden").val() != "") {
+                showAlert($("#warninghidden").val(), "alert-warning");
+                $("#warninghidden").val("");
+            }
+
             $('.datepicker').datepicker({
                 //language: "he",
                 format: "dd/mm/yyyy",
@@ -696,6 +701,7 @@
     <form runat="server" id="frm1">
         <input runat="server" type="hidden" id="successhidden" value="" />
         <input runat="server" type="hidden" id="errorhidden" value="" />
+        <input runat="server" type="hidden" id="warninghidden" value="" />
         <input runat="server" type="hidden" id="confirmaction" value="" />
         <input runat="server" type="hidden" id="datachanged" value="" />
         <input runat="server" type="hidden" id="defcoordinator" value="" />

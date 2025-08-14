@@ -73,6 +73,7 @@ namespace DrLogy.CommitmentLettersUtils
 
         public string CurrMikud { get; set; }
 
+        public string IdNum2 { get; set; }
 
     }
 }

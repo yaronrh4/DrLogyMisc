@@ -490,8 +490,10 @@ namespace DrLogy.CommitmentLettersUtils
 
             return "";
         }
-        public void Process(string filename, string connectionString, string defaultCoordinatorName)
+        public string Process(string filename, string connectionString, string defaultCoordinatorName)
         {
+            string warning = "";
+
             RemoveOld(filename);
 
             PDFUtils utils = new PDFUtils();
@@ -527,6 +529,60 @@ namespace DrLogy.CommitmentLettersUtils
             {
                 data.FirstName = data.Name;
                 data.LastName = "";
+            }
+
+
+            //Second Id Num
+
+            data.IdNum2 = data.IdNum;
+
+            //search for another id
+            try
+            {
+                rec = utils.SearchPage("פרטי המשתקם:");
+                newRec = new RectangleF(0, rec[0].Y, rec[0].X, rec[0].Height);
+                s = utils.ExtractText(newRec, 1);
+                string s2 = "מס' טלפון:";
+                i = s.IndexOf(Utils.FixRTLString(s2));
+                data.IdNum2 = Utils.CleanPhoneNumber(s.Substring(i), "");
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            bool idValid = ((int)DbUtils.ExecSP("SPMISC_CHECK_ZEHUT", new string[] { "ZEHUT" }, new object[] { data.IdNum })==1);
+
+            //אם יש שתי ת.ז שונות בקובץ לבדוק אם אחת מהן חוקית
+            if (data.IdNum != data.IdNum2 && !string.IsNullOrEmpty (data.IdNum2))
+            {
+                warning = $"בקובץ מופיעות שתי ת.ז שונות {data.IdNum} , {data.IdNum2}. ";
+                bool idValid2 = ((int)DbUtils.ExecSP("SPMISC_CHECK_ZEHUT", new string[] { "ZEHUT" }, new object[] { data.IdNum2 }) == 1);
+                
+                if (!idValid && idValid2)
+                {
+                    warning += "משתמש בשניה כי רק היא חוקית";
+                    string tmp = data.IdNum;
+                    data.IdNum = data.IdNum2;
+                    data.IdNum2 = data.IdNum;
+                }
+                else if (idValid && !idValid2)
+                {
+                    warning += "רק הראשונה חוקית";
+                }
+                if (idValid && idValid2)
+                {
+                    warning += "שניהם חוקיים, משתמש בת.ז הראשונה";
+                }
+                else
+                {
+                    warning += "שני המספרים אינם חוקיים";
+                }
+            }
+            else
+            {
+                if (!idValid)
+                    warning = $"ת.ז {data.IdNum} אינה חוקית";
             }
 
 
@@ -581,6 +637,8 @@ namespace DrLogy.CommitmentLettersUtils
 
                     }
                 }
+
+            return warning;
         }
         public string GetDbSubject(string fileSubject)
         {

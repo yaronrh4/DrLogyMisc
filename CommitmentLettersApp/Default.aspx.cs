@@ -132,7 +132,10 @@ namespace CommitmentLettersApp
                 System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
                 string version = fvi.FileVersion;
-                this.Title += " " + version;
+                var descriptionAttribute = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>();
+                string description = descriptionAttribute?.Description ?? "No description available";
+
+                this.Title += $" {version} {description}" ;
 
                 //txtProject.Text = Utils.Utils.GetAzureEnvironmentVariable("Project", txtProject.Text);
                 //txtBCC.Text = Utils.Utils.GetAzureEnvironmentVariable("BCC", txtBCC.Text);
@@ -250,6 +253,7 @@ namespace CommitmentLettersApp
         }
         protected void btnAddPdf_Click(object sender, EventArgs e)
         {
+            string rc = "";
             if (UserManager.UserId == 0)
                 Response.Redirect("Login.aspx");
             try
@@ -263,7 +267,8 @@ namespace CommitmentLettersApp
                     file.SaveAs(filename);
 
                     _lettersPDF.Results.Clear();
-                    _lettersPDF.Process(filename, Connection, DefaultCoordinatorName);
+                    rc = _lettersPDF.Process(filename, Connection, DefaultCoordinatorName);
+                    warninghidden.Value = $"אזהרה: {rc}";
                 }
 
 
@@ -274,6 +279,7 @@ namespace CommitmentLettersApp
             {
                 errorhidden.Value = $"שגיאה בטעינת קובץ {ex.Message}";
             }
+
         }
 
         private void RefreshData()
@@ -582,6 +588,8 @@ namespace CommitmentLettersApp
         protected override void OnPreInit(EventArgs e)
         {
             dtStart = DateTime.Now;
+            errorhidden.Value = "";
+            warninghidden.Value = "";
 
             base.OnPreInit(e);
         }
