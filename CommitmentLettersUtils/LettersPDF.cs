@@ -570,7 +570,7 @@ namespace DrLogy.CommitmentLettersUtils
                 {
                     warning += "רק הראשונה חוקית";
                 }
-                if (idValid && idValid2)
+                else if (idValid && idValid2)
                 {
                     warning += "שניהם חוקיים, משתמש בת.ז הראשונה";
                 }

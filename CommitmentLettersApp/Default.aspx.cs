@@ -268,7 +268,9 @@ namespace CommitmentLettersApp
 
                     _lettersPDF.Results.Clear();
                     rc = _lettersPDF.Process(filename, Connection, DefaultCoordinatorName);
-                    warninghidden.Value = $"אזהרה: {rc}";
+
+                    if (!string.IsNullOrEmpty (rc))
+                        warninghidden.Value = $"אזהרה: {rc}";
                 }
 
 
