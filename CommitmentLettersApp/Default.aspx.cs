@@ -349,6 +349,11 @@ namespace CommitmentLettersApp
 
                 //force opening the edit popup with the current values
                 r.Edited = true;
+
+                if (!_lettersPDF.CheckId ( r.IdNum))
+                {
+                    warninghidden.Value = $"אזהרה: תעודת הזהות {r.IdNum} אינה חוקית";
+                }
                 RefreshData();
             }
             catch (Exception ex)
@@ -534,16 +539,22 @@ namespace CommitmentLettersApp
                 DateTime startDate = DateTime.ParseExact(Loadstartdate.Value.Trim(), "dd/MM/yyyy", null);
                 DateTime endDate = DateTime.ParseExact(Loadenddate.Value.Trim(), "dd/MM/yyyy", null);
                 _lettersPDF.Results.Clear();
-
+                
                 if (!_lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, Connection, DefaultCoordinatorName))
                 { 
-                    errorhidden.Value = "לא נמצאו תלמידים עם הת.ז המבוקשת. לצורך הוספת תלמיד חדש יש ללחוץ על הוספת תלמיד ";
+                    if (!_lettersPDF.CheckId (Loadidnum.Value))
+                        errorhidden.Value = $"אזהרה: תעודת הזהות {Loadidnum.Value} אינה חוקית <br>";
+
+                    errorhidden.Value += "לא נמצאו תלמידים עם הת.ז המבוקשת. לצורך הוספת תלמיד חדש יש ללחוץ על הוספת תלמיד ";
                     return;
                 }
                 Loadidnum.Value = "";
                 Loadstartdate.Value = "";
                 Loadenddate.Value = "";
                 chklstSubjects.ClearSelection();
+
+                if (_lettersPDF.Results.Count > 0 && !_lettersPDF.CheckId (_lettersPDF.Results[0].IdNum))
+                    warninghidden.Value = $"אזהרה: תעודת הזהות {_lettersPDF.Results[0].IdNum} אינה חוקית";
 
                 RefreshData();
                 allowchangeproject.Value = "0";

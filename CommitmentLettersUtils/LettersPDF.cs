@@ -16,6 +16,7 @@ using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Xml.Linq;
 
 namespace DrLogy.CommitmentLettersUtils
@@ -33,6 +34,14 @@ namespace DrLogy.CommitmentLettersUtils
         public LettersPDFOptions Options
         {
             get { return _options; }
+        }
+
+
+        public bool CheckId(string idNum)
+        {
+            bool idValid = ((int)DbUtils.ExecSP("SPMISC_CHECK_ZEHUT", new string[] { "ZEHUT" }, new object[] { idNum }) == 1);
+
+            return idValid;
         }
 
         public bool LoadStudent(string idNum, string[] subjects, DateTime startDate, DateTime endDate, string connectionString, string defaultCoordinatorName)
@@ -551,13 +560,13 @@ namespace DrLogy.CommitmentLettersUtils
 
             }
 
-            bool idValid = ((int)DbUtils.ExecSP("SPMISC_CHECK_ZEHUT", new string[] { "ZEHUT" }, new object[] { data.IdNum })==1);
+            bool idValid = CheckId (data.IdNum);
 
             //אם יש שתי ת.ז שונות בקובץ לבדוק אם אחת מהן חוקית
             if (data.IdNum != data.IdNum2 && !string.IsNullOrEmpty (data.IdNum2))
             {
                 warning = $"בקובץ מופיעות שתי ת.ז שונות {data.IdNum} , {data.IdNum2}. ";
-                bool idValid2 = ((int)DbUtils.ExecSP("SPMISC_CHECK_ZEHUT", new string[] { "ZEHUT" }, new object[] { data.IdNum2 }) == 1);
+                bool idValid2 = CheckId(data.IdNum2); ;
                 
                 if (!idValid && idValid2)
                 {
