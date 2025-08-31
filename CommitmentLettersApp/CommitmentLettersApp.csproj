@@ -830,6 +830,7 @@
     <Content Include="EditMail.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Logout.aspx" />
+    <Content Include="LogWhatsapp.aspx" />
     <Content Include="OldAppServices.asmx" />
     <Content Include="SendMail.aspx" />
     <Content Include="Default.aspx" />
@@ -860,6 +861,13 @@
     </Compile>
     <Compile Include="Logout.aspx.designer.cs">
       <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LogWhatsapp.aspx.cs">
+      <DependentUpon>LogWhatsapp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LogWhatsapp.aspx.designer.cs">
+      <DependentUpon>LogWhatsapp.aspx</DependentUpon>
     </Compile>
     <Compile Include="OldAppServices.asmx.cs">
       <DependentUpon>OldAppServices.asmx</DependentUpon>

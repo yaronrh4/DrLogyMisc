@@ -92,18 +92,22 @@ namespace CommitmentLettersApp
             {
                 if (UserManager.UserId == 0)
                     Response.Redirect("Login.aspx");
+                else
+                {
+                    //set login log if we want
+                }
 
-                //SettingsProperty prop = null;
-                //int i = 1;
-                //while ((prop = Settings.Default.Properties[$"Connection{i}Name"]) != null)
-                //{
-                //    cmbConnection.Items.Add(prop.DefaultValue);
-                //    i++;
-                //}
-                //cmbConnection.SelectedIndex = cmbConnection.FindString(Utils.Utils.GetAzureEnvironmentVariable("Connection"));
-                //if (cmbConnection.SelectedIndex == -1)
-                //    cmbConnection.SelectedIndex = 0;
-                this.Connection = Utils.GetAzureEnvironmentVariable("Connection");
+                    //SettingsProperty prop = null;
+                    //int i = 1;
+                    //while ((prop = Settings.Default.Properties[$"Connection{i}Name"]) != null)
+                    //{
+                    //    cmbConnection.Items.Add(prop.DefaultValue);
+                    //    i++;
+                    //}
+                    //cmbConnection.SelectedIndex = cmbConnection.FindString(Utils.Utils.GetAzureEnvironmentVariable("Connection"));
+                    //if (cmbConnection.SelectedIndex == -1)
+                    //    cmbConnection.SelectedIndex = 0;
+                    this.Connection = Utils.GetAzureEnvironmentVariable("Connection");
 
                 DrLogy.DrLogyUtils.DbUtils.ConStr = Connection;
 

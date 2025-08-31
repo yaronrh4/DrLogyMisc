@@ -295,6 +295,19 @@
         }
     </style>
     <script>
+        function logWhataspp(obj) {
+            try {
+                const stid = obj.getAttribute('stid');
+
+                const xhr = new XMLHttpRequest();
+                const url = `/LogWhatsapp.aspx?stid=${stid}`;
+
+                xhr.open('GET', url, true); // true = async
+                xhr.send();
+
+            }
+            catch { };
+        }
 
         function confirmSaveStudents() {
             confirmModal(
@@ -431,14 +444,14 @@
                                     <tr class="datarow">
                                         <td width="20px">
                                             <asp:CheckBox runat="server" ID="chk1" class="chk1" />
-                                            <br />
+                                            <br />  
                                         </td>
                                         <td width="20px"><%#Eval("MailSubject") %>
                                             <br />
                                             <br />
                                             <asp:PlaceHolder runat="server" Visible='<%#(Eval("WhatsappPhone") != null)%>'></asp:PlaceHolder>
-                                            <a href='<%# "https://wa.me/"+Eval("WhatsappPhone").ToString()%>' " onclick="return copyToClipboard(this.parentElement.nextElementSibling.children[0]);" target="_blank"><div class="btn btn-success"><span>שליחה בוואטסאפ</span></div></a>
-
+                                            <a stid='<%# Eval("StId") %>' phone='<%# Eval("WhatsappPhone") %>' href='<%# "https://wa.me/"+Eval("WhatsappPhone").ToString()%>' " onclick="logWhataspp(this);return copyToClipboard(this.parentElement.nextElementSibling.children[0]);" target="_blank"><div class="btn btn-success"><span>שליחה בוואטסאפ</span></div></a>
+                                            
                                         </td>
                                         <td width="100%" >
                                             <div dir="rtl" style="text-align:right">

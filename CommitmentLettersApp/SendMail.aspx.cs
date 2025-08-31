@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Spreadsheet;
 using DrLogy.CommitmentLettersUtils;
 using DrLogy.DrLogyUtils;
 using System;
@@ -199,6 +200,8 @@ namespace CommitmentLettersApp
                 cnt++;
                 string mailAddress = txtTestEmail.Text != "" ? txtTestEmail.Text : m.MailAddress;
                 eml.SendEmail(m.StId,mailAddress, "", m.MailBody, m.MailSubject, null, false, _bcc , m.RakazEmail);
+                DbUtils.LogActivity(14 /*email*/, 102 /*Commitments*/, UserManager.UserId, 0, m.StId);
+
             }
             successhidden.Value = $"{cnt} מיילים נשלחו בהצלחה";
 
