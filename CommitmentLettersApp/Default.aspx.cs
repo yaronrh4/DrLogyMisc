@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Office.PowerPoint.Y2021.M06.Main;
+using DocumentFormat.OpenXml.Spreadsheet;
 using DrLogy.CommitmentLettersUtils;
 using DrLogy.DrLogyUtils;
 using System;
@@ -491,6 +492,7 @@ namespace CommitmentLettersApp
         {
             try
             {
+                DbUtils.LogActivity(15 /*Export To Execl*/, 102 /*Commitments*/, UserManager.UserId, 0, 0);
                 _lettersPDF.ExportToExcel(fileName);
             }
             catch (ThreadAbortException ex)
@@ -609,6 +611,13 @@ namespace CommitmentLettersApp
             warninghidden.Value = "";
 
             base.OnPreInit(e);
+        }
+
+        protected override void OnPreRender(EventArgs e)
+        {
+            base.OnPreRender(e);
+
+            Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "LogPrintScript", Utils.GetPrintLogJs());
         }
 
         protected override void Render(HtmlTextWriter writer)

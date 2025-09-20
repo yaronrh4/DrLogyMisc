@@ -19,6 +19,12 @@ namespace CommitmentLettersApp
 {
     public partial class EditMail : System.Web.UI.Page
     {
+        protected override void OnPreRender(EventArgs e)
+        {
+            base.OnPreRender(e);
+
+            Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "LogPrintScript", Utils.GetPrintLogJs());
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {

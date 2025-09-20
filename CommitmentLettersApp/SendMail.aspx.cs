@@ -164,6 +164,12 @@ namespace CommitmentLettersApp
             return mailitems;
         }
 
+        protected override void OnPreRender(EventArgs e)
+        {
+            base.OnPreRender(e);
+
+            Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "LogPrintScript", Utils.GetPrintLogJs());
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {

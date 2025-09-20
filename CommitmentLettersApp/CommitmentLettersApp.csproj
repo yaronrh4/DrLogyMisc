@@ -830,6 +830,7 @@
     <Content Include="EditMail.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Logout.aspx" />
+    <Content Include="LogPrint.aspx" />
     <Content Include="LogWhatsapp.aspx" />
     <Content Include="OldAppServices.asmx" />
     <Content Include="SendMail.aspx" />
@@ -838,7 +839,6 @@
     <Content Include="lib\bootstrap-datepicker\js\bootstrap-datepicker.min.js" />
     <Content Include="lib\bootstrap-datepicker\locales\bootstrap-datepicker.he.min.js" />
     <Content Include="Temp\Readme.txt" />
-    <Content Include="_TestFTP.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Login.aspx.cs">
@@ -861,6 +861,13 @@
     </Compile>
     <Compile Include="Logout.aspx.designer.cs">
       <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LogPrint.aspx.cs">
+      <DependentUpon>LogPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LogPrint.aspx.designer.cs">
+      <DependentUpon>LogPrint.aspx</DependentUpon>
     </Compile>
     <Compile Include="LogWhatsapp.aspx.cs">
       <DependentUpon>LogWhatsapp.aspx</DependentUpon>
@@ -896,13 +903,6 @@
       <DependentUpon>TeacherStart.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserManager.cs" />
-    <Compile Include="_TestFTP.aspx.cs">
-      <DependentUpon>_TestFTP.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="_TestFTP.aspx.designer.cs">
-      <DependentUpon>_TestFTP.aspx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="libman.json" />
