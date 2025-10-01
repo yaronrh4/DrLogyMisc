@@ -21,7 +21,7 @@ using System.Xml.Linq;
 
 namespace CommitmentLettersApp
 {
-    public partial class SendMail : System.Web.UI.Page
+    public partial class SendMail : DrLogyPage
     {
 
         private LettersPDF _lettersPDF = null;
@@ -164,12 +164,6 @@ namespace CommitmentLettersApp
             return mailitems;
         }
 
-        protected override void OnPreRender(EventArgs e)
-        {
-            base.OnPreRender(e);
-
-            Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "LogPrintScript", Utils.GetPrintLogJs());
-        }
 
         protected void Page_Load(object sender, EventArgs e)
         {

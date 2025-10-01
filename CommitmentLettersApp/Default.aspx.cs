@@ -21,7 +21,7 @@ using System.Xml.Linq;
 
 namespace CommitmentLettersApp
 {
-    public partial class Default : System.Web.UI.Page
+    public partial class Default : DrLogyPage
     {
 
         private const string OPTIONS_FILENAME = "letteroptions.xml";
@@ -82,6 +82,11 @@ namespace CommitmentLettersApp
             }
 
             return value.ToString();
+        }
+
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -601,36 +606,7 @@ namespace CommitmentLettersApp
                 errorhidden.Value = $"שגיאה ביבוא קובץ אקסל {ex.Message}";
             }
         }
-
-        DateTime dtStart;
-
-        protected override void OnPreInit(EventArgs e)
-        {
-            dtStart = DateTime.Now;
-            errorhidden.Value = "";
-            warninghidden.Value = "";
-
-            base.OnPreInit(e);
-        }
-
-        protected override void OnPreRender(EventArgs e)
-        {
-            base.OnPreRender(e);
-
-            Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "LogPrintScript", Utils.GetPrintLogJs());
-        }
-
-        protected override void Render(HtmlTextWriter writer)
-        {
-            try
-            {
-                base.Render(writer);
-                Response.Write("<!--" + (DateTime.Now - dtStart).TotalMilliseconds + "-->");
-            }
-            catch (Exception ex)
-            {
-            }
-        }
+        
 
         protected void btnSetProject_Click(object sender, EventArgs e)
         {

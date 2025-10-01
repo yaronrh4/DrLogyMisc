@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("CommitmentLettersApp")]
-[assembly: AssemblyDescription("24/09/2025")]
+[assembly: AssemblyDescription("01/10/2025")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Dr. Logy")]
 [assembly: AssemblyProduct("CommitmentLettersApp")]
@@ -31,6 +31,6 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.12.11.0")]
-[assembly: AssemblyFileVersion("1.12.11.0")]
+[assembly: AssemblyVersion("1.12.13.0")]
+[assembly: AssemblyFileVersion("1.12.13.0")]
 

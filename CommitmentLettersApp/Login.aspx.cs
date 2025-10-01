@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DrLogy.DrLogyUtils;
+using DrLogyCookies;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -18,6 +19,7 @@ namespace CommitmentLettersApp
         {
             if (!Page.IsPostBack)
             {
+                loginerror.Value = Request["Message"];
                 if (UserManager.UserId > 0)
                     Response.Redirect("default.aspx");
 
@@ -88,7 +90,7 @@ namespace CommitmentLettersApp
                     UserManager.SetUserCookie();
 
                 }
-
+                CookielessUtils.SetTimestamp(Utils.DateTimeNow());
                 Response.Redirect("Default.aspx");
             }
             else
