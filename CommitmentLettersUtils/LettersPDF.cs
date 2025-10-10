@@ -76,7 +76,7 @@ namespace DrLogy.CommitmentLettersUtils
                 data.Branch = row["ST_CITY"].ToString();
                 data.Phone = row["ST_PHONE1"].ToString();
                 data.Email = row["ST_EMAIL"].ToString();
-                data.NewKey = row["ST_EMAIL"].ToString();
+                data.NewKey = row["ST_NEW_KEY"].ToString();
                 data.ClassName = row["ST_CLASSNAME"].ToString();
                 data.Age = row["ST_AGE"].ToString();
                 data.Address = row["ST_ADDRESS"].ToString();

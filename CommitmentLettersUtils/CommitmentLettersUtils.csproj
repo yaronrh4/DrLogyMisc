@@ -31,9 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DrLogyUtils, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\‏‏DrLogyWS\DrLogyApp\bin\DrLogyUtils.dll</HintPath>
+    <Reference Include="DrLogyUtils">
+      <HintPath>..\..\DrLogyWS\DrLogyUtils\bin\Debug\DrLogyUtils.dll</HintPath>
     </Reference>
     <Reference Include="DrLogyUtils.Excel">
       <HintPath>..\..\DrLogyWS\DrLogyApp\bin\DrLogyUtils.Excel.dll</HintPath>

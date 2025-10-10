@@ -56,11 +56,11 @@
     </Reference>
     <Reference Include="DrLogyCookies, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\‏‏DrLogyWS\DrLogyApp\bin\DrLogyCookies.dll</HintPath>
+      <HintPath>..\..\DrLogyWS\DrLogyCookies\bin\DrLogyCookies.dll</HintPath>
     </Reference>
     <Reference Include="DrLogyUtils, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\‏‏DrLogyWS\DrLogyApp\bin\DrLogyUtils.dll</HintPath>
+      <HintPath>..\..\DrLogyWS\DrLogyUtils\bin\Debug\DrLogyUtils.dll</HintPath>
     </Reference>
     <Reference Include="DrLogyUtils.Excel">
       <HintPath>..\..\DrLogyWS\DrLogyApp\bin\DrLogyUtils.Excel.dll</HintPath>
@@ -840,7 +840,6 @@
     <Content Include="lib\bootstrap-datepicker\css\bootstrap-datepicker.standalone.min.css" />
     <Content Include="lib\bootstrap-datepicker\js\bootstrap-datepicker.min.js" />
     <Content Include="lib\bootstrap-datepicker\locales\bootstrap-datepicker.he.min.js" />
-    <Content Include="Temp\Readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debug_.aspx.cs">
@@ -958,6 +957,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Temp\Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
