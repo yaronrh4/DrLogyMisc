@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DrLogyUtils">
-      <HintPath>..\..\DrLogyWS\DrLogyUtils\bin\Debug\DrLogyUtils.dll</HintPath>
+      <HintPath>..\..\‏‏DrLogyWS\DrLogyUtils\bin\Debug\DrLogyUtils.dll</HintPath>
     </Reference>
     <Reference Include="DrLogyUtils.Excel">
       <HintPath>..\..\DrLogyWS\DrLogyApp\bin\DrLogyUtils.Excel.dll</HintPath>

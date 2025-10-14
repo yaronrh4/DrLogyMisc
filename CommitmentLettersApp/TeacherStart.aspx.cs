@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Spreadsheet;
 using DrLogy.DrLogyUtils;
+using DrLogyCookies;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,6 +15,7 @@ namespace CommitmentLettersApp
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            CookielessUtils.SetTimestamp(Utils.DateTimeNow());
 
             string connection = Utils.GetAzureEnvironmentVariable("Connection");
             DrLogy.DrLogyUtils.DbUtils.ConStr = connection;
