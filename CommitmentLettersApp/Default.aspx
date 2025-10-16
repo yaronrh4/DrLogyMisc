@@ -855,7 +855,7 @@
                                 <a title="עריכת תבניות מייל" href="EditMail.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE161;</i> <span>עריכת תבניות מייל</span></a>
                             </div>
                             <div class="col-lg-1">
-                                <a title="התנתקות" href="logout.aspx" target="_blank" class="btn btn-success"><i class="material-icons">&#xE9BA;</i> <span></span></a>
+                                <a title="התנתקות" href="logout.aspx" class="btn btn-success"><i class="material-icons">&#xE9BA;</i> <span></span></a>
                             </div>
                         </div>
 
