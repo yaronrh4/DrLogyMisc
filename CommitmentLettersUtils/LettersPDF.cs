@@ -1040,6 +1040,7 @@ namespace DrLogy.CommitmentLettersUtils
             public DateTime? EndDate { get; set; }
             public Decimal? Hours { get; set; }
             public string SocialWorker { get; set; }
+            public string Branch { get; set; }
         }   
         public void ExportToExcel(string filename)
         {
@@ -1061,6 +1062,8 @@ namespace DrLogy.CommitmentLettersUtils
                     exData.EndDate = tec.EndDate;
                     exData.Hours = sub.Hours;
                     exData.SocialWorker = tec.SocialWorker ?? tec.CurrSocialWorker;
+                    exData.Subject = sub.SubjectInFile;
+                    exData.Branch = tec.Branch ?? tec.CurrBranch;
                     lst.Add(exData);
                 }
             }
@@ -1105,6 +1108,7 @@ namespace DrLogy.CommitmentLettersUtils
             captions["EndDate"] = "ס.זכאות";
             captions["Hours"] = "מכסת שעות";
             captions["SocialWorker"] = "עו\"ס";
+            captions["Branch"] = "סניף";
 
             ExcelCreator ex = new DrLogy.DrLogyUtils.ExcelCreator();
             ex.DataTableToExcel(dt , 0, filename, "", captions);
