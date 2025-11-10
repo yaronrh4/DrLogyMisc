@@ -27,6 +27,68 @@ namespace CommitmentLettersApp
         private const string OPTIONS_FILENAME = "letteroptions.xml";
         private LettersPDF _lettersPDF = null;
         private LettersPDFOptions _options = null;
+
+        // Data Model
+        public class CheckBoxItem
+        {
+            public string ItemId { get; set; }
+            public string DisplayText { get; set; }
+            public bool IsChecked { get; set; }
+            public decimal NumericValue { get; set; }
+        }
+
+        private void BindSubjectsList()
+        {
+            var items = GetSubjects(); // מקור הנתונים שלך
+            rptCheckBoxList.DataSource = items;
+            rptCheckBoxList.DataBind();
+        }
+
+        public List<CheckBoxItem> GetSelectedItems()
+        {
+            var selectedItems = new List<CheckBoxItem>();
+
+            foreach (RepeaterItem item in rptCheckBoxList.Items)
+            {
+                var chk = item.FindControl("chkItem") as CheckBox;
+                var txt = item.FindControl("txtValue") as TextBox;
+                var hdn = item.FindControl("hdnItemId") as HiddenField;
+                decimal decValue = 0;
+
+                if (chk != null && chk.Checked)
+                {
+                    decimal.TryParse(txt.Text, out decValue);
+                    selectedItems.Add(new CheckBoxItem
+                    {
+                        ItemId = hdn.Value,
+                        IsChecked = true,
+                        NumericValue = decValue
+                    });
+                }
+            }
+
+            return selectedItems;
+        }
+
+
+        private List<CheckBoxItem> GetSubjects ()
+        {
+            var lst = new List<CheckBoxItem>();
+
+            foreach (var z in _lettersPDF.Options.Subjects)
+            {
+                lst.Add(
+                    new CheckBoxItem()
+                    {
+                        DisplayText = z.NameInFile
+                        , ItemId = z.NameInFile
+                    }
+                );
+            }
+
+            return lst;
+
+        }
         protected int ProjectId
         {
             set
@@ -165,10 +227,7 @@ namespace CommitmentLettersApp
 
                 _lettersPDF = new LettersPDF(_options);
 
-                foreach (var z in _lettersPDF.Options.Subjects)
-                {
-                    chklstSubjects.Items.Add(z.NameInFile);
-                }
+                BindSubjectsList();
 
                 Session["lettersPDF"] = _lettersPDF;
 
@@ -537,21 +596,21 @@ namespace CommitmentLettersApp
                 Response.Redirect("Login.aspx");
             try
             {
-                List<string> subjects = new List<string>();
+                List<Subject> subjects = new List<Subject>();
 
-                for (int i = 0; i < chklstSubjects.Items.Count; i++)
+                var sel = GetSelectedItems();
+
+
+                for (int i = 0; i < sel.Count; i++)
                 {
-                    if (chklstSubjects.Items[i].Selected)
-                    {
-                        subjects.Add(chklstSubjects.Items[i].Value);
-                    }
+                    subjects.Add(new Subject() { NameInFile = sel[i].ItemId, Hours = sel[i].NumericValue });
                 }
 
                 DateTime startDate = DateTime.ParseExact(Loadstartdate.Value.Trim(), "dd/MM/yyyy", null);
                 DateTime endDate = DateTime.ParseExact(Loadenddate.Value.Trim(), "dd/MM/yyyy", null);
                 _lettersPDF.Results.Clear();
                 
-                if (!_lettersPDF.LoadStudent(Loadidnum.Value, subjects.ToArray(), startDate, endDate, Connection, DefaultCoordinatorName))
+                if (!_lettersPDF.LoadStudent(Loadidnum.Value, subjects , startDate, endDate, Connection, DefaultCoordinatorName))
                 { 
                     if (!_lettersPDF.CheckId (Loadidnum.Value))
                         errorhidden.Value = $"אזהרה: תעודת הזהות {Loadidnum.Value} אינה חוקית <br>";
@@ -562,7 +621,9 @@ namespace CommitmentLettersApp
                 Loadidnum.Value = "";
                 Loadstartdate.Value = "";
                 Loadenddate.Value = "";
-                chklstSubjects.ClearSelection();
+
+                //clear select
+                BindSubjectsList();
 
                 if (_lettersPDF.Results.Count > 0 && !_lettersPDF.CheckId (_lettersPDF.Results[0].IdNum))
                     warninghidden.Value = $"אזהרה: תעודת הזהות {_lettersPDF.Results[0].IdNum} אינה חוקית";
@@ -625,11 +686,8 @@ namespace CommitmentLettersApp
 
             _lettersPDF.Options.ProjectId = this.ProjectId = int.Parse(drpProjects.SelectedValue);
             _lettersPDF.Options.LoadSubjectsFromDb(_lettersPDF.Options.ProjectId, this.Connection);
-            chklstSubjects.Items.Clear();
-            foreach (var z in _lettersPDF.Options.Subjects)
-            {
-                chklstSubjects.Items.Add(z.NameInFile);
-            }      
+
+            BindSubjectsList();
         }
         protected string AllowLoadPDF()
         {

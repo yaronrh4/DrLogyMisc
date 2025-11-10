@@ -44,7 +44,7 @@ namespace DrLogy.CommitmentLettersUtils
             return idValid;
         }
 
-        public bool LoadStudent(string idNum, string[] subjects, DateTime startDate, DateTime endDate, string connectionString, string defaultCoordinatorName)
+        public bool LoadStudent(string idNum, List <Subject> subjects, DateTime startDate, DateTime endDate, string connectionString, string defaultCoordinatorName)
         {
             PDFUtils utils = new PDFUtils();
             LetterData data = new LetterData();
@@ -89,7 +89,7 @@ namespace DrLogy.CommitmentLettersUtils
 
             foreach (var selectedsubject in subjects)
             {
-                var subject = this._options.Subjects.Find(z => z.NameInFile == selectedsubject);
+                var subject = this._options.Subjects.Find(z => z.NameInFile == selectedsubject.NameInFile);
 
                 if (subject != null)
                 {
@@ -97,7 +97,7 @@ namespace DrLogy.CommitmentLettersUtils
                     newSubject.SubjectId = subject.SubjectId;
                     newSubject.SubjectInFile = subject.NameInFile;
                     //newSubject.SubjectInDB = subject.Name;
-                    newSubject.Hours = 1; //dummy value would be updated letter
+                    newSubject.Hours = selectedsubject.Hours; //dummy value would be updated letter
                     data.Subjects.Add(newSubject);
                 }
             }
@@ -113,7 +113,8 @@ namespace DrLogy.CommitmentLettersUtils
 
             foreach (var subject in data.Subjects)
             {
-                subject.Hours = subject.CurrHours;
+                if (subject.Hours <= 0)
+                    subject.Hours = subject.CurrHours;
             }
 
             for (i = 0; i < Results[Results.Count - 1].Subjects.Count; i++)

@@ -920,8 +920,30 @@
                                 </div>
                                 <div class="col-lg-10">
 
-                                    <asp:CheckBoxList ID="chklstSubjects" runat="server" chk1="">
-                                    </asp:CheckBoxList>
+                                    <asp:Repeater ID="rptCheckBoxList" runat="server">
+    <ItemTemplate>
+        <div style="margin-bottom: 10px; overflow: hidden;">
+            <div style="float: right;">
+                <asp:CheckBox ID="chkItem" runat="server" 
+                              Text='<%# Eval("DisplayText") %>' />
+            </div>
+            <div style="float: left;">
+                <asp:TextBox ID="txtValue" runat="server" 
+                             TextMode="Number" 
+                             Width="80px" 
+                             Style="text-align: center;" />
+            </div>
+            <asp:HiddenField ID="hdnItemId" runat="server" 
+                           Value='<%# Eval("ItemId") %>' />
+        </div>
+    </ItemTemplate>
+</asp:Repeater>
+
+
+
+
+<%--                                    <asp:CheckBoxList ID="chklstSubjects" runat="server" chk1="">
+                                    </asp:CheckBoxList>--%>
                                 </div>
                             </div>
                             <div class="modal-footer">
