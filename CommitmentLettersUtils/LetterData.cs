@@ -75,5 +75,6 @@ namespace DrLogy.CommitmentLettersUtils
 
         public string IdNum2 { get; set; }
 
+        public CommitmentSource Source {  get; set; }   
     }
 }

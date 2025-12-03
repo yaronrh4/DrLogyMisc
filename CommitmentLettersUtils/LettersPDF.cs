@@ -49,6 +49,7 @@ namespace DrLogy.CommitmentLettersUtils
             PDFUtils utils = new PDFUtils();
             LetterData data = new LetterData();
 
+            data.Source = CommitmentSource.Load;
             data.PageNumber = 1;
             data.FileName = "";
             data.ProjectId = Options.ProjectId;
@@ -422,6 +423,7 @@ namespace DrLogy.CommitmentLettersUtils
                 {
                     idNum = currIdNum;
                     data = new LetterData();
+                    data.Source = CommitmentSource.Excel;
                     data.IdNum = currIdNum.ToString();
 
                     data.FileName = filename;
@@ -509,7 +511,7 @@ namespace DrLogy.CommitmentLettersUtils
             PDFUtils utils = new PDFUtils();
 
             LetterData data = new LetterData();
-
+            data.Source = CommitmentSource.Pdf;
             data.PageNumber = 1;
             data.FileName = filename;
             data.ProjectId = Options.ProjectId;

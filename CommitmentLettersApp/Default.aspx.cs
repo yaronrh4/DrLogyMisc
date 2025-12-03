@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office.PowerPoint.Y2021.M06.Main;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Office.PowerPoint.Y2021.M06.Main;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DrLogy.CommitmentLettersUtils;
 using DrLogy.DrLogyUtils;
@@ -132,7 +133,7 @@ namespace CommitmentLettersApp
         }
 
 
-        public static string GetEnumDescription(Enum value)
+public static string GetEnumDescription(Enum value)
         {
             FieldInfo fi = value.GetType().GetField(value.ToString());
 
@@ -394,6 +395,7 @@ namespace CommitmentLettersApp
                 {
                     _lettersPDF.Results.Clear();
                     r = new LetterData();
+                    r.Source = CommitmentSource.Add;
                     r.ProjectId = this.ProjectId;
                     r.Subjects = new List<SubjectData>();
                     lettersPDF.Results.Add(r);
@@ -442,13 +444,14 @@ namespace CommitmentLettersApp
             {
                 try
                 {
-                    string userName = Utils.GetAzureEnvironmentVariable("AuditUserName") + " " + UserManager.UserName;
                     string addHours = Utils.GetAzureEnvironmentVariable("AuditAddHours");
                     if (string.IsNullOrEmpty(addHours))
                         addHours = "0";
-                    DbUtils.ExecSP("SP_AUDIT", new string[] { "UserName", "AddHours" }, new object[] { userName, int.Parse(addHours) });
                     for (int i = 0; i < _lettersPDF.Results.Count && rc == ""; i++)
                     {
+                        string userName = $"{Utils.GetAzureEnvironmentVariable("AuditUserName")} {_lettersPDF.Results[i].Source} {UserManager.UserName}";
+                        DbUtils.ExecSP("SP_AUDIT", new string[] { "UserName", "AddHours" }, new object[] { userName, int.Parse(addHours) });
+
                         rc = _lettersPDF.UpdateStudent(i, Connection);
                         if (rc != "")
                             errorhidden.Value = rc;

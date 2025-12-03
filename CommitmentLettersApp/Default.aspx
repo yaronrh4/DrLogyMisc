@@ -589,39 +589,39 @@
             $('#addPdfsModal').on('hidden.bs.modal', function () {
                 clearModuleFields ($(this));
             });
-            $('#addPdfsModal').on('show.bs.modal', function () {
-                clearModuleFields ($(this));
-            });
+            //$('#addPdfsModal').on('show.bs.modal', function () {
+            //    clearModuleFields ($(this));
+            //});
 
             $('#excelImportModal').on('hidden.bs.modal', function () {
                 clearModuleFields ($(this));
             });
-            $('#excelImportModal').on('show.bs.modal', function () {
-                clearModuleFields ($(this));
-            });
+            //$('#excelImportModal').on('show.bs.modal', function () {
+            //    clearModuleFields ($(this));
+            //});
 
             
             $('#confirmModal').on('hidden.bs.modal', function () {
                 clearModuleFields ($(this));
             });
-            $('#confirmModal').on('show.bs.modal', function () {
-                clearModuleFields ($(this));
-            });
+            //$('#confirmModal').on('show.bs.modal', function () {
+            //    clearModuleFields ($(this));
+            //});
 
             
             $('#loadStudentModal').on('hidden.bs.modal', function () {
                 clearModuleFields ($(this));
             });
-            $('#loadStudentModal').on('show.bs.modal', function () {
-                clearModuleFields ($(this));
-            });
+            //$('#loadStudentModal').on('show.bs.modal', function () {
+            //    clearModuleFields ($(this));
+            //});
 
             $('#editSubjectModal').on('hidden.bs.modal', function () {
                 clearModuleFields ($(this));
             });
-            $('#editSubjectModal').on('show.bs.modal', function () {
-                clearModuleFields ($(this));
-            });
+            //$('#editSubjectModal').on('show.bs.modal', function () {
+            //    clearModuleFields ($(this));
+            //});
 
             $('#editStudentModal').on('hidden.bs.modal', function () {
                 clearModuleFields ($(this));

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommitmentSource.cs" />
     <Compile Include="Coordinator.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="SubjectData.cs" />
