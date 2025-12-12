@@ -3,6 +3,7 @@ using DrLogyCookies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.UI;
 
@@ -10,6 +11,27 @@ namespace CommitmentLettersApp
 {
     public class DrLogyPage : Page
     {
+
+        protected static string _version;
+
+        internal static string Version
+        {
+            get
+            {
+                if (_version == null)
+                {
+                    var asm = Assembly.GetExecutingAssembly();
+
+                    var descriptionAttribute = asm.GetCustomAttribute<AssemblyDescriptionAttribute>();
+                    string description = descriptionAttribute?.Description ?? "No description available";
+
+                    _version = $"{asm.GetName().Version.ToString()} {description}";
+                }
+
+                return _version;
+            }
+        }
+
         DateTime dtStart;
 
         protected override void OnPreInit(EventArgs e)
@@ -32,8 +54,9 @@ namespace CommitmentLettersApp
         {
             try
             {
+                Response.Write($"<!-- \r\n{Math.Round((DateTime.Now - dtStart).TotalMilliseconds)}ms\r\n V{Version}\r\n-->");
+
                 base.Render(writer);
-                Response.Write("<!--" + (DateTime.Now - dtStart).TotalMilliseconds + "-->");
             }
             catch (Exception ex)
             {
