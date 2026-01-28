@@ -947,7 +947,7 @@ namespace DrLogy.CommitmentLettersUtils
                         return rc;
                     }
                     DateTime dt1 = DateTime.Now;
-                    var z = DbUtils.ExecSP("SPMISC_UPDATE_STUDENT", new string[] { "st_id", "zehut", "fname", "lname", "prj_id", "phone", "city", "parentname", "email" ,"rakaz" , "newkey", "classname", "age", "address", "mikud" }, new object[] { r.Id, r.IdNum.Trim(), r.CurrFirstName.Trim(), r.CurrLastName.Trim(), r.ProjectId, r.CurrPhone.Trim(), r.CurrBranch.Trim(), r.CurrSocialWorker.Trim() , r.CurrEmail , rakazId  , r.CurrNewKey, r.CurrClassName, r.CurrAge , r.CurrAddress,r.CurrMikud }, true);
+                    var z = DbUtils.ExecSP("SPMISC_UPDATE_STUDENT", new string[] { "st_id", "zehut", "fname", "lname", "prj_id", "phone", "city", "parentname", "email" ,"rakaz" , "newkey", "classname", "age", "address", "mikud" }, new object[] { r.Id, r.IdNum.Trim(), r.CurrFirstName.Trim(), r.CurrLastName.Trim(), r.ProjectId, Utils.CleanPhoneNumber (r.CurrPhone.Trim(),""), r.CurrBranch.Trim(), r.CurrSocialWorker.Trim() , r.CurrEmail , rakazId  , r.CurrNewKey, r.CurrClassName, r.CurrAge , r.CurrAddress,r.CurrMikud }, true);
                     double xxx = (dt1-DateTime.Now).TotalMilliseconds;
                     r.NewKey= r.CurrNewKey;
                     r.ClassName = r.CurrClassName;
