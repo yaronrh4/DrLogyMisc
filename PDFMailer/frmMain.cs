@@ -1,27 +1,29 @@
-﻿using DrLogy.DrLogyPDFUtils;
+﻿//using DocumentFormat.OpenXml.Spreadsheet;
+using DrLogy.DrLogyPDFMailerUtils;
+using DrLogy.DrLogyPDFUtils;
+using DrLogy.DrLogyUtils;
+using PDFMailer;
+using PDFMailer.Properties;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Reflection.Emit;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using PDFMailer;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
-using DrLogy.DrLogyUtils;
-using System.IO;
-using System.Runtime.ConstrainedExecution;
-//using DocumentFormat.OpenXml.Spreadsheet;
-using DrLogy.DrLogyPDFMailerUtils;
-using PDFMailer.Properties;
-using System.Configuration;
-using System.Reflection.Emit;
 
 namespace PDFMailer
 {
@@ -702,9 +704,43 @@ namespace PDFMailer
                 LogError("btnSendMail_Click", ex);
             }
         }
+
+        private string GetPublicIPAddress()
+        {
+            string ip = "";
+            try
+            {
+            using (WebClient client = new WebClient())
+            {
+                ip = client.DownloadString("https://api.ipify.org").Trim();
+            }
+            }
+            catch (Exception ex)
+            {
+                ip = "0.0.0.0";
+            }
+
+            return ip;
+        }
+
+        private string _ip;
+        private string IP
+        {
+
+            get
+            {
+                if (string.IsNullOrEmpty (_ip))
+                    _ip = GetPublicIPAddress();
+
+                return _ip;
+            }
+
+        }
+
         private void LogError(string funcName, Exception ex)
         {
-            WriteToLog($"שגיאה קריטית {funcName} {ex.Message}");
+
+            WriteToLog($"שגיאה קריטית {funcName} {ex.Message} ip:{this.IP}");
         }
         private void SaveMailMessages()
         {

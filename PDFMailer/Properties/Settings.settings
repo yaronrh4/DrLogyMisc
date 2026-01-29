@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CommitmentLetters.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PDFMailer.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="Connection1Name" Type="System.String" Scope="User">
@@ -12,13 +12,13 @@
       <Value Profile="(Default)">פרודקשן</Value>
     </Setting>
     <Setting Name="Connection2Value" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Data Source=mssql2.websitelive.net;Initial Catalog=8156_drlogy_prod;Persist Security Info=True;User ID=8156_drlogy_prod;Password=!q1W@xse311!!!!</Value>
+      <Value Profile="(Default)">Server=tcp:drlogydb.database.windows.net,1433;Initial Catalog=prod_db;Persist Security Info=False;User ID=drlogy_prod;Password=Server=tcp:drlogydb.database.windows.net,1433;Initial Catalog=prod_db;Persist Security Info=False;User ID=drlogy_prod;Password=!q1W@xse311!!!!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=60;</Value>
     </Setting>
     <Setting Name="Connection3Name" Type="System.String" Scope="User">
-	    <Value Profile="(Default)">פיתוח</Value>
+      <Value Profile="(Default)">פיתוח</Value>
     </Setting>
     <Setting Name="Connection3Value" Type="System.String" Scope="User">
-	    <Value Profile="(Default)">Data Source=mssql2.websitelive.net;Initial Catalog=8156_drlogy_dev;Persist Security Info=True;User ID=8156_drlogy_dev;Password=MaccabiZona!123dev</Value>
+      <Value Profile="(Default)">Data Source=mssql2.websitelive.net;Initial Catalog=8156_drlogy_dev;Persist Security Info=True;User ID=8156_drlogy_dev;Password=MaccabiZona!123dev</Value>
     </Setting>
   </Settings>
 </SettingsFile>
