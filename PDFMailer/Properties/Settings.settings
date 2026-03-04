@@ -2,12 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PDFMailer.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Connection1Name" Type="System.String" Scope="User">
-      <Value Profile="(Default)">טסט</Value>
-    </Setting>
-    <Setting Name="Connection1Value" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Data Source=mssql2.websitelive.net;Initial Catalog=8156_drlogy_test;Persist Security Info=True;User ID=8156_drlogy_test;Password=MaccabiZona!123test</Value>
-    </Setting>
     <Setting Name="Connection2Name" Type="System.String" Scope="User">
       <Value Profile="(Default)">פרודקשן</Value>
     </Setting>
@@ -19,6 +13,18 @@
     </Setting>
     <Setting Name="Connection3Value" Type="System.String" Scope="User">
       <Value Profile="(Default)">Data Source=mssql2.websitelive.net;Initial Catalog=8156_drlogy_dev;Persist Security Info=True;User ID=8156_drlogy_dev;Password=MaccabiZona!123dev</Value>
+    </Setting>
+    <Setting Name="Connection1Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">טסט אזור</Value>
+    </Setting>
+    <Setting Name="Connection1Value" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Server=tcp:test-drlogydb.database.windows.net,1433;Initial Catalog=test_db;Persist Security Info=True;User ID=drlogy_test;Password=MaccabiZona!123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30</Value>
+    </Setting>
+    <Setting Name="Connection4Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">טסט</Value>
+    </Setting>
+    <Setting Name="Connection4Value" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data Source=mssql2.websitelive.net;Initial Catalog=8156_drlogy_test;Persist Security Info=True;User ID=8156_drlogy_test;Password=MaccabiZona!123test</Value>
     </Setting>
   </Settings>
 </SettingsFile>

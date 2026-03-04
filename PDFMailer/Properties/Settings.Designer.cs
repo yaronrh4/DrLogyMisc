@@ -25,31 +25,6 @@ namespace PDFMailer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("טסט")]
-        public string Connection1Name {
-            get {
-                return ((string)(this["Connection1Name"]));
-            }
-            set {
-                this["Connection1Name"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=mssql2.websitelive.net;Initial Catalog=8156_drlogy_test;Persist Secur" +
-            "ity Info=True;User ID=8156_drlogy_test;Password=MaccabiZona!123test")]
-        public string Connection1Value {
-            get {
-                return ((string)(this["Connection1Value"]));
-            }
-            set {
-                this["Connection1Value"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("פרודקשן")]
         public string Connection2Name {
             get {
@@ -94,6 +69,58 @@ namespace PDFMailer.Properties {
             }
             set {
                 this["Connection3Value"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("טסט אזור")]
+        public string Connection1Name {
+            get {
+                return ((string)(this["Connection1Name"]));
+            }
+            set {
+                this["Connection1Name"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Server=tcp:test-drlogydb.database.windows.net,1433;Initial Catalog=test_db;Persis" +
+            "t Security Info=True;User ID=drlogy_test;Password=MaccabiZona!123;MultipleActive" +
+            "ResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30" +
+            "")]
+        public string Connection1Value {
+            get {
+                return ((string)(this["Connection1Value"]));
+            }
+            set {
+                this["Connection1Value"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("טסט")]
+        public string Connection4Name {
+            get {
+                return ((string)(this["Connection4Name"]));
+            }
+            set {
+                this["Connection4Name"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=mssql2.websitelive.net;Initial Catalog=8156_drlogy_test;Persist Secur" +
+            "ity Info=True;User ID=8156_drlogy_test;Password=MaccabiZona!123test")]
+        public string Connection4Value {
+            get {
+                return ((string)(this["Connection4Value"]));
+            }
+            set {
+                this["Connection4Value"] = value;
             }
         }
     }
